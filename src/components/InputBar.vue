@@ -1,26 +1,31 @@
 <script setup lang="ts">
-defineProps<{
+interface Props {
   modelValue: string;
   placeholder: string;
-}>();
-
-const emit = defineEmits(["update:modelValue"]);
-
-const handleInput = (event: Event) => {
-    const inputValue = (event.target as HTMLInputElement).value
-    emit("update:modelValue", inputValue);
 }
 
+defineProps<Props>();
+
+const emit = defineEmits<{
+  (e: "input", value: string): void;
+}>();
+
+const handleInput = (event: Event) => {
+  const inputValue = (event.target as HTMLInputElement).value;
+  emit("input", inputValue);
+};
 </script>
 
 <template>
-  <input
-    class="input-bar"
-    type="text"
-    :placeholder="placeholder"
-    :value="modelValue"
-    @input="handleInput"
-  />
+  <div>
+    <input
+      class="input-bar"
+      type="text"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="handleInput"
+    />
+  </div>
 </template>
 
 <style scoped>
@@ -33,3 +38,4 @@ const handleInput = (event: Event) => {
   width: 100%;
 }
 </style>
+
