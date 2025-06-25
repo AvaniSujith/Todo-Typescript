@@ -6,33 +6,36 @@ interface Task {
 }
 
 const props = defineProps<{
-    tasks: Task[]
+  tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-    (e: 'updateTask', id: number) : void,
-    (e: 'deleteTask', id: number) : void,
-    (e: 'editTask', id:number) : void
+  (e: "updateTask", id: number): void;
+  (e: "deleteTask", id: number): void;
+  (e: "editTask", id: number): void;
 }>();
 
-const handleUpdate = (id: number) =>{
-    emit('updateTask', id);
-}
+const handleUpdate = (id: number) => {
+  emit("updateTask", id);
+};
 
 const handleDelete = (id: number) => {
-    emit('deleteTask', id);
-}
+  emit("deleteTask", id);
+};
 
 const handleEdit = (id: number) => {
-    emit('editTask', id);
-}
-
+  emit("editTask", id);
+};
 </script>
 
 <template>
   <TransitionGroup name="list" tag="ul" class="tasks">
     <li class="task-item" v-for="task in props.tasks" :key="task.id">
-      <input type="checkbox" :checked="task.completed" @change="handleUpdate(task.id)" />
+      <input
+        type="checkbox"
+        :checked="task.completed"
+        @change="handleUpdate(task.id)"
+      />
       <p class="task-label">{{ task.title }}</p>
       <div class="task-buttons">
         <button class="edit-btn" @click="handleEdit(task.id)">Edit</button>
@@ -70,23 +73,23 @@ const handleEdit = (id: number) => {
   text-wrap: nowrap;
 }
 
-.tasks{
-    width: 100%;
+.tasks {
+  width: 100%;
 }
 
 .del-btn,
-.edit-btn{
-    padding: 5px 0;
-    width: 60px;
-    margin: 2px;
+.edit-btn {
+  padding: 5px 0;
+  width: 60px;
+  margin: 2px;
 }
 
-.del-btn{
-    background-color: red;
-    color: white;
+.del-btn {
+  background-color: red;
+  color: white;
 }
 
-.edit-btn{
-    background-color: bisque;
+.edit-btn {
+  background-color: bisque;
 }
 </style>
