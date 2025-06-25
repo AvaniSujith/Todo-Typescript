@@ -1,28 +1,43 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import InputBar from "./components/InputBar.vue";
+import notification from "./components/notification.vue";
 
-const inputValue = ref("");
+interface Toast {
+  id: number;
+  label: string;
+  type: string;
+}
 
-const handleInput = (value: string) => {
-  inputValue.value = value;
-};
+const toasts = ref<Toast[]>([]);
+
+function addToast() {
+  const id = Math.floor(Math.random() * 1000);
+  toasts.value.push({
+    id,
+    label: "Added Task",
+    type: "update",
+  });
+  setTimeout(() => {
+    removeToast(id);
+  }, 1000);
+}
+
+function removeToast(id: number) {
+  toasts.value = toasts.value.filter((toast) => toast.id !== id);
+}
 </script>
 
 <template>
   <div class="outer-container">
-    <input-bar
-      placeholder="Search"
-      :model-value="inputValue"
-      @input="handleInput"
-    />
-    <p>{{ inputValue }}</p>
+    <notification :toasts="toasts" />
+    <button @click="addToast">Add toast</button>
   </div>
 </template>
 
-<style scoped>
+<style>
 .outer-container {
+  position: relative;
   background-color: #fff;
   max-height: 650px;
   height: 100%;
