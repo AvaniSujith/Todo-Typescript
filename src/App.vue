@@ -1,40 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-import TaskList from './components/TaskList.vue';
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-const tasks = ref<Task[]>([
-    { id:1, title: "task1", completed: true},
-    { id:2, title: "task2", completed: false}
-]);
-
-const handleDelete = (id: number) => {
-    console.log('task deleted', id)
-}
-
-const handleEdit = (id: number) => {
-    console.log('task edited', id)
-}
-
-const handleUpdate = (id: number) => {
-    console.log('Task updated', id)
-}
 </script>
 
 <template>
 <div class="outer-container">
-    <TaskList 
-    :tasks="tasks"
-    @delete-task="handleDelete"
-    @edit-task="handleEdit"
-    @update-task="handleUpdate"
-    />
+
 </div>
 </template>
 
