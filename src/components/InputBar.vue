@@ -16,8 +16,7 @@ const handleInput = (event: Event) => {
 };
 </script>
 
-<template>
-  <div>
+<template> 
     <input
       class="input-bar"
       type="text"
@@ -25,7 +24,6 @@ const handleInput = (event: Event) => {
       :value="modelValue"
       @input="handleInput"
     />
-  </div>
 </template>
 
 <style scoped>
@@ -34,7 +32,6 @@ const handleInput = (event: Event) => {
   padding: 8px;
   border-radius: 8px;
   font-size: 18px;
-  margin: 10px 0px;
   width: 100%;
 }
 </style>

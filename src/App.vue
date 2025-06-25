@@ -2,7 +2,6 @@
 import { ref } from "vue";
 
 import InputBar from "./components/InputBar.vue";
-import AddTask from "./components/AddTask.vue";
 
 const inputValue = ref("");
 
@@ -15,13 +14,10 @@ const handleInput = (value: string) => {
   <div class="outer-container">
     <InputBar
       placeholder="Search"
-      :modelValue="inputValue"
+      :model-value="inputValue"
       @input="handleInput"
     />
     <p>{{ inputValue }}</p>
-
-    <p>Add Task</p>
-    <add-task />
   </div>
 </template>
 
@@ -30,8 +26,7 @@ const handleInput = (value: string) => {
   background-color: #fff;
   max-height: 650px;
   height: 100%;
-  max-width: 30%;
-  width: 100%;
+  width: 30%;
   margin: auto;
   padding: 35px;
   display: flex;
