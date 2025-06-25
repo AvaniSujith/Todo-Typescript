@@ -1,37 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-import notification from "./components/notification.vue";
-
-interface Toast {
-  id: number;
-  label: string;
-  type: string;
-}
-
-const toasts = ref<Toast[]>([]);
-
-function addToast() {
-  const id = Math.floor(Math.random() * 1000);
-  toasts.value.push({
-    id,
-    label: "Added Task",
-    type: "update",
-  });
-  setTimeout(() => {
-    removeToast(id);
-  }, 1000);
-}
-
-function removeToast(id: number) {
-  toasts.value = toasts.value.filter((toast) => toast.id !== id);
-}
 </script>
 
 <template>
   <div class="outer-container">
-    <notification :toasts="toasts" />
-    <button @click="addToast">Add toast</button>
   </div>
 </template>
 
