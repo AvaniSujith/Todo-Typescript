@@ -12,7 +12,7 @@ const handleInput = (value: string) => {
 
 <template>
   <div class="outer-container">
-    <InputBar
+    <input-bar
       placeholder="Search"
       :model-value="inputValue"
       @input="handleInput"
