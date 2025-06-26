@@ -5,14 +5,14 @@ interface Toast {
   type: string;
 }
 
-const props = defineProps<{
+defineProps<{
   toasts: Toast[];
 }>();
 </script>
 
 <template>
   <div
-    v-for="toast in props.toasts"
+    v-for="toast in toasts"
     :key="toast.id"
     :class="`toast ${toast.type}`"
   >
