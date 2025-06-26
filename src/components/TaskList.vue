@@ -1,18 +1,27 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 interface Task {
   id: number;
   title: string;
   completed: boolean;
+  isEdit: boolean;
 }
 
-const props = defineProps<{
+// const editFlag = ref<boolean>(false);
+
+const newTitle = ref<string>('');
+
+defineProps<{
   tasks: Task[];
 }>();
+
 
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (e: "editTask", id: number): void;
+  (e: "saveTask", id:number, title:string, isEdit: boolean ): void;
+  (e: "editTask", id:number):void;
 }>();
 
 const handleUpdate = (id: number) => {
@@ -23,23 +32,45 @@ const handleDelete = (id: number) => {
   emit("deleteTask", id);
 };
 
-const handleEdit = (id: number) => {
-  emit("editTask", id);
+const handleSave = (id:number, title:string, isEdit: boolean) => {
+  emit('saveTask', id, title, isEdit);
+}
+
+function handleEdit(id:number){
+  emit('editTask', id)
 };
+
 </script>
 
 <template>
   <TransitionGroup name="list" tag="ul" class="tasks">
-    <li class="task-item" v-for="task in props.tasks" :key="task.id">
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        @change="handleUpdate(task.id)"
-      />
-      <p class="task-label">{{ task.title }}</p>
-      <div class="task-buttons">
+    <li class="task-item" v-for="task in tasks" :key="task.id">
+      <div class="task-detail" v-if="!task.isEdit">
+        <input
+          type="checkbox"
+          :checked="task.completed"
+          @change="handleUpdate(task.id)"
+        />
+        <p class="task-label">{{ task.title }}</p>
         <button class="edit-btn" @click="handleEdit(task.id)">Edit</button>
-        <button class="del-btn" @click="handleDelete(task.id)">Delete</button>
+        <!-- <button class="del-btn" @click="handleDelete(task.id)" :disabled="editFlag">Delete</button> -->
+      </div>
+      <div class="task-detail" v-else>
+        <input
+          type="checkbox"
+          :checked="task.completed"
+          @change="handleUpdate(task.id)"
+        />
+        <input type="text" v-model="newTitle">
+        <button class="edit-btn" @click="handleSave(task.id, newTitle, task.isEdit)">Save</button>
+        <!-- <button class="del-btn" @click="handleDelete(task.id)" :disabled="editFlag">Delete</button> -->
+      </div>
+      <div class="task-buttons">
+        <!-- <button class="edit-btn" @click="handleEdit()">
+          <span v-if="editFlag">Save</span>
+          <span v-else>Edit</span>
+        </button> -->
+        <button class="del-btn" @click="handleDelete(task.id)" :disabled="task.isEdit">Delete</button>
       </div>
     </li>
   </TransitionGroup>
@@ -52,12 +83,23 @@ const handleEdit = (id: number) => {
   width: 100%;
 }
 
+.task-detail{
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
 .add-btn {
   background-color: #317ed6;
   padding: 8px;
   border-radius: 6px;
   margin: 10px 0;
   color: #fff;
+}
+
+button:disabled{
+  background-color: #eee;
+  cursor: not-allowed;
 }
 
 .task-item {
