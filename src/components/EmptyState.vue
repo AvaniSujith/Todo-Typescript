@@ -1,22 +1,14 @@
 <script setup lang="ts">
-const props = defineProps<{
-    message: String;
-    }>();
-
-const emit = defineEmits<{
-    (e: 'exit', message: string) : void
+defineProps<{
+    title: string;
+    content: string;
 }>();
-
-const handleBackButton = () =>{
-    emit('exit', 'back button clicked')
-}
-
 </script>
 
 <template>
     <div>
-        <p class="emtpy-label">{{ props.message }}</p>
-        <button class="empty-btn" @click="handleBackButton">Go Back</button>
+        <h1 class="empty-title">{{ title }}</h1>
+        <p class="emtpy-label">{{ content }}</p>
     </div>
 </template>
 
