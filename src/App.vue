@@ -1,28 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-import InputBar from "./components/InputBar.vue";
-
-const inputValue = ref("");
-
-const handleInput = (value: string) => {
-  inputValue.value = value;
-};
 </script>
 
 <template>
   <div class="outer-container">
-    <input-bar
-      placeholder="Search"
-      :model-value="inputValue"
-      @input="handleInput"
-    />
-    <p>{{ inputValue }}</p>
   </div>
 </template>
 
-<style scoped>
+<style>
 .outer-container {
+  position: relative;
   background-color: #fff;
   max-height: 650px;
   height: 100%;
