@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import { ref } from 'vue';
-
 interface Task {
   id: number;
   title: string;
@@ -16,8 +14,14 @@ defineProps<{
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (e: "saveTask", id:number, title:string, isEdit: boolean, completed: boolean): void;
-  (e: "editTask", id:number):void;
+  (
+    e: "saveTask",
+    id: number,
+    title: string,
+    isEdit: boolean,
+    completed: boolean
+  ): void;
+  (e: "editTask", id: number): void;
 }>();
 
 const handleUpdate = (id: number) => {
@@ -28,14 +32,18 @@ const handleDelete = (id: number) => {
   emit("deleteTask", id);
 };
 
-const handleSave = (id:number, title:string, isEdit: boolean, completed: boolean) => {
-  emit('saveTask', id, title, isEdit, completed);
-}
-
-function handleEdit(id:number){
-  emit('editTask', id)
+const handleSave = (
+  id: number,
+  title: string,
+  isEdit: boolean,
+  completed: boolean
+) => {
+  emit("saveTask", id, title, isEdit, completed);
 };
 
+function handleEdit(id: number) {
+  emit("editTask", id);
+}
 </script>
 
 <template>
@@ -56,11 +64,24 @@ function handleEdit(id:number){
           :checked="task.completed"
           @change="handleUpdate(task.id)"
         />
-        <input type="text" v-model="task.newTitle">
-        <button class="edit-btn" @click="handleSave(task.id, task.newTitle, task.isEdit, task.completed)">Save</button>
+        <input type="text" v-model="task.newTitle" />
+        <button
+          class="edit-btn"
+          @click="
+            handleSave(task.id, task.newTitle, task.isEdit, task.completed)
+          "
+        >
+          Save
+        </button>
       </div>
       <div class="task-buttons">
-        <button class="del-btn" @click="handleDelete(task.id)" :disabled="task.isEdit">Delete</button>
+        <button
+          class="del-btn"
+          @click="handleDelete(task.id)"
+          :disabled="task.isEdit"
+        >
+          Delete
+        </button>
       </div>
     </li>
   </TransitionGroup>
@@ -73,7 +94,7 @@ function handleEdit(id:number){
   width: 100%;
 }
 
-.task-detail{
+.task-detail {
   display: flex;
   justify-content: space-between;
   gap: 30px;
@@ -87,7 +108,7 @@ function handleEdit(id:number){
   color: #fff;
 }
 
-button:disabled{
+button:disabled {
   background-color: #eee;
   cursor: not-allowed;
 }
