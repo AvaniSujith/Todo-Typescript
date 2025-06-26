@@ -7,11 +7,25 @@ interface Task {
   title: string;
   completed: boolean;
   isEdit: boolean;
+  newTitle: string;
 }
 
+
 const tasks = ref<Task[]>([
-  { id: 1, title: "task1", completed: true, isEdit: false },
-  { id: 2, title: "task2", completed: false, isEdit: false },
+  {
+    id: 1,
+    title: "task1",
+    completed: true,
+    isEdit: false,
+    newTitle: "task1",
+  },
+  {
+    id: 2,
+    title: "task2",
+    completed: false,
+    isEdit: false,
+    newTitle: "task2",
+  },
 ]);
 
 const handleDelete = (id: number) => {
@@ -22,26 +36,36 @@ const handleUpdate = (id: number) => {
   console.log("task updated", id);
 };
 
-const handleSave = (id: number, title: string, isEdit: boolean) => {
+const handleSave = (
+  id: number,
+  title: string,
+  isEdit: boolean,
+  completed: boolean
+) => {
   const task = tasks.value.find((task) => task.id === id);
   if (task) {
+    // console.log("title", title);
+    // console.log("update", completedUpdate);
+    handleUpdate(task.id);
+    task.completed = completed;
     task.title = title;
     task.isEdit = !isEdit;
   }
-
 };
 
-const handleEdit = (id:number) => {
-    const task = tasks.value.find((task) => task.id === id)
-    if(task){
-        task.isEdit = true;
-    }
-}
+const handleEdit = (id: number) => {
+  const task = tasks.value.find((task) => task.id === id);
+  // console.log(task);
+  if (task) {
+    task.isEdit = true;
+    task.newTitle = task.title;
+  }
+};
 </script>
 
 <template>
   <div class="outer-container">
-    <task-list 
+    <task-list
       :tasks="tasks"
       @delete-task="handleDelete"
       @update-task="handleUpdate"
