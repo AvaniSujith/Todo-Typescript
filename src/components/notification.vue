@@ -1,8 +1,10 @@
 <script setup lang="ts">
+type ToastType = "update" | "add" | "delete";
+
 interface Toast {
   id: number;
   label: string;
-  type: string;
+  type: ToastType;
 }
 
 defineProps<{
@@ -11,11 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    v-for="toast in toasts"
-    :key="toast.id"
-    :class="`toast ${toast.type}`"
-  >
+  <div v-for="toast in toasts" :key="toast.id" :class="`toast ${toast.type}`">
     {{ toast.label }}
   </div>
 </template>
