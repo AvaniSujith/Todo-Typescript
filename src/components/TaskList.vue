@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+// import { ref } from 'vue';
 
 interface Task {
   id: number;
   title: string;
   completed: boolean;
   isEdit: boolean;
+  newTitle: string;
 }
-
-// const editFlag = ref<boolean>(false);
-
-const newTitle = ref<string>('');
 
 defineProps<{
   tasks: Task[];
 }>();
 
-
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (e: "saveTask", id:number, title:string, isEdit: boolean ): void;
+  (e: "saveTask", id:number, title:string, isEdit: boolean, completed: boolean): void;
   (e: "editTask", id:number):void;
 }>();
 
@@ -32,8 +28,8 @@ const handleDelete = (id: number) => {
   emit("deleteTask", id);
 };
 
-const handleSave = (id:number, title:string, isEdit: boolean) => {
-  emit('saveTask', id, title, isEdit);
+const handleSave = (id:number, title:string, isEdit: boolean, completed: boolean) => {
+  emit('saveTask', id, title, isEdit, completed);
 }
 
 function handleEdit(id:number){
@@ -53,7 +49,6 @@ function handleEdit(id:number){
         />
         <p class="task-label">{{ task.title }}</p>
         <button class="edit-btn" @click="handleEdit(task.id)">Edit</button>
-        <!-- <button class="del-btn" @click="handleDelete(task.id)" :disabled="editFlag">Delete</button> -->
       </div>
       <div class="task-detail" v-else>
         <input
@@ -61,15 +56,10 @@ function handleEdit(id:number){
           :checked="task.completed"
           @change="handleUpdate(task.id)"
         />
-        <input type="text" v-model="newTitle">
-        <button class="edit-btn" @click="handleSave(task.id, newTitle, task.isEdit)">Save</button>
-        <!-- <button class="del-btn" @click="handleDelete(task.id)" :disabled="editFlag">Delete</button> -->
+        <input type="text" v-model="task.newTitle">
+        <button class="edit-btn" @click="handleSave(task.id, task.newTitle, task.isEdit, task.completed)">Save</button>
       </div>
       <div class="task-buttons">
-        <!-- <button class="edit-btn" @click="handleEdit()">
-          <span v-if="editFlag">Save</span>
-          <span v-else>Edit</span>
-        </button> -->
         <button class="del-btn" @click="handleDelete(task.id)" :disabled="task.isEdit">Delete</button>
       </div>
     </li>
