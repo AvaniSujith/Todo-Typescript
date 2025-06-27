@@ -37,29 +37,12 @@ const handleUpdate = (id: number) => {
 };
 
 const handleSave = (
-  id: number,
-  title: string,
-  isEdit: boolean,
-  completed: boolean
-) => {
-  const task = tasks.value.find((task) => task.id === id);
-  if (task) {
-    // console.log("title", title);
-    // console.log("update", completedUpdate);
-    handleUpdate(task.id);
-    task.completed = completed;
-    task.title = title;
-    task.isEdit = !isEdit;
-  }
+  id: number) =>{
+    console.log('task saved ', id)
 };
 
 const handleEdit = (id: number) => {
-  const task = tasks.value.find((task) => task.id === id);
-  // console.log(task);
-  if (task) {
-    task.isEdit = true;
-    task.newTitle = task.title;
-  }
+  console.log('task edited', id)
 };
 </script>
 
