@@ -5,40 +5,42 @@ interface Task {
   id: number;
   title: string;
   completed: boolean;
+  isEdit: boolean;
+  newTitle: string;
 }
-
-// defineProps<{
-//   tasks: Task[];
-// }>();
 
 const tasks = ref<Task[]>([
   {
     id: 1,
     title: "task1",
     completed: true,
+    isEdit: false,
+    newTitle: "task1",
   },
   {
     id: 2,
     title: "task2",
     completed: false,
+    isEdit: false,
+    newTitle: "task2",
   },
 ]);
 
-const tempId = ref<number>();
-const tempTitle = ref<string>('');
+// defineProps<{
+//   tasks: Task[];
+// }>();
 
-function buttonContent(id:number){
-    return tempId.value === id ? 'save' : 'edit';
+const tempId = ref<number>();
+const tempTitle = ref<string>("");
+
+function buttonContent(id: number) {
+  return tempId.value === id ? "save" : "edit";
 }
 
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (
-    e: "saveTask",
-
-    id: number
-  ): void;
+  (e: "saveTask", id: number): void;
   (e: "editTask", id: number): void;
 }>();
 
@@ -50,14 +52,13 @@ const handleDelete = (id: number) => {
   emit("deleteTask", id);
 };
 
-// const handleSave = (id: number) => {
-//   emit("saveTask", id);
-// };
+// const handleEdit = (id: number) => {
+//     emit('editTask', id)
+// }
 
-function handleEdit(id: number, title: string) {
+function editTask(id: number, title: string) {
   tempId.value = id;
   tempTitle.value = title;
-  //   console.log(tempId.value, tempTitle.value)
 }
 
 function saveEdit(id: number) {
@@ -65,14 +66,15 @@ function saveEdit(id: number) {
   if (task && tempTitle) {
     task.title = tempTitle.value;
     tempId.value = undefined;
-    tempTitle.value = '';
+    tempTitle.value = "";
   }
 }
 
-function buttonFunction(task: Task){
-    return tempId.value !== task.id ?  handleEdit(task.id, task.title) : saveEdit(task.id);
+function buttonFunction(task: Task) {
+  return tempId.value !== task.id
+    ? editTask(task.id, task.title)
+    : saveEdit(task.id);
 }
-
 </script>
 
 <template>
@@ -87,14 +89,10 @@ function buttonFunction(task: Task){
       <input type="text" v-else v-model="tempTitle" />
 
       <div class="task-buttons">
-        <button
-          class="edit-btn"
-          @click="() => buttonFunction(task)"
-        >
+        <button class="edit-btn" @click="() => buttonFunction(task)">
           {{ buttonContent(task.id) }}
         </button>
-        <!-- <button class="save-btn" v-else @click="saveEdit(tempId)">Save</button> -->
-        <button class="del-btn" @click="handleDelete(task.id)">Delete</button>
+        <button class="del-btn" @click="handleDelete(task.id)" :disabled="tempId === task.id">Delete</button>
       </div>
     </li>
   </TransitionGroup>
@@ -124,6 +122,7 @@ function buttonFunction(task: Task){
 button:disabled {
   background-color: #eee;
   cursor: not-allowed;
+  color: #555353;
 }
 
 .task-item {
