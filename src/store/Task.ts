@@ -1,16 +1,11 @@
 import { ref } from "vue";
 
-import axios from "axios";
-
 import { defineStore } from "pinia";
 
 interface Task{
     id: number;
     title: string;
-    completed: {
-        type: boolean,
-        default: false
-    };
+    completed: boolean;
 }
 
 export const useTaskStore = defineStore('taskStore', () => {
@@ -20,14 +15,26 @@ export const useTaskStore = defineStore('taskStore', () => {
     const getTasks = async () => {
         isLoading.value = true;
         try{
-            const response = await axios.get("http://localhost:3000/todos");
-            tasks.value = response.data;
+            const response = await fetch("http://localhost:3000/todos");
+            const data = await response.json();
+            tasks.value = data;
+            console.log('data', data);
         }catch(error){
-            console.error("Error in fetching data", error);
+            console.error("Error in fetching data", error); 
         }
     };
 
-    return{
-        getTasks
+    const addTask = (title: string) => {
+        const newTask = {
+            id : Math.floor(Math.random() * 1000),
+            title,
+            completed: false
+        }
+        tasks.value.unshift(newTask);
     }
-})
+
+    return{
+        getTasks,
+        addTask,
+    }
+});
