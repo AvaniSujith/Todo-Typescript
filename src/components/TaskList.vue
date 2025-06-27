@@ -27,6 +27,10 @@ const tasks = ref<Task[]>([
 const tempId = ref<number>();
 const tempTitle = ref<string>('');
 
+function buttonContent(id:number){
+    return tempId.value === id ? 'save' : 'edit';
+}
+
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
@@ -64,6 +68,11 @@ function saveEdit(id: number) {
     tempTitle.value = '';
   }
 }
+
+function buttonFunction(task: Task){
+    return tempId.value !== task.id ?  handleEdit(task.id, task.title) : saveEdit(task.id);
+}
+
 </script>
 
 <template>
@@ -80,12 +89,11 @@ function saveEdit(id: number) {
       <div class="task-buttons">
         <button
           class="edit-btn"
-          v-if="tempId !== task.id"
-          @click="handleEdit(task.id, task.title)"
+          @click="() => buttonFunction(task)"
         >
-          Edit
+          {{ buttonContent(task.id) }}
         </button>
-        <button class="save-btn" v-else @click="saveEdit(tempId)">Save</button>
+        <!-- <button class="save-btn" v-else @click="saveEdit(tempId)">Save</button> -->
         <button class="del-btn" @click="handleDelete(task.id)">Delete</button>
       </div>
     </li>
