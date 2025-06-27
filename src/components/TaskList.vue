@@ -1,41 +1,27 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import InputBar from "./InputBar.vue";
 
-const tasks = ref<Task[]>([
-  {
-    id: 1,
-    title: "task1",
-    completed: true
-  },
-  {
-    id: 2,
-    title: "task2",
-    completed: false
-  },
-]);
+import type { Task } from "../type";
 
-// defineProps<{
-//   tasks: Task[];
-// }>();
+defineProps<{
+  tasks: Task[];
+}>();
 
-const tempId = ref<number>();
-const tempTitle = ref<string>("");
+const editingTaskId = ref<number>();
+const editingTaskTitle = ref<string>("");
+
+const isEditing = (id: number) => editingTaskId.value === id;
 
 function buttonContent(id: number) {
-  return tempId.value === id ? "save" : "edit";
+  return isEditing(id) ? "save" : "edit";
 }
 
 const emit = defineEmits<{
   (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (e: "saveTask", id: number): void;
-  (e: "editTask", id: number): void;
+  (e: "editTitle", task: Task): void;
 }>();
 
 const handleUpdate = (id: number) => {
@@ -46,47 +32,35 @@ const handleDelete = (id: number) => {
   emit("deleteTask", id);
 };
 
-// const handleEdit = (id: number) => {
-//     emit('editTask', id)
-// }
-
-function editTask(id: number, title: string) {
-  tempId.value = id;
-  tempTitle.value = title;
-}
-
-function saveEdit(id: number) {
-  const task = tasks.value.find((task) => task.id === id);
-  if (task && tempTitle) {
-    task.title = tempTitle.value;
-    tempId.value = undefined;
-    tempTitle.value = "";
-  }
-}
-
-function buttonFunction(task: Task) {
-  return tempId.value !== task.id
-    ? editTask(task.id, task.title)
-    : saveEdit(task.id);
-}
+const handleEdit = (task: Task) => {
+  emit("editTitle", task);
+};
 </script>
 
 <template>
   <TransitionGroup name="list" tag="ul" class="tasks">
-    <li class="task-item" v-for="task in tasks" :key="task.id">
+    <li v-for="task in tasks" :key="task.id" class="task-item">
       <input
         type="checkbox"
         :checked="task.completed"
         @change="handleUpdate(task.id)"
       />
-      <p class="task-label" v-if="tempId !== task.id">{{ task.title }}</p>
-      <input type="text" v-else v-model="tempTitle" />
+      <p v-if="editingTaskId !== task.id" class="task-label">
+        {{ task.title }}
+      </p>
+      <input-bar v-else type="text" v-model="editingTaskTitle" />
 
       <div class="task-buttons">
-        <button class="edit-btn" @click="() => buttonFunction(task)">
+        <button class="edit-btn" @click="() => handleEdit(task)">
           {{ buttonContent(task.id) }}
         </button>
-        <button class="del-btn" @click="handleDelete(task.id)" :disabled="tempId === task.id">Delete</button>
+        <button
+          class="del-btn"
+          :disabled="editingTaskId === task.id"
+          @click="handleDelete(task.id)"
+        >
+          Delete
+        </button>
       </div>
     </li>
   </TransitionGroup>
@@ -130,6 +104,10 @@ button:disabled {
   font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
+}
+
+.task-buttons {
+  display: flex;
 }
 
 .tasks {
