@@ -1,23 +1,54 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import InputBar from "./components/InputBar.vue";
+import TaskList from "./components/TaskList.vue";
 
-const inputValue = ref("");
+interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
-const handleInput = (value: string) => {
-  inputValue.value = value;
+const tasks = ref<Task[]>([
+  {
+    id: 1,
+    title: "task1",
+    completed: true
+  },
+  {
+    id: 2,
+    title: "task2",
+    completed: false
+  },
+]);
+
+const handleDelete = (id: number) => {
+  console.log("task deleted", id);
+};
+
+const handleUpdate = (id: number) => {
+  console.log("task updated", id);
+};
+
+const handleSave = (
+  id: number) =>{
+    console.log('task saved ', id)
+};
+
+const handleEdit = (id: number) => {
+  console.log('task edited', id)
 };
 </script>
 
 <template>
   <div class="outer-container">
-    <input-bar
-      placeholder="Search"
-      :model-value="inputValue"
-      @input="handleInput"
+    <task-list
+      :tasks="tasks"
+      @delete-task="handleDelete"
+      @update-task="handleUpdate"
+      @edit-task="handleEdit"
+      @save-task="handleSave"
     />
-    <p>{{ inputValue }}</p>
   </div>
 </template>
 
@@ -26,7 +57,8 @@ const handleInput = (value: string) => {
   background-color: #fff;
   max-height: 650px;
   height: 100%;
-  width: 30%;
+  max-width: 30%;
+  width: 100%;
   margin: auto;
   padding: 35px;
   display: flex;
