@@ -1,54 +1,42 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted } from 'vue';
 
-import TaskList from "./components/TaskList.vue";
+import TaskList from './components/TaskList.vue';
 
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
+import { useTaskStore } from './store/Task';
+import { storeToRefs } from 'pinia';
+
+import type { Task } from './type';
+
+const taskStore = useTaskStore();
+
+const {tasks} = storeToRefs(taskStore)
+
+// const tasks = taskStore.tasks;
+
+const handleUpdate = () =>{
+  console.log('task complteted');
 }
 
-const tasks = ref<Task[]>([
-  {
-    id: 1,
-    title: "task1",
-    completed: true
-  },
-  {
-    id: 2,
-    title: "task2",
-    completed: false
-  },
-]);
+const handleDelete =() => {
+  console.log('task delete');
+}
 
-const handleDelete = (id: number) => {
-  console.log("task deleted", id);
-};
+const handleEdit = (task: Task) =>{
+  taskStore.EditTask(task);
+}
 
-const handleUpdate = (id: number) => {
-  console.log("task updated", id);
-};
+onMounted(async () => {
+  await taskStore.getTasks();
+  console.log('data in page', tasks)
+})
 
-const handleSave = (
-  id: number) =>{
-    console.log('task saved ', id)
-};
-
-const handleEdit = (id: number) => {
-  console.log('task edited', id)
-};
 </script>
 
 <template>
   <div class="outer-container">
-    <task-list
-      :tasks="tasks"
-      @delete-task="handleDelete"
-      @update-task="handleUpdate"
-      @edit-task="handleEdit"
-      @save-task="handleSave"
-    />
+    <task-list :tasks="tasks" @update-task="handleUpdate"
+     @delete-task="handleDelete" @edit-title="handleEdit"/>
   </div>
 </template>
 
