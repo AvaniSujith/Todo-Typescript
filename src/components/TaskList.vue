@@ -3,7 +3,7 @@
 const emit = defineEmits<{
     (e: "updateTask", id:number): void
     (e: "deleteTask", id:number): void
-    ()
+    
 }>();
 
 </script>
