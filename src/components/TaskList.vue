@@ -5,24 +5,18 @@ interface Task {
   id: number;
   title: string;
   completed: boolean;
-  isEdit: boolean;
-  newTitle: string;
 }
 
 const tasks = ref<Task[]>([
   {
     id: 1,
     title: "task1",
-    completed: true,
-    isEdit: false,
-    newTitle: "task1",
+    completed: true
   },
   {
     id: 2,
     title: "task2",
-    completed: false,
-    isEdit: false,
-    newTitle: "task2",
+    completed: false
   },
 ]);
 
