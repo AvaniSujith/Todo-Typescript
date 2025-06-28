@@ -2,13 +2,11 @@ import { ref } from "vue";
 
 import { defineStore } from "pinia";
 
-import type { Task } from "../type";
+import type { Task, UpdateTask } from "../type";
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref<Task[]>([]);
   const isLoading = ref<boolean>(false);
-  const editingTaskId = ref<number>();
-  const editingTaskTitle = ref<string>("");
 
   const getTasks = async () => {
     isLoading.value = true;
@@ -24,25 +22,28 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const updateTask = async (id: number) => {
-    const task = tasks.value.find((task) => task.id === id);
-    if (task) {
-      const updatedTask = { ...task, completed: !task.completed };
-
-      try {
-        const response = await fetch(`http://localhost:3000/todos/${id}`, {
+  const updateTask = async (updateTask: UpdateTask) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/todos/${updateTask.id}`,
+        {
           method: "PATCH",
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify(updatedTask),
-        });
+          body: JSON.stringify(updateTask),
+        }
+      );
+      const data = await response.json();
 
-        const data = await response.json();
+      const task = tasks.value.find((task) => task.id === updateTask.id);
+
+      if (task) {
+        task.title = data.title;
         task.completed = data.completed;
-      } catch (error) {
-        console.error("Error completing task", error);
       }
+    } catch (error) {
+      console.error("Error completing task", error);
     }
   };
 
@@ -60,10 +61,10 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const addTask = async (title: string) => {
+  const addTask = async (AddTask: Task) => {
     const newTask = {
       id: Math.floor(Math.random() * 1000),
-      title,
+      title: AddTask.title,
       completed: false,
     };
     try {
@@ -83,54 +84,11 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const editTitle = (id: number, title: string) => {
-    const task = tasks.value.find((task) => task.id === id);
-    if (task) {
-      editingTaskId.value = id;
-      editingTaskTitle.value = title;
-    }
-  };
-
-  const saveTask = async (id: number) => {
-    const task = tasks.value.find((task) => task.id === id);
-    if (task && editingTaskTitle) {
-      const updatedTask = { ...task, title: editingTaskTitle.value };
-
-      try {
-        const response = await fetch(`http://localhost:3000/todos/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedTask),
-        });
-        const data = await response.json();
-
-        task.title = data.title;
-        editingTaskId.value = undefined;
-        editingTaskTitle.value = "";
-      } catch (error) {
-        console.error("Error saving data", error);
-      }
-    }
-  };
-
-  const editTask = (task: Task) => {
-    return editingTaskId.value !== task.id
-      ? editTitle(task.id, task.title)
-      : saveTask(task.id);
-  };
-
   return {
     tasks,
-    editingTaskId,
-    editingTaskTitle,
     getTasks,
     updateTask,
     deleteTask,
     addTask,
-    editTitle,
-    saveTask,
-    editTask,
   };
 });
