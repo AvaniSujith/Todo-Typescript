@@ -14,16 +14,20 @@ const {tasks} = storeToRefs(taskStore)
 
 // const tasks = taskStore.tasks;
 
-const handleUpdate = () =>{
-  console.log('task complteted');
+const handleUpdate = (id:number) =>{
+  // console.log('task complteted');
+  taskStore.updateTask(id);
+  console.log('task updted', id);
 }
 
-const handleDelete =() => {
-  console.log('task delete');
+const handleDelete =(id:number) => {
+  taskStore.deleteTask(id);
+  console.log('task dleted', id)
 }
 
 const handleEdit = (task: Task) =>{
-  taskStore.EditTask(task);
+  taskStore.editTask(task);
+  console.log("task edited",task)
 }
 
 onMounted(async () => {
