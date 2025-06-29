@@ -2,11 +2,10 @@
 import { onMounted } from "vue";
 
 import TaskList from "./components/TaskList.vue";
+import AddTask from "./components/AddTask.vue";
 
 import { useTaskStore } from "./store/Task";
 import { storeToRefs } from "pinia";
-
-// import type { Task } from './type';
 
 const taskStore = useTaskStore();
 
@@ -19,13 +18,13 @@ const handleDelete = (id: number) => {
 
 onMounted(async () => {
   await taskStore.getTasks();
-  // console.log("data in page", tasks);
 });
 </script>
 
 <template>
   <div class="outer-container">
     <task-list :tasks="tasks" @delete-task="handleDelete" />
+    <add-task />
   </div>
 </template>
 
