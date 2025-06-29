@@ -61,12 +61,7 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const addTask = async (AddTask: Task) => {
-    const newTask = {
-      id: Math.floor(Math.random() * 1000),
-      title: AddTask.title,
-      completed: false,
-    };
+  const addTask = async (newTask: Task) => {
     try {
       const response = await fetch("http://localhost:3000/todos", {
         method: "POST",
@@ -77,7 +72,6 @@ export const useTaskStore = defineStore("taskStore", () => {
       });
 
       const addedTask = await response.json();
-
       tasks.value.unshift(addedTask);
     } catch (error) {
       console.error("Task not added due to error", error);
