@@ -23,6 +23,7 @@ export const useTaskStore = defineStore("taskStore", () => {
   };
 
   const updateTask = async (updateTask: UpdateTask) => {
+    isLoading.value =true;
     try {
       const response = await fetch(
         `http://localhost:3000/todos/${updateTask.id}`,
@@ -44,10 +45,13 @@ export const useTaskStore = defineStore("taskStore", () => {
       }
     } catch (error) {
       console.error("Error completing task", error);
+    }finally{
+      isLoading.value = false;
     }
   };
 
   const deleteTask = async (id: number) => {
+    isLoading.value = true;
     try {
       const response = await fetch(`http://localhost:3000/todos/${id}`, {
         method: "DELETE",
@@ -58,10 +62,13 @@ export const useTaskStore = defineStore("taskStore", () => {
       }
     } catch (error) {
       console.error("Error deleting task", error);
+    }finally{
+      isLoading.value = false;
     }
   };
 
   const addTask = async (AddTask: Task) => {
+    isLoading.value = false;
     const newTask = {
       id: Math.floor(Math.random() * 1000),
       title: AddTask.title,
@@ -81,11 +88,14 @@ export const useTaskStore = defineStore("taskStore", () => {
       tasks.value.unshift(addedTask);
     } catch (error) {
       console.error("Task not added due to error", error);
+    }finally{
+      isLoading.value = true;
     }
   };
 
   return {
     tasks,
+    isLoading,
     getTasks,
     updateTask,
     deleteTask,

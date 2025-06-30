@@ -6,14 +6,9 @@
       "completed": true
     },
     {
-      "id": "2",
-      "title": "task 2",
-      "completed": false
-    },
-    {
       "id": "3",
       "title": "task 66",
-      "completed": true
+      "completed": false
     }
   ]
 }
