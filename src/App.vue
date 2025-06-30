@@ -1,23 +1,18 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import DropDown from "./components/DropDown.vue";
 
-import InputBar from "./components/InputBar.vue";
+const selectedValue = ref("all");
 
-const inputValue = ref("");
-
-const handleInput = (value: string) => {
-  inputValue.value = value;
-};
+function handleChange(value: string) {
+  selectedValue.value = value;
+}
 </script>
 
 <template>
   <div class="outer-container">
-    <input-bar
-      placeholder="Search"
-      :model-value="inputValue"
-      @input="handleInput"
-    />
-    <p>{{ inputValue }}</p>
+    <drop-down @change="handleChange" />
+    <p>{{ selectedValue }}</p>
   </div>
 </template>
 
