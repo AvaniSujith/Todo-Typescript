@@ -1,31 +1,8 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-
-import TaskList from "./components/TaskList.vue";
-
-import { useTaskStore } from "./store/Task";
-import { storeToRefs } from "pinia";
-
-// import type { Task } from './type';
-
-const taskStore = useTaskStore();
-
-const { tasks } = storeToRefs(taskStore);
-
-const handleDelete = (id: number) => {
-  taskStore.deleteTask(id);
-  console.log("task dleted", id);
-};
-
-onMounted(async () => {
-  await taskStore.getTasks();
-  // console.log("data in page", tasks);
-});
 </script>
 
 <template>
   <div class="outer-container">
-    <task-list :tasks="tasks" @delete-task="handleDelete" />
   </div>
 </template>
 
