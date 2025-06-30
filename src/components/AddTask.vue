@@ -23,8 +23,8 @@ const handleAddTask = () => {
 </script>
 <template>
   <input-bar
-    placeholder="Add Todo"
     v-model="taskTitle"
+    placeholder="Add Todo"
     @keyup.enter="handleAddTask"
   />
   <button class="add-btn" @click="handleAddTask">Add</button>
