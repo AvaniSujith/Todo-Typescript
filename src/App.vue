@@ -1,11 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <template>
-  <div class="outer-container"></div>
+  <div class="outer-container">
+  </div>
 </template>
 
-<style scoped>
+<style>
 .outer-container {
+  position: relative;
   background-color: #fff;
   max-height: 650px;
   height: 100%;
