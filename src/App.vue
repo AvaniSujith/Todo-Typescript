@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import DropDown from "./components/DropDown.vue";
-
-const selectedValue = ref("all");
-
-function handleChange(value: string) {
-  selectedValue.value = value;
-}
 </script>
 
 <template>
   <div class="outer-container">
-    <drop-down @change="handleChange" />
-    <p>{{ selectedValue }}</p>
   </div>
 </template>
 
