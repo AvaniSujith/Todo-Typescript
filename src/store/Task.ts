@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { defineStore } from "pinia";
 
-import type { Task, UpdateTask } from "../type";
+import type { Task, UpdateTask, NewTask } from "../type";
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref<Task[]>([]);
@@ -49,11 +49,24 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
+  const addTask = async (newTask: NewTask) => {
+    isLoading.value = true;
+    try {
+      await axios.post("http://localhost:3000/todos", newTask);
+      await getTasks();
+    } catch (error) {
+      console.error("Task not added due to error", error);
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   return {
     tasks,
     isLoading,
     getTasks,
     updateTask,
     deleteTask,
+    addTask
   };
 });
