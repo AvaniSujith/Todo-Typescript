@@ -79,7 +79,7 @@ const handleDelete = (id: number) => {
           {{ buttonContent(task.id) }}
         </button>
         <button
-          class="del-btn"
+          class="delete-btn"
           :disabled="isEditing(task.id)"
           @click="handleDelete(task.id)"
         >
@@ -142,15 +142,15 @@ button:disabled {
 .tasks {
   width: 100%;
 }
-
-.del-btn,
+ 
+.delete-btn,
 .edit-btn {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.del-btn {
+.delete-btn {
   background-color: red;
   color: white;
 }
