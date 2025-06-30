@@ -1,16 +1,44 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+import { useTaskStore } from "../store/Task";
+
 import InputBar from "./InputBar.vue";
 
 import type { Task } from "../type";
+
+const taskStore = useTaskStore();
 
 defineProps<{
   tasks: Task[];
 }>();
 
-const editingTaskId = ref<number>();
+const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
+const editingTaskCompleted = ref(false);
+
+const editTask = (task: Task) => {
+  editingTaskId.value = task.id;
+  editingTaskTitle.value = task.title;
+  editingTaskCompleted.value = task.completed;
+};
+
+const handleSaveOrEdit = (task: Task) => {
+  if (!isEditing(task.id)) {
+    editTask(task);
+  } else {
+    task.completed = editingTaskCompleted.value;
+    task.title = editingTaskTitle.value;
+    taskStore.updateTask(task);
+    editingTaskId.value = null;
+    editingTaskTitle.value = "";
+  }
+};
+
+const updateTaskComplete = (task: Task) => {
+  const updatedTask = { ...task, completed: !task.completed };
+  taskStore.updateTask(updatedTask);
+};
 
 const isEditing = (id: number) => editingTaskId.value === id;
 
@@ -19,21 +47,11 @@ function buttonContent(id: number) {
 }
 
 const emit = defineEmits<{
-  (e: "updateTask", id: number): void;
   (e: "deleteTask", id: number): void;
-  (e: "editTitle", task: Task): void;
 }>();
-
-const handleUpdate = (id: number) => {
-  emit("updateTask", id);
-};
 
 const handleDelete = (id: number) => {
   emit("deleteTask", id);
-};
-
-const handleEdit = (task: Task) => {
-  emit("editTitle", task);
 };
 </script>
 
@@ -42,21 +60,27 @@ const handleEdit = (task: Task) => {
     <li v-for="task in tasks" :key="task.id" class="task-item">
       <input
         type="checkbox"
-        :checked="task.completed"
-        @change="handleUpdate(task.id)"
+        :checked="isEditing(task.id) ? editingTaskCompleted : task.completed"
+        @change="isEditing(task.id) ? editingTaskCompleted = !editingTaskCompleted : updateTaskComplete(task)"
       />
-      <p v-if="editingTaskId !== task.id" class="task-label">
+      <p v-if="!isEditing(task.id)" class="task-label">
         {{ task.title }}
       </p>
-      <input-bar v-else type="text" v-model="editingTaskTitle" />
+      <input-bar
+        v-else
+        v-model="editingTaskTitle"
+        type="text"
+        class="input-bar"
+        @keyup.enter="handleSaveOrEdit(task)"
+      />
 
       <div class="task-buttons">
-        <button class="edit-btn" @click="() => handleEdit(task)">
+        <button class="edit-btn" @click="handleSaveOrEdit(task)">
           {{ buttonContent(task.id) }}
         </button>
         <button
-          class="del-btn"
-          :disabled="editingTaskId === task.id"
+          class="delete-btn"
+          :disabled="isEditing(task.id)"
           @click="handleDelete(task.id)"
         >
           Delete
@@ -79,6 +103,11 @@ const handleEdit = (task: Task) => {
   gap: 30px;
   width: 100%;
 }
+
+.input-bar {
+  margin: 0px 20px;
+}
+
 .add-btn {
   background-color: #317ed6;
   padding: 8px;
@@ -100,33 +129,44 @@ button:disabled {
   width: 100%;
 }
 
+.task-buttons {
+  display: flex;
+}
+
 .task-label {
   font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
 }
 
-.task-buttons {
-  display: flex;
-}
-
 .tasks {
   width: 100%;
 }
-
-.del-btn,
+ 
+.delete-btn,
 .edit-btn {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.del-btn {
+.delete-btn {
   background-color: red;
   color: white;
 }
 
 .edit-btn {
   background-color: bisque;
+}
+
+.list-enter-active,
+.list-leave-active{
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to{
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
