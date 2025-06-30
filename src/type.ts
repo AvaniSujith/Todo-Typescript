@@ -8,3 +8,8 @@ export interface UpdateTask {
   title?: string;
   completed?: boolean;
 }
+
+export interface NewTask {
+  title: string;
+  completed: boolean;
+}

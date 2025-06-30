@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 import { defineStore } from "pinia";
 
-import type { Task, UpdateTask } from "../type";
+import type { NewTask, Task, UpdateTask } from "../type";
 
 export const useTaskStore = defineStore("taskStore", () => {
   const tasks = ref<Task[]>([]);
@@ -61,7 +61,7 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const addTask = async (newTask: Task) => {
+  const addTask = async (newTask: NewTask) => {
     try {
       const response = await fetch("http://localhost:3000/todos", {
         method: "POST",

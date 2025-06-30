@@ -5,17 +5,14 @@ import { useTaskStore } from "../store/Task";
 
 import InputBar from "./InputBar.vue";
 
-import type { Task } from "../type";
+import type { NewTask } from "../type";
 
 const taskStore = useTaskStore();
 
 const taskTitle = ref<string>("");
 
 const handleAddTask = () => {
-  const taskCount = taskStore.tasks.length;
-
-  const newTask: Task = {
-    id: taskCount + 1,
+  const newTask: NewTask = {
     title: taskTitle.value,
     completed: false,
   };
