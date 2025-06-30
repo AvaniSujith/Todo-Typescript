@@ -21,11 +21,30 @@ const handleAddTask = () => {
   taskTitle.value = "";
 };
 </script>
+
 <template>
-  <input-bar
+  <div class="add-task-container">
+    <input-bar
     v-model="taskTitle"
     placeholder="Add Todo"
     @keyup.enter="handleAddTask"
   />
-  <button class="add-btn" @click="handleAddTask">Add</button>
+  <button class="add-task-btn" @click="handleAddTask">Add</button>
+  </div>
 </template>
+
+<style scoped>
+.add-task-container{
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+
+.add-task-btn{
+  background-color: #317ed6;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 10px 0;
+  color: #fff;
+}
+</style>
