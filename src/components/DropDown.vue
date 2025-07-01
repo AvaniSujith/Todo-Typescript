@@ -3,6 +3,12 @@ import { ref } from "vue";
 
 const selectedValue = ref<string>("all");
 
+const optionsArray = [
+  { value: "all", label: "All" },
+  { value: "complete", label: "Complete" },
+  { value: "incomplete", label: "Incomplete" },
+];
+
 const emit = defineEmits<{
   (e: "change", selectedValue: string): void;
 }>();
@@ -21,9 +27,13 @@ const handleChange = (event: Event) => {
       class="task-category"
       @change="handleChange"
     >
-      <option value="all">All</option>
-      <option value="complete">Complete</option>
-      <option value="incomplete">Incomplete</option>
+      <option
+        v-for="option in optionsArray"
+        :key="option.value"
+        :value="option.value"
+      >
+        {{ option.label }}
+      </option>
     </select>
   </div>
 </template>
