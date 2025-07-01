@@ -11,7 +11,7 @@ const taskStore = useTaskStore();
 
 const searchQuery = ref("");
 
-const searchedTask = computed(() => {
+const filteredTasks = computed(() => {
   if (searchQuery.value !== "") {
     const trimmedQuery = searchQuery.value.toLowerCase().trim();
     return taskStore.tasks.filter((task) =>
@@ -21,21 +21,19 @@ const searchedTask = computed(() => {
   return taskStore.tasks;
 });
 
-const emptyStateHeading = () => {
-  let heading = "";
-  if (!searchedTask.value.length) {
-    heading = "No Tasks for the Search";
+const emptyStateHeading = computed(() => {
+  if (!filteredTasks.value.length) {
+    return "No Tasks for the Search";
   }
-  return heading;
-};
+  return "";
+});
 
-const emptyStateSubHeading = () => {
-  let subHeading = "";
-  if (!searchedTask.value.length) {
-    subHeading = "Search with a different keyword.";
+const emptyStateSubHeading = computed(() => {
+  if (!filteredTasks.value.length) {
+    return "Search with a different keyword.";
   }
-  return subHeading;
-};
+  return "";
+});
 
 const handleDelete = async (id: number) => {
   if (confirm("Are you sure to delete this task?")) {
@@ -49,7 +47,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="page-container" v-if="!taskStore.isLoading">
+  <div v-if="!taskStore.isLoading" class="page-container">
     <nav class="back-button">
       <a class="nav-link">Back to Home</a>
     </nav>
@@ -57,19 +55,18 @@ onMounted(async () => {
       <div class="page-title">
         <h2>All Tasks</h2>
       </div>
-      <input-bar placeholder="Search..." v-model="searchQuery" />
+      <input-bar v-model="searchQuery" placeholder="Search..." />
     </header>
-    <section class="task-list-container" v-if="searchedTask.length">
+    <section v-if="filteredTasks.length" class="task-list-container">
       <div class="task-container">
-        <task-list :tasks="searchedTask" @delete-task="handleDelete" />
+        <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
       </div>
     </section>
-    <div v-else>
-      <empty-state
-        :title="emptyStateHeading()"
-        :sub-title="emptyStateSubHeading()"
-      />
-    </div>
+    <empty-state
+      v-else
+      :title="emptyStateHeading"
+      :sub-title="emptyStateSubHeading"
+    />
   </div>
   <div v-else>Loading data..</div>
 </template>

@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const selectedValue = ref<string>("all");
 
-const optionsArray = [
+const options = [
   { value: "all", label: "All" },
   { value: "complete", label: "Complete" },
   { value: "incomplete", label: "Incomplete" },
@@ -28,7 +28,7 @@ const handleChange = (event: Event) => {
       @change="handleChange"
     >
       <option
-        v-for="option in optionsArray"
+        v-for="option in options"
         :key="option.value"
         :value="option.value"
       >
