@@ -13,9 +13,9 @@ const searchQuery = ref("");
 
 const searchedTask = computed(() => {
   if (searchQuery.value !== "") {
-    const formattedSearch = searchQuery.value.toLowerCase().trim();
+    const trimmedQuery = searchQuery.value.toLowerCase().trim();
     return taskStore.tasks.filter((task) =>
-      task.title.toLowerCase().trim().includes(formattedSearch)
+      task.title.toLowerCase().trim().includes(trimmedQuery)
     );
   }
   return taskStore.tasks;
