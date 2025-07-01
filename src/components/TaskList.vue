@@ -17,10 +17,22 @@ const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
 
+const isEditing = (id: number) => editingTaskId.value === id;
+
 const editTask = (task: Task) => {
   editingTaskId.value = task.id;
   editingTaskTitle.value = task.title;
   editingTaskCompleted.value = task.completed;
+};
+
+const updateTaskComplete = (task: Task) => {
+  const updatedTask = { ...task };
+  if (!isEditing(task.id)) {
+    updatedTask.completed = !updatedTask.completed;
+    taskStore.updateTask(updatedTask);
+  } else {
+    editingTaskCompleted.value = !editingTaskCompleted.value;
+  }
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -35,16 +47,9 @@ const handleSaveOrEdit = (task: Task) => {
   }
 };
 
-const updateTaskComplete = (task: Task) => {
-  const updatedTask = { ...task, completed: !task.completed };
-  taskStore.updateTask(updatedTask);
-};
-
-const isEditing = (id: number) => editingTaskId.value === id;
-
-function buttonContent(id: number) {
+const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
-}
+};
 
 const emit = defineEmits<{
   (e: "deleteTask", id: number): void;
@@ -60,12 +65,8 @@ const handleDelete = (id: number) => {
     <li v-for="task in tasks" :key="task.id" class="task-item">
       <input
         type="checkbox"
-        :checked="isEditing(task.id) ? editingTaskCompleted : task.completed"
-        @change="
-          isEditing(task.id)
-            ? (editingTaskCompleted = !editingTaskCompleted)
-            : updateTaskComplete(task)
-        "
+        :checked="task.completed"
+        @change="updateTaskComplete(task)"
       />
       <p v-if="!isEditing(task.id)" class="task-label">
         {{ task.title }}
