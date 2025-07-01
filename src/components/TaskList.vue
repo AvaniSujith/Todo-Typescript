@@ -42,9 +42,9 @@ const updateTaskComplete = (task: Task) => {
 
 const isEditing = (id: number) => editingTaskId.value === id;
 
-function buttonContent(id: number) {
+const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
-}
+};
 
 const emit = defineEmits<{
   (e: "deleteTask", id: number): void;
@@ -61,7 +61,11 @@ const handleDelete = (id: number) => {
       <input
         type="checkbox"
         :checked="isEditing(task.id) ? editingTaskCompleted : task.completed"
-        @change="isEditing(task.id) ? editingTaskCompleted = !editingTaskCompleted : updateTaskComplete(task)"
+        @change="
+          isEditing(task.id)
+            ? (editingTaskCompleted = !editingTaskCompleted)
+            : updateTaskComplete(task)
+        "
       />
       <p v-if="!isEditing(task.id)" class="task-label">
         {{ task.title }}
