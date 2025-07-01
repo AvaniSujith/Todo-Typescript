@@ -2,14 +2,12 @@
 import { computed, onMounted, ref } from "vue";
 
 import { useTaskStore } from "../store/Task";
-import { storeToRefs } from "pinia";
 
-const taskStore = useTaskStore();
-
-const { tasks } = storeToRefs(taskStore);
-// const tasks = taskStore.tasks;
 import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
+import EmptyState from "../components/EmptyState.vue";
+
+const taskStore = useTaskStore();
 
 const searchQuery = ref("");
 
@@ -23,6 +21,22 @@ const searchedTask = computed(() => {
   return taskStore.tasks;
 });
 
+const emptyStateHeading = () => {
+  let heading = "";
+  if (!searchedTask.value.length) {
+    heading = "No Tasks for the Search";
+  }
+  return heading;
+};
+
+const emptyStateSubHeading = () => {
+  let subHeading = "";
+  if (!searchedTask.value.length) {
+    subHeading = "Search with a different keyword.";
+  }
+  return subHeading;
+};
+
 const handleDelete = async (id: number) => {
   if (confirm("Are you sure to delete this task?")) {
     await taskStore.deleteTask(id);
@@ -30,58 +44,65 @@ const handleDelete = async (id: number) => {
 };
 
 onMounted(async () => {
-  console.log("data incoming");
   await taskStore.getTasks();
-  console.log("data", tasks);
 });
 </script>
 
 <template>
-<div class="page-container" v-if="!taskStore.isLoading">
+  <div class="page-container" v-if="!taskStore.isLoading">
     <nav class="back-button">
-        <a class="nav-link">Back to Home</a>
+      <a class="nav-link">Back to Home</a>
     </nav>
     <header>
-        <div class="page-title">
-            <h2>All Tasks</h2>
-        </div>
-        <input-bar placeholder="Search..." v-model="searchQuery" />
+      <div class="page-title">
+        <h2>All Tasks</h2>
+      </div>
+      <input-bar placeholder="Search..." v-model="searchQuery" />
     </header>
-    <section class="task-list-container">
-        <div class="task-container">
-            <task-list :tasks="searchedTask" @delete-task="handleDelete" />
-        </div>
+    <section class="task-list-container" v-if="searchedTask.length">
+      <div class="task-container">
+        <task-list :tasks="searchedTask" @delete-task="handleDelete" />
+      </div>
     </section>
-</div>
+    <div v-else>
+      <empty-state
+        :title="emptyStateHeading()"
+        :sub-title="emptyStateSubHeading()"
+      />
+    </div>
+  </div>
+  <div v-else>Loading data..</div>
 </template>
 
 <style scoped>
-.back-button{
-    background: #eee;
-    border-radius: 8px;
-    width: max-content;
-    padding: 6px;
-    margin-bottom: 15px;
-    font-weight: 700;
+.back-button {
+  background: #eee;
+  border-radius: 8px;
+  width: max-content;
+  padding: 6px;
+  margin-bottom: 15px;
+  font-weight: 700;
 }
 
-h2{
-    font-size: 32px;
+h2 {
+  font-size: 32px;
 }
 
-.page-title{
-    text-align: center;
+.page-title {
+  text-align: center;
+  margin-bottom: 8px;
 }
 
-.task-container{
-    max-height: 436px;
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    scroll-behavior: smooth;
+.task-container {
+  max-height: 436px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 10px 2px 0 5px;
 }
 
-.page-container{
-    width: 100%;
+.page-container {
+  width: 100%;
 }
 </style>

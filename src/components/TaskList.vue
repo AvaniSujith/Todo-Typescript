@@ -61,7 +61,11 @@ const handleDelete = (id: number) => {
       <input
         type="checkbox"
         :checked="isEditing(task.id) ? editingTaskCompleted : task.completed"
-        @change="isEditing(task.id) ? editingTaskCompleted = !editingTaskCompleted : updateTaskComplete(task)"
+        @change="
+          isEditing(task.id)
+            ? (editingTaskCompleted = !editingTaskCompleted)
+            : updateTaskComplete(task)
+        "
       />
       <p v-if="!isEditing(task.id)" class="task-label">
         {{ task.title }}
@@ -79,7 +83,7 @@ const handleDelete = (id: number) => {
           {{ buttonContent(task.id) }}
         </button>
         <button
-          class="del-btn"
+          class="delete-btn"
           :disabled="isEditing(task.id)"
           @click="handleDelete(task.id)"
         >
@@ -127,6 +131,7 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-top: 2px;
 }
 
 .task-buttons {
@@ -137,20 +142,21 @@ button:disabled {
   font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
+  padding: 10px 0px 10px 0px;
 }
 
 .tasks {
   width: 100%;
 }
 
-.del-btn,
+.delete-btn,
 .edit-btn {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.del-btn {
+.delete-btn {
   background-color: red;
   color: white;
 }
