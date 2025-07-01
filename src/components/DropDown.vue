@@ -13,7 +13,7 @@ const emit = defineEmits<{
   (e: "change", selectedValue: string): void;
 }>();
 
-const handleChange = (event: Event) => {
+const onChange = (event: Event) => {
   const selectChangeValue = (event.target as HTMLSelectElement).value;
   emit("change", selectChangeValue);
 };
@@ -25,7 +25,7 @@ const handleChange = (event: Event) => {
       v-model="selectedValue"
       name="category"
       class="task-category"
-      @change="handleChange"
+      @change="onChange"
     >
       <option
         v-for="option in optionsArray"

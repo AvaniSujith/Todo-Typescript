@@ -2,12 +2,15 @@
 import { ref } from "vue";
 
 import { useTaskStore } from "../store/Task";
+import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
+import Notification from "./Notification.vue";
 
 import type { Task } from "../type";
 
 const taskStore = useTaskStore();
+const notificationStore = useNotificationStore();
 
 defineProps<{
   tasks: Task[];
@@ -33,6 +36,8 @@ const updateTaskComplete = (task: Task) => {
   } else {
     editingTaskCompleted.value = !editingTaskCompleted.value;
   }
+
+  notificationStore.addToast('Task marked as completed', 'update')
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -45,6 +50,7 @@ const handleSaveOrEdit = (task: Task) => {
     editingTaskId.value = null;
     editingTaskTitle.value = "";
   }
+  // notificationStore.addToast('Task marked as completed', 'update')
 };
 
 const buttonContent = (id: number) => {
@@ -68,7 +74,7 @@ const handleDelete = (id: number) => {
         :checked="task.completed"
         @change="updateTaskComplete(task)"
       />
-      <p v-if="!isEditing(task.id)" class="task-label">
+      <p v-if="!isEditing(task.id)" :class="task.completed ? 'completed' : 'not-completed'">
         {{ task.title }}
       </p>
       <input-bar
@@ -90,6 +96,7 @@ const handleDelete = (id: number) => {
         >
           Delete
         </button>
+        <notification />
       </div>
     </li>
   </TransitionGroup>
@@ -138,7 +145,7 @@ button:disabled {
   display: flex;
 }
 
-.task-label {
+p {
   font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
@@ -162,5 +169,9 @@ button:disabled {
 
 .edit-btn {
   background-color: bisque;
+}
+
+.completed {
+  text-decoration: line-through;
 }
 </style>

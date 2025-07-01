@@ -1,14 +1,14 @@
 <script setup lang="ts">
 defineProps<{
     title: string;
-    content: string;
+    subTitle: string;
 }>();
 </script>
 
 <template>
     <div>
         <h1 class="empty-title">{{ title }}</h1>
-        <p class="emtpy-label">{{ content }}</p>
+        <p class="emtpy-label">{{ subTitle }}</p>
     </div>
 </template>
 
