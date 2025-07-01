@@ -39,7 +39,7 @@ const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
     editTask(task);
   } else {
-    task.completed =editingTaskCompleted.value
+    task.completed = editingTaskCompleted.value;
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
     editingTaskId.value = null;
