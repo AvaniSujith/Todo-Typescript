@@ -37,7 +37,7 @@ onMounted(async () => {
 </script>
 
 <template>
-<div class="page-container">
+<div class="page-container" v-if="!taskStore.isLoading">
     <nav class="back-button">
         <a class="nav-link">Back to Home</a>
     </nav>

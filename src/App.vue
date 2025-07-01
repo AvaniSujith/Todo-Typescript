@@ -8,8 +8,9 @@ import TaskPage from "./pages/TaskPage.vue";
   </div>
 </template>
 
-<style scoped>
+<style>
 .outer-container {
+  position: relative;
   background-color: #fff;
   max-height: 650px;
   height: 100%;
