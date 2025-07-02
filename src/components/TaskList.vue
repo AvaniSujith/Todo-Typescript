@@ -51,6 +51,8 @@ const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
 };
 
+const isEmptyTitle = (title: string) => (title.length ? true : false);
+
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
     editTask(task);
@@ -88,7 +90,13 @@ const handleSaveOrEdit = (task: Task) => {
       />
 
       <div class="task-buttons">
-        <button class="edit-btn" @click="handleSaveOrEdit(task)">
+        <button
+          class="edit-btn"
+          :disabled="
+            !isEmptyTitle(editingTaskTitle) && buttonContent(task.id) === 'save'
+          "
+          @click="handleSaveOrEdit(task)"
+        >
           {{ buttonContent(task.id) }}
         </button>
         <button
