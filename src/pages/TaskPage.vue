@@ -25,26 +25,22 @@ const filteredTasks = computed(() => {
 });
 
 const emptyStateHeading = computed(() => {
-  if (!filteredTasks.value.length && taskStore.tasks.length) {
-    return "No Tasks for the Search";
-  }
-
   if (!taskStore.tasks.length) {
     return "No Tasks";
   }
-
+  if (!filteredTasks.value.length && taskStore.tasks.length) {
+    return "No Tasks for the Search";
+  }
   return "";
 });
 
 const emptyStateSubHeading = computed(() => {
-  if (!filteredTasks.value.length && taskStore.tasks.length) {
-    return "Search with a different keyword.";
-  }
-
   if (!taskStore.tasks.length) {
     return "Go back to Home page to add task";
   }
-
+  if (!filteredTasks.value.length && taskStore.tasks.length) {
+    return "Search with a different keyword.";
+  }
   return "";
 });
 

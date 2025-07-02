@@ -29,9 +29,10 @@ const handleInput = (event: Event) => {
 <style scoped>
 .input-bar {
   border: 2px solid #eee;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   font-size: 18px;
   width: 100%;
+  height: 100%;
 }
 </style>
