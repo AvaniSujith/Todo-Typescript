@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const selectedValue = ref<string>("all");
 
-const optionsArray = [
+const options = [
   { value: "all", label: "All" },
   { value: "complete", label: "Complete" },
   { value: "incomplete", label: "Incomplete" },
@@ -13,7 +13,7 @@ const emit = defineEmits<{
   (e: "change", selectedValue: string): void;
 }>();
 
-const handleChange = (event: Event) => {
+const onChange = (event: Event) => {
   const selectChangeValue = (event.target as HTMLSelectElement).value;
   emit("change", selectChangeValue);
 };
@@ -23,12 +23,12 @@ const handleChange = (event: Event) => {
   <div class="dropdown-container">
     <select
       v-model="selectedValue"
-      name="category"
       class="task-category"
-      @change="handleChange"
+      name="category"
+      @change="onChange"
     >
       <option
-        v-for="option in optionsArray"
+        v-for="option in options"
         :key="option.value"
         :value="option.value"
       >

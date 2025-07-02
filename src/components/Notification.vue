@@ -1,19 +1,15 @@
 <script setup lang="ts">
-type ToastType = "update" | "add" | "delete";
+import { useNotificationStore } from "../store/Notification";
 
-interface Toast {
-  id: number;
-  label: string;
-  type: ToastType;
-}
-
-defineProps<{
-  toasts: Toast[];
-}>();
+const notificationStore = useNotificationStore();
 </script>
 
 <template>
-  <div v-for="toast in toasts" :key="toast.id" :class="`toast ${toast.type}`">
+  <div
+    v-for="toast in notificationStore.notifications"
+    :class="`toast ${toast.type}`"
+    :key="toast.id"
+  >
     {{ toast.label }}
   </div>
 </template>

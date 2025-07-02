@@ -25,22 +25,22 @@ const handleAddTask = () => {
 <template>
   <div class="add-task-container">
     <input-bar
-    v-model="taskTitle"
-    placeholder="Add Todo"
-    @keyup.enter="handleAddTask"
-  />
-  <button class="add-task-btn" @click="handleAddTask">Add</button>
+      v-model="taskTitle"
+      placeholder="Add Todo"
+      @keyup.enter="handleAddTask"
+    />
+    <button class="add-task-btn" @click="handleAddTask">Add</button>
   </div>
 </template>
 
 <style scoped>
-.add-task-container{
+.add-task-container {
   width: 100%;
   display: flex;
   gap: 5px;
 }
 
-.add-task-btn{
+.add-task-btn {
   background-color: #317ed6;
   padding: 8px;
   border-radius: 6px;
