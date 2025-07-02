@@ -85,7 +85,7 @@ onMounted(async () => {
   <div class="page-container">
     <header>
       <div class="heading">
-        <img src="/public/notepad.png" alt="notepad" />
+        <img src="/notepad.png" alt="notepad" />
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
