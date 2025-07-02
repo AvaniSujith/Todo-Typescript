@@ -3,11 +3,11 @@ import { ref } from "vue";
 
 import { useTaskStore } from "../store/Task";
 
-const taskStore = useTaskStore();
-
 import InputBar from "./InputBar.vue";
 
 import type { NewTask } from "../type";
+
+const taskStore = useTaskStore();
 
 const taskTitle = ref<string>("");
 

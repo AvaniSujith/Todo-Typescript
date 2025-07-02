@@ -4,13 +4,13 @@ import { computed, onMounted, ref } from "vue";
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
-const taskStore = useTaskStore();
-const notificationStore = useNotificationStore();
-
 import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
+
+const taskStore = useTaskStore();
+const notificationStore = useNotificationStore();
 
 const searchQuery = ref("");
 
@@ -32,7 +32,7 @@ const emptyStateHeading = computed(() => {
   if (!taskStore.tasks.length) {
     return "No Tasks";
   }
-  
+
   return "";
 });
 

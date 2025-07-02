@@ -4,12 +4,12 @@ import { ref } from "vue";
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
-const taskStore = useTaskStore();
-const notificationStore = useNotificationStore();
-
 import InputBar from "./InputBar.vue";
 
 import type { Task } from "../type";
+
+const taskStore = useTaskStore();
+const notificationStore = useNotificationStore();
 
 const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
