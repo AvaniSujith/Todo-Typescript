@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
@@ -30,6 +30,10 @@ const handleDelete = (id: number) => {
 
 const isEditing = (id: number) => editingTaskId.value === id;
 
+const isEmptyTitle = computed(() => {
+  return editingTaskTitle.value.length;
+});
+
 const editTask = (task: Task) => {
   editingTaskId.value = task.id;
   editingTaskTitle.value = task.title;
@@ -51,7 +55,11 @@ const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
 };
 
-const isEmptyTitle = (title: string) => (title.length ? true : false);
+const isSaveButtonDisabled = (task: Task) => {
+  return !isEmptyTitle.value && buttonContent(task.id) === "save"
+    ? true
+    : false;
+};
 
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
@@ -92,9 +100,7 @@ const handleSaveOrEdit = (task: Task) => {
       <div class="task-buttons">
         <button
           class="edit-btn"
-          :disabled="
-            !isEmptyTitle(editingTaskTitle) && buttonContent(task.id) === 'save'
-          "
+          :disabled="isSaveButtonDisabled(task)"
           @click="handleSaveOrEdit(task)"
         >
           {{ buttonContent(task.id) }}

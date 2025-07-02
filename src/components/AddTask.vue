@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import Notification from "./Notification.vue";
 
@@ -15,7 +15,9 @@ const notificationStore = useNotificationStore();
 
 const taskTitle = ref<string>("");
 
-const isEmptyTitle = (taskTitle: string) => (taskTitle.length ? true : false);
+const isAddButtonDisabled = computed(() => {
+  return taskTitle.value.length;
+});
 
 const handleAddTask = () => {
   const newTask: NewTask = {
@@ -37,7 +39,7 @@ const handleAddTask = () => {
     />
     <button
       class="add-task-btn"
-      :disabled="!isEmptyTitle(taskTitle)"
+      :disabled="!isAddButtonDisabled"
       @click="handleAddTask"
     >
       Add
