@@ -31,10 +31,11 @@ const handleAddTask = () => {
   <div class="add-task-container">
     <input-bar
       v-model="taskTitle"
-      placeholder="Add Todo"
+      placeholder="New Todo"
       @keyup.enter="handleAddTask"
     />
     <button class="add-task-btn" @click="handleAddTask">Add</button>
+    <notification />
   </div>
 </template>
 
@@ -48,8 +49,10 @@ const handleAddTask = () => {
 .add-task-btn {
   background-color: #317ed6;
   padding: 8px;
+  font-size: 18px;
+  font-weight: 500;
   border-radius: 6px;
-  margin: 10px 0;
   color: #fff;
+  width: 80px;
 }
 </style>

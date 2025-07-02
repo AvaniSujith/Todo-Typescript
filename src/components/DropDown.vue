@@ -45,7 +45,7 @@ const onChange = (event: Event) => {
 
 .task-category {
   border: 2px solid #eee;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   margin: 10px 0;
   background: transparent;

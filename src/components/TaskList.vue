@@ -44,13 +44,12 @@ const updateTaskComplete = (task: Task) => {
   } else {
     editingTaskCompleted.value = !editingTaskCompleted.value;
   }
-  notificationStore.addToast("Task marked completed successfully", "update");
+  notificationStore.addToast("Task state updated successfully", "update");
 };
 
 const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
 };
-
 
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
@@ -68,7 +67,7 @@ const handleSaveOrEdit = (task: Task) => {
 
 <template>
   <ul class="tasks">
-    <li v-for="task in tasks" :key="task.id" class="task-item">
+    <li v-for="task in tasks" class="task-item" :key="task.id">
       <input
         type="checkbox"
         :checked="task.completed"
@@ -143,6 +142,7 @@ button:disabled {
   justify-content: space-between;
   width: 100%;
   margin-top: 2px;
+  font-size: 23px;
 }
 
 .task-buttons {
@@ -150,7 +150,6 @@ button:disabled {
 }
 
 p {
-  font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
   padding: 10px 0px 10px 0px;

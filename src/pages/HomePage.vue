@@ -4,14 +4,14 @@ import { ref, onMounted, computed } from "vue";
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
-const taskStore = useTaskStore();
-const notificationStore = useNotificationStore();
-
 import InputBar from "../components/InputBar.vue";
 import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+
+const taskStore = useTaskStore();
+const notificationStore = useNotificationStore();
 
 const searchQuery = ref<string>("");
 const currentFilter = ref<string>("all");
@@ -44,21 +44,21 @@ const recentTasks = computed(() => {
 });
 
 const emptyStateHeading = computed(() => {
-  if (!recentTasks.value.length && (searchQuery.value || currentFilter.value)) {
-    return "No Task for these Filters";
-  }
   if (!taskStore.tasks.length) {
     return "No Tasks";
+  }
+  if (!recentTasks.value.length && (searchQuery.value || currentFilter.value)) {
+    return "No Task for these Filters";
   }
   return "";
 });
 
 const emptyStateSubHeading = computed(() => {
+  if (!taskStore.tasks.length) {
+    return "Add a new task to begin";
+  }
   if (!recentTasks.value.length && (searchQuery.value || currentFilter.value)) {
     return "Try again using different filters";
-  }
-  if (!taskStore.tasks.length) {
-    return "Go back to Home page to add task";
   }
   return "";
 });
@@ -98,7 +98,7 @@ onMounted(async () => {
           <div class="view-label">
             {{ recentTasks.length }} / {{ taskStore.tasks.length }}
           </div>
-          <div class="view-btn">
+          <div class="view-all">
             <a href="#" class="nav-link">View All</a>
           </div>
         </div>
@@ -119,6 +119,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: 5px 0 20px 0;
 }
 
 img {
@@ -135,20 +136,22 @@ h2 {
 }
 
 .view-all {
-  padding: 5px 8px;
+  padding: 7px 8px;
   background-color: #eee;
   font-size: 15px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-weight: 700;
+  font-weight: 600;
+  border-radius: 4px;
 }
 
 .count-details {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 25px 0 16px 0;
+  font-size: 18px;
 }
 
-.header,
 .container,
 .recent-task.container,
 .page-container {
