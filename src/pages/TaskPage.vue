@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 
+import { RouterLink } from "vue-router";
+
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
@@ -59,7 +61,7 @@ onMounted(async () => {
 <template>
   <div v-if="!taskStore.isLoading" class="page-container">
     <nav class="back-button">
-      <a class="nav-link">Back to Home</a>
+      <router-link to="/" class="nav-link">Back to Home</router-link>
     </nav>
     <header>
       <div class="page-title">

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 
+import { RouterLink } from "vue-router";
+
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
@@ -83,7 +85,7 @@ onMounted(async () => {
   <div class="page-container">
     <header>
       <div class="heading">
-        <img src="/public/notepad.png" alt="notepad" />
+        <img src="/notepad.png" alt="notepad" />
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
@@ -99,7 +101,7 @@ onMounted(async () => {
             {{ recentTasks.length }} / {{ taskStore.tasks.length }}
           </div>
           <div class="view-all">
-            <a href="#" class="nav-link">View All</a>
+            <router-link to="/task-page" class="nav-link">View All</router-link>
           </div>
         </div>
         <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
