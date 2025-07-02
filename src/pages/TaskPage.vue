@@ -4,13 +4,13 @@ import { computed, onMounted, ref } from "vue";
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
+const taskStore = useTaskStore();
+const notificationStore = useNotificationStore();
+
 import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
-
-const taskStore = useTaskStore();
-const notificationStore = useNotificationStore();
 
 const searchQuery = ref("");
 
@@ -28,21 +28,21 @@ const emptyStateHeading = computed(() => {
   if (!filteredTasks.value.length && taskStore.tasks.length) {
     return "No Tasks for the Search";
   }
-  
-  if(!taskStore.tasks.length){
-    return "No Tasks"
-  }
 
+  if (!taskStore.tasks.length) {
+    return "No Tasks";
+  }
+  
   return "";
 });
 
 const emptyStateSubHeading = computed(() => {
-  if (!filteredTasks.value.length&& taskStore.tasks.length) {
+  if (!filteredTasks.value.length && taskStore.tasks.length) {
     return "Search with a different keyword.";
   }
 
-  if(!taskStore.tasks.length){
-    return "Go back to Home page to add task"
+  if (!taskStore.tasks.length) {
+    return "Go back to Home page to add task";
   }
 
   return "";
@@ -51,7 +51,7 @@ const emptyStateSubHeading = computed(() => {
 const handleDelete = async (id: number) => {
   if (confirm("Are you sure to delete this task?")) {
     await taskStore.deleteTask(id);
-    notificationStore.addToast('Task deleted successfully', 'delete')
+    notificationStore.addToast("Task deleted successfully", "delete");
   }
 };
 
@@ -70,7 +70,7 @@ onMounted(async () => {
         <h2>All Tasks</h2>
       </div>
       <input-bar v-model="searchQuery" placeholder="Search..." />
-      <notification/>
+      <notification />
     </header>
     <section v-if="filteredTasks.length" class="task-list-container">
       <div class="task-container">
