@@ -17,7 +17,7 @@ export const useNotificationStore = defineStore('notification', () => {
         notifications.value.push({id, label, type});
         setTimeout(() => {
             removeToast(id)
-        }, 1000)
+        }, 3000)
     }
 
     function removeToast(id: number){
