@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useNotificationStore } from '../store/Notification';
+import { useNotificationStore } from "../store/Notification";
 
 const notificationStore = useNotificationStore();
 </script>
 
 <template>
-  <div v-for="toast in notificationStore.notifications" :key="toast.id" :class="`toast ${toast.type}`">
+  <div
+    v-for="toast in notificationStore.notifications"
+    :class="`toast ${toast.type}`"
+    :key="toast.id"
+  >
     {{ toast.label }}
   </div>
 </template>

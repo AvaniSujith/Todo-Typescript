@@ -12,13 +12,21 @@ import type { Task } from "../type";
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
+const editingTaskId = ref<number | null>(null);
+const editingTaskTitle = ref<string>("");
+const editingTaskCompleted = ref(false);
+
 defineProps<{
   tasks: Task[];
 }>();
 
-const editingTaskId = ref<number | null>(null);
-const editingTaskTitle = ref<string>("");
-const editingTaskCompleted = ref(false);
+const emit = defineEmits<{
+  (e: "deleteTask", id: number): void;
+}>();
+
+const handleDelete = (id: number) => {
+  emit("deleteTask", id);
+};
 
 const isEditing = (id: number) => editingTaskId.value === id;
 
@@ -36,9 +44,13 @@ const updateTaskComplete = (task: Task) => {
   } else {
     editingTaskCompleted.value = !editingTaskCompleted.value;
   }
-
-  notificationStore.addToast('Task marked as completed', 'update')
+  notificationStore.addToast("Task marked completed successfully", "update");
 };
+
+const buttonContent = (id: number) => {
+  return isEditing(id) ? "save" : "edit";
+};
+
 
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
@@ -47,41 +59,32 @@ const handleSaveOrEdit = (task: Task) => {
     task.completed = editingTaskCompleted.value;
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
+    notificationStore.addToast("Task saved with changes", "update");
     editingTaskId.value = null;
     editingTaskTitle.value = "";
   }
-  // notificationStore.addToast('Task marked as completed', 'update')
-};
-
-const buttonContent = (id: number) => {
-  return isEditing(id) ? "save" : "edit";
-};
-
-const emit = defineEmits<{
-  (e: "deleteTask", id: number): void;
-}>();
-
-const handleDelete = (id: number) => {
-  emit("deleteTask", id);
 };
 </script>
 
 <template>
-  <TransitionGroup name="list" tag="ul" class="tasks">
+  <ul class="tasks">
     <li v-for="task in tasks" :key="task.id" class="task-item">
       <input
         type="checkbox"
         :checked="task.completed"
         @change="updateTaskComplete(task)"
       />
-      <p v-if="!isEditing(task.id)" :class="task.completed ? 'completed' : 'not-completed'">
+      <p
+        v-if="!isEditing(task.id)"
+        :class="task.completed ? 'completed' : 'not-completed'"
+      >
         {{ task.title }}
       </p>
       <input-bar
         v-else
         v-model="editingTaskTitle"
-        type="text"
         class="input-bar"
+        type="text"
         @keyup.enter="handleSaveOrEdit(task)"
       />
 
@@ -99,7 +102,7 @@ const handleDelete = (id: number) => {
         <notification />
       </div>
     </li>
-  </TransitionGroup>
+  </ul>
 </template>
 
 <style scoped>
@@ -139,6 +142,7 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-top: 2px;
 }
 
 .task-buttons {
@@ -149,6 +153,11 @@ p {
   font-size: 18px;
   font-weight: 500;
   text-wrap: nowrap;
+  padding: 10px 0px 10px 0px;
+}
+
+.completed {
+  text-decoration: line-through;
 }
 
 .tasks {
