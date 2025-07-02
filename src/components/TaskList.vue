@@ -37,13 +37,8 @@ const editTask = (task: Task) => {
 };
 
 const updateTaskComplete = (task: Task) => {
-  const updatedTask = { ...task };
-  if (!isEditing(task.id)) {
-    updatedTask.completed = !updatedTask.completed;
-    taskStore.updateTask(updatedTask);
-  } else {
-    editingTaskCompleted.value = !editingTaskCompleted.value;
-  }
+  task.completed = !task.completed
+  taskStore.updateTask(task);
   notificationStore.addToast("Task state updated successfully", "update");
 };
 
@@ -71,6 +66,7 @@ const handleSaveOrEdit = (task: Task) => {
       <input
         type="checkbox"
         :checked="task.completed"
+        :disabled="isEditing(task.id)"
         @change="updateTaskComplete(task)"
       />
       <p
