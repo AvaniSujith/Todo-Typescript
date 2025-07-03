@@ -51,7 +51,7 @@ const buttonContent = (id: number) => {
 };
 
 const isSaveButtonDisabled = (task: Task) => {
-  return isEmptyTitle.value && buttonContent(task.id) === "save";
+  return isEmptyTitle.value && isEditing(task.id);
 };
 
 const handleSaveOrEdit = (task: Task) => {
