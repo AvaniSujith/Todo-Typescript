@@ -30,11 +30,16 @@ const handleAddTask = () => {
 
 <template>
   <div class="add-task-container">
-    <input-bar
-      v-model="taskTitle"
-      placeholder="New Todo"
-      @keyup.enter="handleAddTask"
-    />
+    <div class="add-task-input">
+      <input-bar
+        v-model="taskTitle"
+        placeholder="New Todo"
+        @keyup.enter="handleAddTask"
+      />
+      <div class="tool-tip">
+        <tooltip :text="'Start typing Todo name'" />
+      </div>
+    </div>
     <div class="add-btn-container">
       <button class="add-task-btn" @click="handleAddTask">Add</button>
       <div class="tool-tip">
@@ -50,6 +55,17 @@ const handleAddTask = () => {
   width: 100%;
   display: flex;
   gap: 5px;
+}
+
+.add-task-input {
+  position: relative;
+  width: 100%;
+}
+
+.add-task-input:hover .tool-tip {
+  visibility: visible;
+  right: 0px;
+  left: 0px;
 }
 
 .add-task-btn {

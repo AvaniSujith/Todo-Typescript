@@ -11,6 +11,7 @@ import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+import Tooltip from "../components/Tooltip.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -89,7 +90,12 @@ onMounted(async () => {
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
-        <input-bar v-model="searchQuery" placeholder="Search..." />
+        <div class="search-bar-container">
+          <input-bar v-model="searchQuery" placeholder="Search..." />
+          <div class="tool-tip">
+            <tooltip :text="'Type to search for tasks'" />
+          </div>
+        </div>
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
@@ -102,6 +108,9 @@ onMounted(async () => {
           </div>
           <div class="view-all">
             <router-link to="/task-page" class="nav-link">View All</router-link>
+            <div class="tool-tip">
+              <tooltip :text="'Click to reach full task page'" />
+            </div>
           </div>
         </div>
         <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
@@ -152,6 +161,22 @@ h2 {
   justify-content: space-between;
   margin: 25px 0 16px 0;
   font-size: 18px;
+}
+
+.search-bar-container,
+.view-all {
+  position: relative;
+}
+
+.search-bar-container:hover .tool-tip,
+.view-all:hover .tool-tip {
+  visibility: visible;
+  right: 0;
+  left: 0;
+}
+
+.view-all:hover .tool-tip {
+  top: -44px;
 }
 
 .container,
