@@ -102,35 +102,14 @@ const handleSaveOrEdit = (task: Task) => {
 </template>
 
 <style scoped>
-.add-task-container {
-  display: flex;
-  gap: 5px;
+p {
+  font-weight: 500;
+  text-wrap: nowrap;
+  padding: 10px 0px 10px 0px;
+}
+
+.tasks {
   width: 100%;
-}
-
-.task-detail {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  width: 100%;
-}
-
-.input-bar {
-  margin: 0px 20px;
-}
-
-.add-btn {
-  background-color: #317ed6;
-  padding: 8px;
-  border-radius: 6px;
-  margin: 10px 0;
-  color: #fff;
-}
-
-button:disabled {
-  background-color: #eee;
-  cursor: not-allowed;
-  color: #555353;
 }
 
 .task-item {
@@ -140,6 +119,18 @@ button:disabled {
   width: 100%;
   margin-top: 2px;
   font-size: 23px;
+}
+
+.task-title {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-title input {
+  margin: 0;
+  width: 300px;
 }
 
 .task-title p {
@@ -152,34 +143,22 @@ button:disabled {
   text-overflow: ellipsis;
 }
 
-.task-title input {
-  margin: 0;
-  width: 300px;
-}
-
-.task-title {
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.task-buttons {
-  display: flex;
-}
-
-p {
-  font-weight: 500;
-  text-wrap: nowrap;
-  padding: 10px 0px 10px 0px;
-}
-
 .completed {
   text-decoration: line-through;
 }
 
-.tasks {
-  width: 100%;
+.input-bar {
+  margin: 0px 20px;
+}
+
+button:disabled {
+  background-color: #eee;
+  cursor: not-allowed;
+  color: #555353;
+}
+
+.task-buttons {
+  display: flex;
 }
 
 .delete-btn,
@@ -196,9 +175,5 @@ p {
 
 .edit-btn {
   background-color: bisque;
-}
-
-.completed {
-  text-decoration: line-through;
 }
 </style>
