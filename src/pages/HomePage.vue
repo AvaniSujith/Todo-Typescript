@@ -90,12 +90,8 @@ onMounted(async () => {
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
-        <div class="search-bar-container">
-          <input-bar v-model="searchQuery" placeholder="Search..." />
-          <div class="tool-tip">
-            <tooltip :text="'Type to search for tasks'" />
-          </div>
-        </div>
+        <input-bar v-model="searchQuery" placeholder="Search..." />
+
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
@@ -107,7 +103,11 @@ onMounted(async () => {
             {{ recentTasks.length }} / {{ taskStore.tasks.length }}
           </div>
           <div class="view-all">
-            <router-link to="/task-page" class="nav-link">View All</router-link>
+            <button class="view-all-button">
+              <router-link to="/task-page" class="nav-link"
+                >View All</router-link
+              >
+            </button>
             <div class="tool-tip">
               <tooltip :text="'Click to reach full task page'" />
             </div>
@@ -126,6 +126,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+
 .heading {
   display: flex;
   align-items: center;
@@ -146,13 +147,26 @@ h2 {
   padding-top: 5px;
 }
 
+.view-label{
+  width: 40%;
+  text-align: start;
+}
+
 .view-all {
-  padding: 7px 8px;
-  background-color: #eee;
+  width: 60%;
+  text-align: end;
+}
+
+.view-all-button {
   font-size: 15px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 600;
   border-radius: 4px;
+  background: #eee;
+  border-radius: 8px;
+  width: max-content;
+  padding: 6px;
+  font-weight: 700;
 }
 
 .count-details {
@@ -163,19 +177,14 @@ h2 {
   font-size: 18px;
 }
 
-.search-bar-container,
 .view-all {
   position: relative;
 }
 
-.search-bar-container:hover .tool-tip,
 .view-all:hover .tool-tip {
+  width: 100%;
   visibility: visible;
-  right: 0;
-  left: 0;
-}
-
-.view-all:hover .tool-tip {
+  right: -109px;
   top: -44px;
 }
 

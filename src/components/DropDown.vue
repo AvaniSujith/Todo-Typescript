@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import Tooltip from "./Tooltip.vue";
-
 const selectedValue = ref<string>("all");
 
 const options = [
@@ -37,20 +35,13 @@ const onChange = (event: Event) => {
         {{ option.label }}
       </option>
     </select>
-    <div class="tool-tip">
-      <tooltip :text="'Click to change filter'" />
-    </div>
+
   </div>
 </template>
 
 <style scoped>
 .dropdown-container {
   width: 100%;
-  position: relative;
-}
-
-.dropdown-container:hover .tool-tip {
-  visibility: visible;
 }
 
 .task-category {
@@ -61,9 +52,7 @@ const onChange = (event: Event) => {
   background: transparent;
   width: 100%;
   font-size: 18px;
-}
-
-select {
   cursor: pointer;
 }
+
 </style>

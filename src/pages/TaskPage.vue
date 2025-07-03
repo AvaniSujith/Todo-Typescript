@@ -10,6 +10,7 @@ import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
+import Tooltip from "../components/Tooltip.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -62,6 +63,9 @@ onMounted(async () => {
   <div v-if="!taskStore.isLoading" class="page-container">
     <nav class="back-button">
       <router-link to="/" class="nav-link">Back to Home</router-link>
+      <div class="tool-tip">
+        <tooltip :text="'Go back to Home'" />
+      </div>
     </nav>
     <header>
       <div class="page-title">
@@ -71,8 +75,15 @@ onMounted(async () => {
       <notification />
     </header>
     <section v-if="filteredTasks.length" class="task-list-container">
-      <div class="task-container">
-        <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
+      <div class="task-count">
+        <p>
+          Total Tasks : <span>{{ taskStore.tasks.length }}</span>
+        </p>
+      </div>
+      <div class="scroll-container">
+        <div class="task-container">
+          <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
+        </div>
       </div>
     </section>
     <empty-state
@@ -92,6 +103,15 @@ onMounted(async () => {
   padding: 6px;
   margin-bottom: 15px;
   font-weight: 700;
+  position: relative;
+}
+
+.back-button:hover .tool-tip {
+  visibility: visible;
+}
+
+span {
+  font-weight: 600;
 }
 
 h2 {
@@ -109,10 +129,20 @@ h2 {
   width: 100%;
   overflow-y: auto;
   scroll-behavior: smooth;
-  padding: 10px 2px 0 5px;
+  padding: 10px 2px 0px 5px;
+}
+
+.scroll-container {
+  padding-bottom: 20px;
+  height: 100%;
+  width: 100%;
 }
 
 .page-container {
   width: 100%;
+}
+
+.task-count {
+  margin-top: 20px;
 }
 </style>

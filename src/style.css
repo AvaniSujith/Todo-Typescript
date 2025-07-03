@@ -36,8 +36,10 @@ button {
 
 .tool-tip {
   visibility: hidden;
+  width: fit-content;
   position: absolute;
-  top: -34px;
-  right: -18px;
-  z-index: 100;
+  top: -44px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 1000;
 }

@@ -13,12 +13,13 @@ defineProps<{
 
 <style scoped>
 .tooltip {
-  width: 120px;
+  width: fit-content;
   background-color: #000;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 9px 2px;
+  padding: 9px 7px;
+  text-wrap: nowrap;
 }
 
 .tooltip-container {
@@ -27,7 +28,7 @@ defineProps<{
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 1;
+  width: 100%;
 }
 
 .box {

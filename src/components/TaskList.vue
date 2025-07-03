@@ -6,6 +6,7 @@ import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
+import Tooltip from "./Tooltip.vue";
 
 import type { Task } from "../type";
 
@@ -37,7 +38,7 @@ const editTask = (task: Task) => {
 };
 
 const updateTaskComplete = (task: Task) => {
-  task.completed = !task.completed
+  task.completed = !task.completed;
   taskStore.updateTask(task);
   notificationStore.addToast("Task state updated successfully", "update");
 };
@@ -69,19 +70,23 @@ const handleSaveOrEdit = (task: Task) => {
         :disabled="isEditing(task.id)"
         @change="updateTaskComplete(task)"
       />
-      <p
-        v-if="!isEditing(task.id)"
-        :class="task.completed ? 'completed' : 'not-completed'"
-      >
-        {{ task.title }}
-      </p>
-      <input-bar
-        v-else
-        v-model="editingTaskTitle"
-        class="input-bar"
-        type="text"
-        @keyup.enter="handleSaveOrEdit(task)"
-      />
+      <div class="task-title-container">
+        <div class="task-name" v-if="!isEditing(task.id)">
+          <div class="tool-tip">
+            <tooltip :text="task.title" />
+          </div>
+          <p :class="task.completed ? 'completed' : 'not-completed'">
+            {{ task.title }}
+          </p>
+        </div>
+        <input-bar
+          v-else
+          v-model="editingTaskTitle"
+          class="input-bar"
+          type="text"
+          @keyup.enter="handleSaveOrEdit(task)"
+        />
+      </div>
 
       <div class="task-buttons">
         <button class="edit-btn" @click="handleSaveOrEdit(task)">
@@ -157,6 +162,7 @@ p {
 
 .tasks {
   width: 100%;
+  height: 100%;
 }
 
 .delete-btn,
@@ -175,7 +181,13 @@ p {
   background-color: bisque;
 }
 
-.completed {
-  text-decoration: line-through;
+.task-title-container {
+  position: relative;
+}
+
+.task-title-container:hover .tool-tip {
+  visibility: visible;
+  top: -33px;
+  width: 100%;
 }
 </style>
