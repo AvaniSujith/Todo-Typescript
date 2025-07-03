@@ -38,7 +38,7 @@ const handleAddTask = () => {
     <div class="add-btn-container">
       <button class="add-task-btn" @click="handleAddTask">Add</button>
       <div class="tool-tip">
-        <tooltip :text="'Add a Todo'"/>
+        <tooltip :text="'Add a Todo'" />
       </div>
     </div>
     <notification />
@@ -62,19 +62,11 @@ const handleAddTask = () => {
   width: 80px;
 }
 
-.add-btn-container{
+.add-btn-container {
   position: relative;
 }
 
-.tool-tip{
-  visibility: hidden;
-  position: absolute;
-  top: -34px;
-  right: -18px;
-  z-index: 100;
-}
-
-.add-btn-container:hover .tool-tip{
-  visibility:  visible;
+.add-btn-container:hover .tool-tip {
+  visibility: visible;
 }
 </style>

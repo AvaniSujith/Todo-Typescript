@@ -29,7 +29,15 @@ button {
   width: 100%;
 }
 
-.nav-link{
+.nav-link {
   text-decoration: none;
   color: #000;
+}
+
+.tool-tip {
+  visibility: hidden;
+  position: absolute;
+  top: -34px;
+  right: -18px;
+  z-index: 100;
 }
