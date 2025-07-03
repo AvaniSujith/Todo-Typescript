@@ -31,7 +31,7 @@ const handleDelete = (id: number) => {
 const isEditing = (id: number) => editingTaskId.value === id;
 
 const isEmptyTitle = computed(() => {
-  return editingTaskTitle.value.length;
+  return !editingTaskTitle.value.trim().length;
 });
 
 const editTask = (task: Task) => {
@@ -51,9 +51,7 @@ const buttonContent = (id: number) => {
 };
 
 const isSaveButtonDisabled = (task: Task) => {
-  return !isEmptyTitle.value && buttonContent(task.id) === "save"
-    ? true
-    : false;
+  return isEmptyTitle.value && buttonContent(task.id) === "save";
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -63,7 +61,7 @@ const handleSaveOrEdit = (task: Task) => {
     task.completed = editingTaskCompleted.value;
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
-    notificationStore.addToast("Task saved with changes", "update");
+    notificationStore.addToast("Task saved successfully", "update");
     editingTaskId.value = null;
     editingTaskTitle.value = "";
   }

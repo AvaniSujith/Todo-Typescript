@@ -16,7 +16,7 @@ const notificationStore = useNotificationStore();
 const taskTitle = ref<string>("");
 
 const isAddButtonDisabled = computed(() => {
-  return taskTitle.value.length;
+  return !taskTitle.value.trim().length;
 });
 
 const handleAddTask = () => {
@@ -39,7 +39,7 @@ const handleAddTask = () => {
     />
     <button
       class="add-task-btn"
-      :disabled="!isAddButtonDisabled"
+      :disabled="isAddButtonDisabled"
       @click="handleAddTask"
     >
       Add
