@@ -7,6 +7,7 @@ import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
+import Tooltip from "./Tooltip.vue";
 
 import type { NewTask } from "../type";
 
@@ -34,7 +35,12 @@ const handleAddTask = () => {
       placeholder="New Todo"
       @keyup.enter="handleAddTask"
     />
-    <button class="add-task-btn" @click="handleAddTask">Add</button>
+    <div class="add-btn-container">
+      <button class="add-task-btn" @click="handleAddTask">Add</button>
+      <div class="tool-tip">
+        <tooltip :text="'Add a Todo'"/>
+      </div>
+    </div>
     <notification />
   </div>
 </template>
@@ -54,5 +60,21 @@ const handleAddTask = () => {
   border-radius: 6px;
   color: #fff;
   width: 80px;
+}
+
+.add-btn-container{
+  position: relative;
+}
+
+.tool-tip{
+  visibility: hidden;
+  position: absolute;
+  top: -34px;
+  right: -18px;
+  z-index: 100;
+}
+
+.add-btn-container:hover .tool-tip{
+  visibility:  visible;
 }
 </style>
