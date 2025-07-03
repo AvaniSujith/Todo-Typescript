@@ -37,7 +37,7 @@ const editTask = (task: Task) => {
 };
 
 const updateTaskComplete = (task: Task) => {
-  task.completed = !task.completed
+  task.completed = !task.completed;
   taskStore.updateTask(task);
   notificationStore.addToast("Task state updated successfully", "update");
 };
@@ -69,20 +69,21 @@ const handleSaveOrEdit = (task: Task) => {
         :disabled="isEditing(task.id)"
         @change="updateTaskComplete(task)"
       />
-      <p
-        v-if="!isEditing(task.id)"
-        :class="task.completed ? 'completed' : 'not-completed'"
-      >
-        {{ task.title }}
-      </p>
-      <input-bar
-        v-else
-        v-model="editingTaskTitle"
-        class="input-bar"
-        type="text"
-        @keyup.enter="handleSaveOrEdit(task)"
-      />
-
+      <div class="task-title">
+        <p
+          v-if="!isEditing(task.id)"
+          :class="task.completed ? 'completed' : 'not-completed'"
+        >
+          {{ task.title }}
+        </p>
+        <input-bar
+          v-else
+          v-model="editingTaskTitle"
+          class="input-bar"
+          type="text"
+          @keyup.enter="handleSaveOrEdit(task)"
+        />
+      </div>
       <div class="task-buttons">
         <button class="edit-btn" @click="handleSaveOrEdit(task)">
           {{ buttonContent(task.id) }}
@@ -139,6 +140,28 @@ button:disabled {
   width: 100%;
   margin-top: 2px;
   font-size: 23px;
+}
+
+.task-title p {
+  height: 100%;
+  cursor: pointer;
+  padding: 10px 20px 0 20px;
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.task-title input {
+  margin: 0;
+  width: 300px;
+}
+
+.task-title {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .task-buttons {
