@@ -6,7 +6,9 @@ defineProps<{
 
 <template>
   <div class="tooltip-container">
-    <p class="tooltip">{{ text }}</p>
+    <p class="tooltip">
+      {{ text }}
+    </p>
     <div class="box"></div>
   </div>
 </template>

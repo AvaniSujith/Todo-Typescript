@@ -71,12 +71,14 @@ const handleSaveOrEdit = (task: Task) => {
         @change="updateTaskComplete(task)"
       />
       <div class="task-title">
-        <p
-          v-if="!isEditing(task.id)"
-          :class="task.completed ? 'completed' : 'not-completed'"
-        >
-          {{ task.title }}
-        </p>
+        <div v-if="!isEditing(task.id)" class="task-title-component">
+          <p :class="task.completed ? 'completed' : 'not-completed'">
+            {{ task.title }}
+          </p>
+          <div class="tool-tip">
+            <tooltip :text="task.title" />
+          </div> 
+        </div>
         <input-bar
           v-else
           v-model="editingTaskTitle"
@@ -129,6 +131,14 @@ p {
   justify-content: center;
 }
 
+.task-title-component{
+  position: relative;
+}
+
+.task-title-component:hover .tool-tip{
+  visibility: visible;
+}
+
 .task-title input {
   margin: 0;
   width: 300px;
@@ -137,7 +147,7 @@ p {
 .task-title p {
   height: 100%;
   cursor: pointer;
-  padding: 10px 20px 0 20px;
+  padding: 0 20px 0 20px;
   width: 300px;
   overflow: hidden;
   white-space: nowrap;

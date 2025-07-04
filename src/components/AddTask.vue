@@ -37,10 +37,10 @@ const handleAddTask = () => {
     />
 
     <div class="add-btn-container">
-      <button class="add-task-btn" @click="handleAddTask">Add</button>
       <div class="tool-tip">
-        <tooltip :text="'Add a Todo'" />
+        <tooltip :text="'Add a Todo'"/>
       </div>
+      <button class="add-task-btn" @click="handleAddTask">Add</button>
     </div>
     <notification />
   </div>
