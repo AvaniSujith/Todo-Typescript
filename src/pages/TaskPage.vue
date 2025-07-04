@@ -97,7 +97,7 @@ onMounted(async () => {
 
 <style scoped>
 .back-button {
-  background: #eee;
+  background: #317ed6;
   border-radius: 8px;
   width: max-content;
   padding: 6px;
@@ -123,6 +123,13 @@ h2 {
   margin-bottom: 8px;
 }
 
+.tool-tip{
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .task-container {
   max-height: 436px;
   height: 100%;
@@ -137,7 +144,7 @@ h2 {
   padding-bottom: 20px;
   height: 402px;
   width: 100%;
-  /* position: relative; */
+  position: relative;
 }
 
 .page-container {

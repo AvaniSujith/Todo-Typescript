@@ -162,7 +162,7 @@ h2 {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 600;
   border-radius: 4px;
-  background: #eee;
+  background: #317ed6;
   border-radius: 8px;
   width: max-content;
   padding: 6px;

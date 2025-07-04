@@ -1,11 +1,23 @@
 <script setup lang="ts">
 defineProps<{
   text: string;
+  top?: number;
+  bottom?: number;
+  right?: number;
+  left?: number;
 }>();
 </script>
 
 <template>
-  <div class="tooltip-container">
+  <div
+    class="tooltip-container"
+    :style="{
+      top: top + 'px',
+      bottom: bottom + 'px',
+      right: right + 'px',
+      left: left + 'px',
+    }"
+  >
     <p class="tooltip">
       {{ text }}
     </p>
@@ -29,7 +41,7 @@ defineProps<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: sticky;
   width: 100%;
 }
 
@@ -37,7 +49,7 @@ defineProps<{
   height: 10px;
   width: 10px;
   background-color: #000;
-  transform: rotate(130deg);
+  transform: rotate(135deg);
   position: absolute;
   bottom: -5px;
 }
