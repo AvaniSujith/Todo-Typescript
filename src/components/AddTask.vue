@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import Notification from "./Notification.vue";
 
@@ -16,12 +16,15 @@ const notificationStore = useNotificationStore();
 
 const taskTitle = ref<string>("");
 
+const isAddButtonDisabled = computed(() => {
+  return !taskTitle.value.trim().length;
+});
+
 const handleAddTask = () => {
   const newTask: NewTask = {
     title: taskTitle.value,
     completed: false,
   };
-
   taskStore.addTask(newTask);
   taskTitle.value = "";
   notificationStore.addToast("New Task Added Successfully", "add");
@@ -38,10 +41,18 @@ const handleAddTask = () => {
 
     <div class="add-btn-container">
       <div class="tool-tip">
-        <tooltip :text="'Add a Todo'"/>
+        <tooltip :text="'Add a Todo'" />
       </div>
-      <button class="add-task-btn" @click="handleAddTask">Add</button>
+
+      <button
+        class="add-task-btn"
+        :disabled="isAddButtonDisabled"
+        @click="handleAddTask"
+      >
+        Add
+      </button>
     </div>
+
     <notification />
   </div>
 </template>
@@ -51,6 +62,12 @@ const handleAddTask = () => {
   width: 100%;
   display: flex;
   gap: 5px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #eee;
+  color: #000;
 }
 
 .add-task-btn {
