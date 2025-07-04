@@ -1,5 +1,15 @@
+<script setup lang="ts">
+defineProps<{
+  heightValue: number;
+  widthValue: number;
+}>();
+</script>
+
 <template>
-  <div class="content-loader"></div>
+  <div
+    class="content-loader"
+    :style="{ height: heightValue + 'px', width: widthValue + 'px' }"
+  ></div>
 </template>
 
 <style scoped>
