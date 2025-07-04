@@ -6,6 +6,7 @@ import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
+import Modal from "./Modal.vue";
 
 import type { Task } from "../type";
 
@@ -15,17 +16,18 @@ const notificationStore = useNotificationStore();
 const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
+const isVisible = ref<Boolean>(false);
 
 defineProps<{
   tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-  (e: "deleteTask", id: number): void;
+  (e: "delete", id: number): void;
 }>();
 
 const handleDelete = (id: number) => {
-  emit("deleteTask", id);
+  emit("delete", id);
 };
 
 const isEditing = (id: number) => editingTaskId.value === id;
@@ -54,6 +56,18 @@ const isSaveButtonDisabled = (task: Task) => {
   return isEmptyTitle.value && isEditing(task.id);
 };
 
+const isModalVisible = () => {
+  return (isVisible.value = !isVisible.value);
+};
+
+const showModal = () => {
+  isModalVisible();
+};
+
+const handleClick = () => {
+  isModalVisible();
+};
+
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
     editTask(task);
@@ -69,7 +83,8 @@ const handleSaveOrEdit = (task: Task) => {
 </script>
 
 <template>
-  <ul class="tasks">
+  <div>
+    <ul class="tasks">
     <li v-for="task in tasks" class="task-item" :key="task.id">
       <input
         type="checkbox"
@@ -103,14 +118,22 @@ const handleSaveOrEdit = (task: Task) => {
         <button
           class="delete-btn"
           :disabled="isEditing(task.id)"
-          @click="handleDelete(task.id)"
+          @click="showModal"
         >
           Delete
         </button>
         <notification />
+        <modal
+          :class="isVisible ? 'show' : 'dont-show'"
+          heading="Delete Task"
+          content="Are you sure to delete the task ?"
+          @delete="handleDelete(task.id)"
+          @click="handleClick"
+        />
       </div>
     </li>
   </ul>
+  </div>
 </template>
 
 <style scoped>
@@ -187,5 +210,14 @@ button:disabled {
 
 .edit-btn {
   background-color: bisque;
+}
+
+
+.dont-show {
+  display: none;
+}
+
+.show {
+  display: flex;
 }
 </style>
