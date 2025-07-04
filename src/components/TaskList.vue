@@ -70,15 +70,13 @@ const handleSaveOrEdit = (task: Task) => {
         :disabled="isEditing(task.id)"
         @change="updateTaskComplete(task)"
       />
-      <div class="task-title-container">
-        <div class="task-name" v-if="!isEditing(task.id)">
-          <div class="tool-tip">
-            <tooltip :text="task.title" />
-          </div>
-          <p :class="task.completed ? 'completed' : 'not-completed'">
-            {{ task.title }}
-          </p>
-        </div>
+      <div class="task-title">
+        <p
+          v-if="!isEditing(task.id)"
+          :class="task.completed ? 'completed' : 'not-completed'"
+        >
+          {{ task.title }}
+        </p>
         <input-bar
           v-else
           v-model="editingTaskTitle"
@@ -87,7 +85,6 @@ const handleSaveOrEdit = (task: Task) => {
           @keyup.enter="handleSaveOrEdit(task)"
         />
       </div>
-
       <div class="task-buttons">
         <button class="edit-btn" @click="handleSaveOrEdit(task)">
           {{ buttonContent(task.id) }}
@@ -106,35 +103,14 @@ const handleSaveOrEdit = (task: Task) => {
 </template>
 
 <style scoped>
-.add-task-container {
-  display: flex;
-  gap: 5px;
+p {
+  font-weight: 500;
+  text-wrap: nowrap;
+  padding: 10px 0px 10px 0px;
+}
+
+.tasks {
   width: 100%;
-}
-
-.task-detail {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  width: 100%;
-}
-
-.input-bar {
-  margin: 0px 20px;
-}
-
-.add-btn {
-  background-color: #317ed6;
-  padding: 8px;
-  border-radius: 6px;
-  margin: 10px 0;
-  color: #fff;
-}
-
-button:disabled {
-  background-color: #eee;
-  cursor: not-allowed;
-  color: #555353;
 }
 
 .task-item {
@@ -146,23 +122,44 @@ button:disabled {
   font-size: 23px;
 }
 
-.task-buttons {
+.task-title {
+  height: 45px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-p {
-  font-weight: 500;
-  text-wrap: nowrap;
-  padding: 10px 0px 10px 0px;
+.task-title input {
+  margin: 0;
+  width: 300px;
+}
+
+.task-title p {
+  height: 100%;
+  cursor: pointer;
+  padding: 10px 20px 0 20px;
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .completed {
   text-decoration: line-through;
 }
 
-.tasks {
-  width: 100%;
-  height: 100%;
+.input-bar {
+  margin: 0px 20px;
+}
+
+button:disabled {
+  background-color: #eee;
+  cursor: not-allowed;
+  color: #555353;
+}
+
+.task-buttons {
+  display: flex;
 }
 
 .delete-btn,
@@ -179,15 +176,5 @@ p {
 
 .edit-btn {
   background-color: bisque;
-}
-
-.task-title-container {
-  position: relative;
-}
-
-.task-title-container:hover .tool-tip {
-  visibility: visible;
-  top: -33px;
-  width: 100%;
 }
 </style>
