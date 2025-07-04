@@ -52,7 +52,6 @@ const handleAddTask = () => {
         Add
       </button>
     </div>
-
     <notification />
   </div>
 </template>
