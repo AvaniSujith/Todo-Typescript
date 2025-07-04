@@ -127,15 +127,17 @@ h2 {
   max-height: 436px;
   height: 100%;
   width: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
+  position: relative;
 }
 
 .scroll-container {
   padding-bottom: 20px;
-  height: 100%;
+  height: 402px;
   width: 100%;
+  /* position: relative; */
 }
 
 .page-container {
