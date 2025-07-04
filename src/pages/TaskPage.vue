@@ -10,6 +10,7 @@ import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -81,7 +82,7 @@ onMounted(async () => {
       :sub-title="emptyStateSubHeading"
     />
   </div>
-  <div v-else>Loading data..</div>
+  <div v-else class="loader-container"><skeleton-loader /></div>
 </template>
 
 <style scoped>

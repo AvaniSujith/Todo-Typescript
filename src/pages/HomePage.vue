@@ -11,6 +11,7 @@ import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -112,11 +113,15 @@ onMounted(async () => {
         :subTitle="emptyStateSubHeading"
       />
     </section>
-    <div v-else>Loading data...</div>
+    <div v-else class="loader-container"><skeleton-loader /></div>
   </div>
 </template>
 
 <style scoped>
+header {
+  margin-bottom: 25px;
+}
+
 .heading {
   display: flex;
   align-items: center;
@@ -150,7 +155,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0 16px 0;
+  margin-bottom: 16px;
   font-size: 18px;
 }
 
