@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
@@ -30,6 +30,10 @@ const handleDelete = (id: number) => {
 
 const isEditing = (id: number) => editingTaskId.value === id;
 
+const isEmptyTitle = computed(() => {
+  return !editingTaskTitle.value.trim().length;
+});
+
 const editTask = (task: Task) => {
   editingTaskId.value = task.id;
   editingTaskTitle.value = task.title;
@@ -46,6 +50,10 @@ const buttonContent = (id: number) => {
   return isEditing(id) ? "save" : "edit";
 };
 
+const isSaveButtonDisabled = (task: Task) => {
+  return isEmptyTitle.value && isEditing(task.id);
+};
+
 const handleSaveOrEdit = (task: Task) => {
   if (!isEditing(task.id)) {
     editTask(task);
@@ -53,7 +61,7 @@ const handleSaveOrEdit = (task: Task) => {
     task.completed = editingTaskCompleted.value;
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
-    notificationStore.addToast("Task saved with changes", "update");
+    notificationStore.addToast("Task saved successfully", "update");
     editingTaskId.value = null;
     editingTaskTitle.value = "";
   }
@@ -85,7 +93,11 @@ const handleSaveOrEdit = (task: Task) => {
         />
       </div>
       <div class="task-buttons">
-        <button class="edit-btn" @click="handleSaveOrEdit(task)">
+        <button
+          class="edit-btn"
+          :disabled="isSaveButtonDisabled(task)"
+          @click="handleSaveOrEdit(task)"
+        >
           {{ buttonContent(task.id) }}
         </button>
         <button
