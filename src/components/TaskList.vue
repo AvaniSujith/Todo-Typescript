@@ -84,7 +84,7 @@ const handleSaveOrEdit = (task: Task) => {
             {{ task.title }}
           </p>
           <div class="tool-tip">
-            <tooltip :text="task.title" />
+            <tooltip :text="task.title" :right="175"/>
           </div> 
         </div>
         <input-bar

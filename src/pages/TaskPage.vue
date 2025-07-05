@@ -64,7 +64,7 @@ onMounted(async () => {
     <nav class="back-button">
       <router-link to="/" class="nav-link">Back to Home</router-link>
       <div class="tool-tip">
-        <tooltip :text="'Go back to Home'" />
+        <tooltip :text="'Go back to Home'" :right="196"/>
       </div>
     </nav>
     <header>
@@ -123,18 +123,12 @@ h2 {
   margin-bottom: 8px;
 }
 
-.tool-tip{
-  position: absolute;
-  top: -45px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .task-container {
   max-height: 436px;
   height: 100%;
   width: 100%;
   overflow-y: scroll;
+  scrollbar-width: none;
   scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
   position: relative;

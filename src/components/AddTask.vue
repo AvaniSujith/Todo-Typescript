@@ -21,13 +21,15 @@ const isAddButtonDisabled = computed(() => {
 });
 
 const handleAddTask = () => {
-  const newTask: NewTask = {
-    title: taskTitle.value,
-    completed: false,
-  };
-  taskStore.addTask(newTask);
-  taskTitle.value = "";
-  notificationStore.addToast("New Task Added Successfully", "add");
+  if(taskTitle.value !== ''){
+    const newTask: NewTask = {
+      title: taskTitle.value,
+      completed: false,
+    };
+    taskStore.addTask(newTask);
+    taskTitle.value = "";
+    notificationStore.addToast("New Task Added Successfully", "add");
+  }
 };
 </script>
 
@@ -40,8 +42,8 @@ const handleAddTask = () => {
     />
 
     <div class="add-btn-container">
-      <div class="tool-tip">
-        <tooltip :text="'Add a Todo'" />
+      <div class="tool-tip ">
+        <tooltip :text="'Add a Todo'" :left="210" />
       </div>
 
       <button
