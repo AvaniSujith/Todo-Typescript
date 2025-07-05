@@ -65,8 +65,7 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
-const handleDeleteTask = async (id: number) => {
-  console.log("clikcedd")
+const handleDeleteTask = async (id: string) => {
     await taskStore.deleteTask(id);
     notificationStore.addToast("Task deleted successfully", "delete");
 };

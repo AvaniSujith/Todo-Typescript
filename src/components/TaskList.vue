@@ -1,5 +1,3 @@
-<!-- taskLsit.vue  -->
-
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
@@ -15,25 +13,25 @@ import type { Task } from "../type";
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
-const editingTaskId = ref<number | null>(null);
+const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
 const isVisible = ref<Boolean>(false);
-const taskDeletId = ref<number | null>(null);
+const taskDeletId = ref<string>("");
 
 defineProps<{
   tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-  (e: "delete", id: number): void;
+  (e: "delete", id: string): void;
 }>();
 
-const handleDelete = (id: number) => {
+const handleDelete = (id: string) => {
   emit("delete", id);
 };
 
-const isEditing = (id: number) => editingTaskId.value === id;
+const isEditing = (id: string) => editingTaskId.value === id;
 
 const isEmptyTitle = computed(() => {
   return !editingTaskTitle.value.trim().length;
@@ -51,7 +49,7 @@ const updateTaskComplete = (task: Task) => {
   notificationStore.addToast("Task state updated successfully", "update");
 };
 
-const buttonContent = (id: number) => {
+const buttonContent = (id: string) => {
   return isEditing(id) ? "save" : "edit";
 };
 
@@ -63,7 +61,7 @@ const isSaveButtonDisabled = (task: Task) => {
 //   return (isVisible.value = !isVisible.value);
 // };
 
-const showModal = (taskId: number) => {
+const showModal = (taskId: string) => {
   // isModalVisible();
   if(taskId) {
     isVisible.value = true;
@@ -74,7 +72,7 @@ const showModal = (taskId: number) => {
 const handleClick = () => {
   // isModalVisible();
   isVisible.value = false;
-  taskDeletId.value = null;
+  taskDeletId.value = '';
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -85,7 +83,7 @@ const handleSaveOrEdit = (task: Task) => {
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
     notificationStore.addToast("Task saved successfully", "update");
-    editingTaskId.value = null;
+    editingTaskId.value = "";
     editingTaskTitle.value = "";
   }
 };

@@ -46,7 +46,7 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
-const handleDelete = async (id: number) => {
+const handleDelete = async (id: string) => {
   if (confirm("Are you sure to delete this task?")) {
     await taskStore.deleteTask(id);
     notificationStore.addToast("Task deleted successfully", "delete");
