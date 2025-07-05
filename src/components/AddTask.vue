@@ -38,7 +38,7 @@ const handleAddTask = () => {
       @keyup.enter="handleAddTask"
     />
     <button
-      class="add-task-btn"
+      class="add-button"
       :disabled="isAddButtonDisabled"
       @click="handleAddTask"
     >
@@ -61,7 +61,7 @@ button:disabled {
   color: #000;
 }
 
-.add-task-btn {
+.add-button {
   background-color: #317ed6;
   padding: 8px;
   font-size: 18px;

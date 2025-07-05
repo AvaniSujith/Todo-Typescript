@@ -6,29 +6,32 @@ import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
+import Modal from "./Modal.vue";
 
 import type { Task } from "../type";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
-const editingTaskId = ref<number | null>(null);
+const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
+const isVisible = ref<Boolean>(false);
+const taskDeletId = ref<string>("");
 
 defineProps<{
   tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-  (e: "deleteTask", id: number): void;
+  (e: "delete", id: string): void;
 }>();
 
-const handleDelete = (id: number) => {
-  emit("deleteTask", id);
+const handleDelete = (id: string) => {
+  emit("delete", id);
 };
 
-const isEditing = (id: number) => editingTaskId.value === id;
+const isEditing = (id: string) => editingTaskId.value === id;
 
 const isEmptyTitle = computed(() => {
   return !editingTaskTitle.value.trim().length;
@@ -46,12 +49,22 @@ const updateTaskComplete = (task: Task) => {
   notificationStore.addToast("Task state updated successfully", "update");
 };
 
-const buttonContent = (id: number) => {
+const buttonContent = (id: string) => {
   return isEditing(id) ? "save" : "edit";
 };
 
 const isSaveButtonDisabled = (task: Task) => {
   return isEmptyTitle.value && isEditing(task.id);
+};
+
+const showModal = (taskId: string) => {
+  isVisible.value = true;
+  taskDeletId.value = taskId;
+};
+
+const handleClick = () => {
+  isVisible.value = false;
+  taskDeletId.value = "";
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -62,55 +75,64 @@ const handleSaveOrEdit = (task: Task) => {
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
     notificationStore.addToast("Task saved successfully", "update");
-    editingTaskId.value = null;
+    editingTaskId.value = "";
     editingTaskTitle.value = "";
   }
 };
 </script>
 
 <template>
-  <ul class="tasks">
-    <li v-for="task in tasks" class="task-item" :key="task.id">
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        :disabled="isEditing(task.id)"
-        @change="updateTaskComplete(task)"
-      />
-      <div class="task-title">
-        <p
-          v-if="!isEditing(task.id)"
-          :class="task.completed ? 'completed' : 'not-completed'"
-        >
-          {{ task.title }}
-        </p>
-        <input-bar
-          v-else
-          v-model="editingTaskTitle"
-          class="input-bar"
-          type="text"
-          @keyup.enter="handleSaveOrEdit(task)"
-        />
-      </div>
-      <div class="task-buttons">
-        <button
-          class="edit-btn"
-          :disabled="isSaveButtonDisabled(task)"
-          @click="handleSaveOrEdit(task)"
-        >
-          {{ buttonContent(task.id) }}
-        </button>
-        <button
-          class="delete-btn"
+  <div>
+    <ul class="tasks">
+      <li v-for="task in tasks" class="task-item" :key="task.id">
+        <input
+          type="checkbox"
+          :checked="task.completed"
           :disabled="isEditing(task.id)"
-          @click="handleDelete(task.id)"
-        >
-          Delete
-        </button>
-        <notification />
-      </div>
-    </li>
-  </ul>
+          @change="updateTaskComplete(task)"
+        />
+        <div class="task-title">
+          <p
+            v-if="!isEditing(task.id)"
+            :class="task.completed ? 'completed' : 'not-completed'"
+          >
+            {{ task.title }}
+          </p>
+          <input-bar
+            v-else
+            v-model="editingTaskTitle"
+            class="input-bar"
+            type="text"
+            @keyup.enter="handleSaveOrEdit(task)"
+          />
+        </div>
+        <div class="task-buttons">
+          <button
+            class="edit-button"
+            :disabled="isSaveButtonDisabled(task)"
+            @click="handleSaveOrEdit(task)"
+          >
+            {{ buttonContent(task.id) }}
+          </button>
+          <button
+            class="delete-button"
+            :disabled="isEditing(task.id)"
+            @click="showModal(task.id)"
+          >
+            Delete
+          </button>
+          <notification />
+        </div>
+      </li>
+    </ul>
+    <modal
+      :class="isVisible ? 'show' : 'dont-show'"
+      title="Delete Task"
+      content="Are you sure to delete the task ?"
+      @click="handleClick"
+      @delete="handleDelete(taskDeletId)"
+    />
+  </div>
 </template>
 
 <style scoped>
@@ -173,19 +195,27 @@ button:disabled {
   display: flex;
 }
 
-.delete-btn,
-.edit-btn {
+.delete-button,
+.edit-button {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.delete-btn {
+.delete-button {
   background-color: red;
   color: white;
 }
 
-.edit-btn {
+.edit-button {
   background-color: bisque;
+}
+
+.dont-show {
+  display: none;
+}
+
+.show {
+  display: flex;
 }
 </style>

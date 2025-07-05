@@ -37,7 +37,7 @@ export const useTaskStore = defineStore("taskStore", () => {
     }
   };
 
-  const deleteTask = async (id: number) => {
+  const deleteTask = async (id: string) => {
     isLoading.value = true;
     try {
       await axios.delete(`http://localhost:3000/todos/${id}`);
