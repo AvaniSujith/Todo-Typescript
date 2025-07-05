@@ -1,3 +1,5 @@
+<!-- taskLsit.vue  -->
+
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
@@ -17,6 +19,7 @@ const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
 const isVisible = ref<Boolean>(false);
+const taskDeletId = ref<number | null>(null);
 
 defineProps<{
   tasks: Task[];
@@ -56,16 +59,22 @@ const isSaveButtonDisabled = (task: Task) => {
   return isEmptyTitle.value && isEditing(task.id);
 };
 
-const isModalVisible = () => {
-  return (isVisible.value = !isVisible.value);
-};
+// const isModalVisible = () => {
+//   return (isVisible.value = !isVisible.value);
+// };
 
-const showModal = () => {
-  isModalVisible();
+const showModal = (taskId: number) => {
+  // isModalVisible();
+  if(taskId) {
+    isVisible.value = true;
+    taskDeletId.value = taskId
+  }
 };
 
 const handleClick = () => {
-  isModalVisible();
+  // isModalVisible();
+  isVisible.value = false;
+  taskDeletId.value = null;
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -118,21 +127,21 @@ const handleSaveOrEdit = (task: Task) => {
         <button
           class="delete-btn"
           :disabled="isEditing(task.id)"
-          @click="showModal"
+          @click="showModal(task.id)"
         >
           Delete
         </button>
         <notification />
-        <modal
-          :class="isVisible ? 'show' : 'dont-show'"
-          heading="Delete Task"
-          content="Are you sure to delete the task ?"
-          @delete="handleDelete(task.id)"
-          @click="handleClick"
-        />
       </div>
     </li>
   </ul>
+  <modal
+    :class="isVisible ? 'show' : 'dont-show'"
+    heading="Delete Task"
+    content="Are you sure to delete the task ?"
+    @delete="handleDelete(taskDeletId)"
+    @click="handleClick"
+  />
   </div>
 </template>
 

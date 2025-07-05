@@ -5,30 +5,16 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "delete", value: string): void;
-  (e: "click", value: string): void;
+  (e: "delete"): void;
+  (e: "click"): void;
 }>();
 
-// const onClick = (id:number, value:boolean) => {
-// //   const state = (event.target as HTMLButtonElement).value;
-//   emit("click", value);
-//   emit('delete', id)
-// };
-
-// // const onDelete = (event: Event) => {
-// //     const id = (event.target as HTMLButtonElement).value;
-// //     emit('delete', id)
-
-// // }
-
-const onClick = (event: Event) => {
-  const state = (event.target as HTMLButtonElement).value;
-  emit("click", state);
+const onDelete = () => {
+  emit("delete");
 };
 
-const onDelete = (event: Event) => {
-  const value = (event.target as HTMLButtonElement).value;
-  emit("delete", value);
+const onClick = () => {
+  emit("click");
 };
 </script>
 
@@ -41,7 +27,7 @@ const onDelete = (event: Event) => {
           {{ content }}
         </p>
         <div class="buttons-container">
-          <button class="delete-btn" @delete="onDelete">Ok</button>
+          <button class="delete-btn" @click="onDelete">Ok</button>
           <button class="cancel-btn" @click="onClick">Cancel</button>
         </div>
       </div>
