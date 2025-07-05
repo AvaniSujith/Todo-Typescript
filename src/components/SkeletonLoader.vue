@@ -1,14 +1,19 @@
 <script setup lang="ts">
-defineProps<{
-  heightValue: number;
-  widthValue: number;
-}>();
+interface Props {
+  height?: number;
+  width?: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  height: 0,
+  width: 0,
+});
 </script>
 
 <template>
   <div
     class="content-loader"
-    :style="{ height: heightValue + 'px', width: widthValue + 'px' }"
+    :style="{ height: props.height + 'px', width: props.width + 'px' }"
   ></div>
 </template>
 

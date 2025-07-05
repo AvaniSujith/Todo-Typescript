@@ -83,7 +83,7 @@ onMounted(async () => {
     />
   </div>
   <div v-else class="loader-container">
-    <skeleton-loader :height-value="570" :width-value="450" />
+    <skeleton-loader :height=570 :width=450 />
   </div>
 </template>
 
