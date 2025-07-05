@@ -57,20 +57,12 @@ const isSaveButtonDisabled = (task: Task) => {
   return isEmptyTitle.value && isEditing(task.id);
 };
 
-// const isModalVisible = () => {
-//   return (isVisible.value = !isVisible.value);
-// };
-
 const showModal = (taskId: string) => {
-  // isModalVisible();
-  if(taskId) {
     isVisible.value = true;
     taskDeletId.value = taskId
-  }
 };
 
 const handleClick = () => {
-  // isModalVisible();
   isVisible.value = false;
   taskDeletId.value = '';
 };

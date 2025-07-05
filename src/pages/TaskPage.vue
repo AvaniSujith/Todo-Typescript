@@ -47,10 +47,8 @@ const emptyStateSubHeading = computed(() => {
 });
 
 const handleDelete = async (id: string) => {
-  if (confirm("Are you sure to delete this task?")) {
     await taskStore.deleteTask(id);
     notificationStore.addToast("Task deleted successfully", "delete");
-  }
 };
 
 onMounted(async () => {
@@ -72,7 +70,7 @@ onMounted(async () => {
     </header>
     <section v-if="filteredTasks.length" class="task-list-container">
       <div class="task-container">
-        <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
+        <task-list :tasks="filteredTasks" @delete="handleDelete" />
       </div>
     </section>
     <empty-state

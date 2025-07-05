@@ -36,6 +36,16 @@ const onClick = () => {
 </template>
 
 <style scoped>
+h2 {
+  font-size: 30px;
+}
+
+button {
+  padding: 10px 7px;
+  width: 80px;
+  font-size: 17px;
+}
+
 .modal-container {
   position: fixed;
   z-index: 99999;
@@ -73,19 +83,11 @@ const onClick = () => {
   display: flex;
   gap: 20px;
 }
-h2 {
-  font-size: 30px;
-}
-
-button {
-  padding: 10px 7px;
-  width: 80px;
-  font-size: 17px;
-}
 
 .delete-btn {
   background-color: #c5172e;
 }
+
 .cancel-btn {
   background-color: #eee;
 }
