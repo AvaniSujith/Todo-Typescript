@@ -45,7 +45,7 @@ const recentTasks = computed(() => {
   return [...filteredTasks.value].reverse().slice(0, 5);
 });
 
-const emptyStateHeading = computed(() => {
+const emptyStateHeader = computed(() => {
   if (!taskStore.tasks.length) {
     return "No Tasks";
   }
@@ -55,7 +55,7 @@ const emptyStateHeading = computed(() => {
   return "";
 });
 
-const emptyStateSubHeading = computed(() => {
+const emptyStateSubHeader = computed(() => {
   if (!taskStore.tasks.length) {
     return "Add a new task to begin";
   }
@@ -82,7 +82,7 @@ onMounted(async () => {
 <template>
   <div class="page-container">
     <header>
-      <div class="heading">
+      <div class="header-content">
         <img src="/notepad.png" alt="notepad" />
         <h2>ToDo List</h2>
       </div>
@@ -106,8 +106,8 @@ onMounted(async () => {
       </div>
       <empty-state
         v-else
-        :title="emptyStateHeading"
-        :subTitle="emptyStateSubHeading"
+        :title="emptyStateHeader"
+        :subTitle="emptyStateSubHeader"
       />
     </section>
     <div v-else>Loading data...</div>
@@ -115,7 +115,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.heading {
+.header-content {
   display: flex;
   align-items: center;
   gap: 6px;

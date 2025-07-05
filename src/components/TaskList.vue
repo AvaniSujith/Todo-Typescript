@@ -108,14 +108,14 @@ const handleSaveOrEdit = (task: Task) => {
         </div>
         <div class="task-buttons">
           <button
-            class="edit-btn"
+            class="edit-button"
             :disabled="isSaveButtonDisabled(task)"
             @click="handleSaveOrEdit(task)"
           >
             {{ buttonContent(task.id) }}
           </button>
           <button
-            class="delete-btn"
+            class="delete-button"
             :disabled="isEditing(task.id)"
             @click="showModal(task.id)"
           >
@@ -195,19 +195,19 @@ button:disabled {
   display: flex;
 }
 
-.delete-btn,
-.edit-btn {
+.delete-button,
+.edit-button {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.delete-btn {
+.delete-button {
   background-color: red;
   color: white;
 }
 
-.edit-btn {
+.edit-button {
   background-color: bisque;
 }
 
