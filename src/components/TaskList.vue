@@ -129,8 +129,8 @@ const handleSaveOrEdit = (task: Task) => {
     :class="isVisible ? 'show' : 'dont-show'"
     heading="Delete Task"
     content="Are you sure to delete the task ?"
-    @delete="handleDelete(taskDeletId)"
     @click="handleClick"
+    @delete="handleDelete(taskDeletId)"
   />
   </div>
 </template>
