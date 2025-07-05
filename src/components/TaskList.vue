@@ -58,13 +58,13 @@ const isSaveButtonDisabled = (task: Task) => {
 };
 
 const showModal = (taskId: string) => {
-    isVisible.value = true;
-    taskDeletId.value = taskId
+  isVisible.value = true;
+  taskDeletId.value = taskId;
 };
 
 const handleClick = () => {
   isVisible.value = false;
-  taskDeletId.value = '';
+  taskDeletId.value = "";
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -84,54 +84,54 @@ const handleSaveOrEdit = (task: Task) => {
 <template>
   <div>
     <ul class="tasks">
-    <li v-for="task in tasks" class="task-item" :key="task.id">
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        :disabled="isEditing(task.id)"
-        @change="updateTaskComplete(task)"
-      />
-      <div class="task-title">
-        <p
-          v-if="!isEditing(task.id)"
-          :class="task.completed ? 'completed' : 'not-completed'"
-        >
-          {{ task.title }}
-        </p>
-        <input-bar
-          v-else
-          v-model="editingTaskTitle"
-          class="input-bar"
-          type="text"
-          @keyup.enter="handleSaveOrEdit(task)"
-        />
-      </div>
-      <div class="task-buttons">
-        <button
-          class="edit-btn"
-          :disabled="isSaveButtonDisabled(task)"
-          @click="handleSaveOrEdit(task)"
-        >
-          {{ buttonContent(task.id) }}
-        </button>
-        <button
-          class="delete-btn"
+      <li v-for="task in tasks" class="task-item" :key="task.id">
+        <input
+          type="checkbox"
+          :checked="task.completed"
           :disabled="isEditing(task.id)"
-          @click="showModal(task.id)"
-        >
-          Delete
-        </button>
-        <notification />
-      </div>
-    </li>
-  </ul>
-  <modal
-    :class="isVisible ? 'show' : 'dont-show'"
-    heading="Delete Task"
-    content="Are you sure to delete the task ?"
-    @click="handleClick"
-    @delete="handleDelete(taskDeletId)"
-  />
+          @change="updateTaskComplete(task)"
+        />
+        <div class="task-title">
+          <p
+            v-if="!isEditing(task.id)"
+            :class="task.completed ? 'completed' : 'not-completed'"
+          >
+            {{ task.title }}
+          </p>
+          <input-bar
+            v-else
+            v-model="editingTaskTitle"
+            class="input-bar"
+            type="text"
+            @keyup.enter="handleSaveOrEdit(task)"
+          />
+        </div>
+        <div class="task-buttons">
+          <button
+            class="edit-btn"
+            :disabled="isSaveButtonDisabled(task)"
+            @click="handleSaveOrEdit(task)"
+          >
+            {{ buttonContent(task.id) }}
+          </button>
+          <button
+            class="delete-btn"
+            :disabled="isEditing(task.id)"
+            @click="showModal(task.id)"
+          >
+            Delete
+          </button>
+          <notification />
+        </div>
+      </li>
+    </ul>
+    <modal
+      :class="isVisible ? 'show' : 'dont-show'"
+      title="Delete Task"
+      content="Are you sure to delete the task ?"
+      @click="handleClick"
+      @delete="handleDelete(taskDeletId)"
+    />
   </div>
 </template>
 
@@ -210,7 +210,6 @@ button:disabled {
 .edit-btn {
   background-color: bisque;
 }
-
 
 .dont-show {
   display: none;

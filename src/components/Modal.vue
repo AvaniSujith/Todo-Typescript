@@ -1,8 +1,15 @@
 <script setup lang="ts">
-defineProps<{
-  heading: string;
+interface Props {
+  title: string;
   content: string;
-}>();
+  confrimLabel?: string;
+  rejectLabel?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  confrimLabel: "Ok",
+  rejectLabel: "Cancel",
+});
 
 const emit = defineEmits<{
   (e: "delete"): void;
@@ -22,13 +29,17 @@ const onClick = () => {
   <div class="modal-container">
     <div class="modal">
       <div class="modal-content">
-        <h2>{{ heading }}</h2>
+        <h2>{{ title }}</h2>
         <p>
           {{ content }}
         </p>
         <div class="buttons-container">
-          <button class="delete-btn" @click="onDelete">Ok</button>
-          <button class="cancel-btn" @click="onClick">Cancel</button>
+          <button class="confirm-button" @click="onDelete">
+            {{ props.confrimLabel }}
+          </button>
+          <button class="reject-button" @click="onClick">
+            {{ props.rejectLabel }}
+          </button>
         </div>
       </div>
     </div>
@@ -84,11 +95,11 @@ button {
   gap: 20px;
 }
 
-.delete-btn {
+.confirm-button {
   background-color: #c5172e;
 }
 
-.cancel-btn {
+.reject-button {
   background-color: #eee;
 }
 </style>
