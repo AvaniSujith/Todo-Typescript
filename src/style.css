@@ -29,7 +29,14 @@ button {
   width: 100%;
 }
 
-.nav-link{
+.nav-link {
   text-decoration: none;
-  color: #000;
+  color: #fff;
+}
+
+.tool-tip {
+  visibility: hidden;
+  width: fit-content;
+  font-size: 15px;
+  font-weight: 500;
 }

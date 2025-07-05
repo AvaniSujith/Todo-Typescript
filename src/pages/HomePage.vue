@@ -11,6 +11,7 @@ import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+import Tooltip from "../components/Tooltip.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -90,6 +91,7 @@ onMounted(async () => {
       </div>
       <div class="input-container">
         <input-bar v-model="searchQuery" placeholder="Search..." />
+
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
@@ -101,7 +103,14 @@ onMounted(async () => {
             {{ recentTasks.length }} / {{ taskStore.tasks.length }}
           </div>
           <div class="view-all">
-            <router-link to="/task-page" class="nav-link">View All</router-link>
+            <button class="view-all-button">
+              <router-link to="/task-page" class="nav-link"
+                >View All</router-link
+              >
+            </button>
+            <div class="tool-tip">
+              <tooltip :text="'Click to reach full task page'" />
+            </div>
           </div>
         </div>
         <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
@@ -137,13 +146,26 @@ h2 {
   padding-top: 5px;
 }
 
+.view-label {
+  width: 40%;
+  text-align: start;
+}
+
 .view-all {
-  padding: 7px 8px;
-  background-color: #eee;
+  width: 60%;
+  text-align: end;
+}
+
+.view-all-button {
   font-size: 15px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 600;
   border-radius: 4px;
+  background: #317ed6;
+  border-radius: 8px;
+  width: max-content;
+  padding: 6px;
+  font-weight: 700;
 }
 
 .count-details {
@@ -152,6 +174,15 @@ h2 {
   justify-content: space-between;
   margin: 25px 0 16px 0;
   font-size: 18px;
+}
+
+.view-all {
+  position: relative;
+}
+
+.view-all:hover .tool-tip {
+  width: 100%;
+  visibility: visible;
 }
 
 .container,

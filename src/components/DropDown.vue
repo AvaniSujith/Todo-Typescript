@@ -35,6 +35,7 @@ const onChange = (event: Event) => {
         {{ option.label }}
       </option>
     </select>
+
   </div>
 </template>
 
@@ -51,9 +52,7 @@ const onChange = (event: Event) => {
   background: transparent;
   width: 100%;
   font-size: 18px;
-}
-
-select {
   cursor: pointer;
 }
+
 </style>

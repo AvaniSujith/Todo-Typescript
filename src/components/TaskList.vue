@@ -6,6 +6,7 @@ import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
+import Tooltip from "./Tooltip.vue";
 
 import type { Task } from "../type";
 
@@ -78,12 +79,19 @@ const handleSaveOrEdit = (task: Task) => {
         @change="updateTaskComplete(task)"
       />
       <div class="task-title">
-        <p
-          v-if="!isEditing(task.id)"
-          :class="task.completed ? 'completed' : 'not-completed'"
-        >
-          {{ task.title }}
-        </p>
+        <div v-if="!isEditing(task.id)" class="task-title-component">
+          <p :class="task.completed ? 'completed' : 'not-completed'">
+            {{ task.title }}
+          </p>
+          <div class="tool-tip">
+            <tooltip
+              :text="task.title"
+              :left="100"
+              :top="12"
+              :left-of-box="-28"
+            />
+          </div>
+        </div>
         <input-bar
           v-else
           v-model="editingTaskTitle"
@@ -140,6 +148,15 @@ p {
   justify-content: center;
 }
 
+.task-title-component {
+  position: relative;
+}
+
+.task-title-component:hover .tool-tip {
+  visibility: visible;
+  top: -4px;
+}
+
 .task-title input {
   margin: 0;
   width: 300px;
@@ -148,7 +165,7 @@ p {
 .task-title p {
   height: 100%;
   cursor: pointer;
-  padding: 10px 20px 0 20px;
+  padding: 0 20px 0 20px;
   width: 300px;
   overflow: hidden;
   white-space: nowrap;

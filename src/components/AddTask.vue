@@ -7,6 +7,7 @@ import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
+import Tooltip from "./Tooltip.vue";
 
 import type { NewTask } from "../type";
 
@@ -19,14 +20,20 @@ const isAddButtonDisabled = computed(() => {
   return !taskTitle.value.trim().length;
 });
 
+const addButtonTooltip = computed(() => {
+  return isAddButtonDisabled ? 'Add a task title first' : 'Add a Todo'
+})
+
 const handleAddTask = () => {
-  const newTask: NewTask = {
-    title: taskTitle.value,
-    completed: false,
-  };
-  taskStore.addTask(newTask);
-  taskTitle.value = "";
-  notificationStore.addToast("New Task Added Successfully", "add");
+  if (taskTitle.value !== "") {
+    const newTask: NewTask = {
+      title: taskTitle.value,
+      completed: false,
+    };
+    taskStore.addTask(newTask);
+    taskTitle.value = "";
+    notificationStore.addToast("New Task Added Successfully", "add");
+  }
 };
 </script>
 
@@ -37,13 +44,21 @@ const handleAddTask = () => {
       placeholder="New Todo"
       @keyup.enter="handleAddTask"
     />
-    <button
-      class="add-task-btn"
-      :disabled="isAddButtonDisabled"
-      @click="handleAddTask"
-    >
-      Add
-    </button>
+
+    <div class="add-btn-container">
+      <button
+        class="add-task-btn"
+        :disabled="isAddButtonDisabled"
+        @click="handleAddTask"
+      >
+        Add
+      </button>
+      <div class="tool-tip">
+        <tooltip
+          :text="addButtonTooltip"
+        />
+      </div>
+    </div>
     <notification />
   </div>
 </template>
@@ -69,5 +84,14 @@ button:disabled {
   border-radius: 6px;
   color: #fff;
   width: 80px;
+}
+
+.add-btn-container {
+  position: relative;
+}
+
+.add-btn-container:hover .tool-tip {
+  visibility: visible;
+  width: 100%;
 }
 </style>
