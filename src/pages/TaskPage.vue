@@ -47,8 +47,8 @@ const emptyStateSubHeading = computed(() => {
 });
 
 const handleDelete = async (id: string) => {
-    await taskStore.deleteTask(id);
-    notificationStore.addToast("Task deleted successfully", "delete");
+  await taskStore.deleteTask(id);
+  notificationStore.addToast("Task deleted successfully", "delete");
 };
 
 onMounted(async () => {
@@ -83,6 +83,14 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+h2 {
+  font-size: 32px;
+}
+
+.page-container {
+  width: 100%;
+}
+
 .back-button {
   background: #eee;
   border-radius: 8px;
@@ -90,10 +98,6 @@ onMounted(async () => {
   padding: 6px;
   margin-bottom: 15px;
   font-weight: 700;
-}
-
-h2 {
-  font-size: 32px;
 }
 
 .page-title {
@@ -108,9 +112,5 @@ h2 {
   overflow-y: auto;
   scroll-behavior: smooth;
   padding: 10px 2px 0 5px;
-}
-
-.page-container {
-  width: 100%;
 }
 </style>
