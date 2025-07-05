@@ -84,8 +84,13 @@ const handleSaveOrEdit = (task: Task) => {
             {{ task.title }}
           </p>
           <div class="tool-tip">
-            <tooltip :text="task.title" :right="175"/>
-          </div> 
+            <tooltip
+              :text="task.title"
+              :left="100"
+              :top="12"
+              :left-of-box="-28"
+            />
+          </div>
         </div>
         <input-bar
           v-else
@@ -143,12 +148,13 @@ p {
   justify-content: center;
 }
 
-.task-title-component{
+.task-title-component {
   position: relative;
 }
 
-.task-title-component:hover .tool-tip{
+.task-title-component:hover .tool-tip {
   visibility: visible;
+  top: -4px;
 }
 
 .task-title input {

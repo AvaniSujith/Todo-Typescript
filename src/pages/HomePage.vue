@@ -109,7 +109,7 @@ onMounted(async () => {
               >
             </button>
             <div class="tool-tip">
-              <tooltip :text="'Click to reach full task page'" :left="210"/>
+              <tooltip :text="'Click to reach full task page'" />
             </div>
           </div>
         </div>
@@ -126,7 +126,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
 .heading {
   display: flex;
   align-items: center;
@@ -147,7 +146,7 @@ h2 {
   padding-top: 5px;
 }
 
-.view-label{
+.view-label {
   width: 40%;
   text-align: start;
 }
@@ -184,8 +183,6 @@ h2 {
 .view-all:hover .tool-tip {
   width: 100%;
   visibility: visible;
-  right: -109px;
-  top: -44px;
 }
 
 .container,

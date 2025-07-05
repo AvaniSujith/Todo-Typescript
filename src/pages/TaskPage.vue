@@ -64,7 +64,7 @@ onMounted(async () => {
     <nav class="back-button">
       <router-link to="/" class="nav-link">Back to Home</router-link>
       <div class="tool-tip">
-        <tooltip :text="'Go back to Home'" :right="196"/>
+        <tooltip :text="'Go back to Home'" :top="35" />
       </div>
     </nav>
     <header>
@@ -108,6 +108,7 @@ onMounted(async () => {
 
 .back-button:hover .tool-tip {
   visibility: visible;
+  top: -44px;
 }
 
 span {
