@@ -12,16 +12,16 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  (e: "delete"): void;
-  (e: "click"): void;
+  (e: "confirm"): void;
+  (e: "reject"): void;
 }>();
 
-const onDelete = () => {
-  emit("delete");
+const onConfirm = () => {
+  emit("confirm");
 };
 
-const onClick = () => {
-  emit("click");
+const onReject = () => {
+  emit("reject");
 };
 </script>
 
@@ -34,10 +34,10 @@ const onClick = () => {
           {{ content }}
         </p>
         <div class="buttons-container">
-          <button class="confirm-button" @click="onDelete">
+          <button class="confirm-button" @click="onConfirm">
             {{ props.confrimLabel }}
           </button>
-          <button class="reject-button" @click="onClick">
+          <button class="reject-button" @click="onReject">
             {{ props.rejectLabel }}
           </button>
         </div>
