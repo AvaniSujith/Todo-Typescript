@@ -108,7 +108,7 @@ onMounted(async () => {
               >
             </button>
             <div class="tool-tip">
-              <tooltip :text="'Click to reach full task page'" />
+              <tooltip :text="'Click to reach full task page'" :left=40 />
             </div>
           </div>
         </div>

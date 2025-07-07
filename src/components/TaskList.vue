@@ -86,8 +86,9 @@ const handleSaveOrEdit = (task: Task) => {
           <div class="tool-tip">
             <tooltip
               :text="task.title"
-              :left="100"
-              :left-of-box="-5"
+              :left=100
+              :top-of-box=12
+              :left-of-box=-5
             />
           </div>
         </div>
