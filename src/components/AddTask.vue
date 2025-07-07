@@ -20,10 +20,6 @@ const isAddButtonDisabled = computed(() => {
   return !taskTitle.value.trim().length;
 });
 
-const addButtonTooltip = computed(() => {
-  return isAddButtonDisabled ? 'Add a task title first' : 'Add a Todo'
-})
-
 const handleAddTask = () => {
   if (taskTitle.value !== "") {
     const newTask: NewTask = {
@@ -55,7 +51,7 @@ const handleAddTask = () => {
       </button>
       <div class="tool-tip">
         <tooltip
-          :text="addButtonTooltip"
+          :text="'Add a task title to add Task'"
         />
       </div>
     </div>
