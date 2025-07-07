@@ -33,3 +33,7 @@ button {
   text-decoration: none;
   color: #000;
 }
+
+.skeleton-loader {
+  margin-bottom: 10px;
+}

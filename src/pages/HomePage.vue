@@ -19,6 +19,8 @@ const notificationStore = useNotificationStore();
 const searchQuery = ref<string>("");
 const currentFilter = ref<string>("all");
 
+const loaderCount = 5;
+
 const filteredTasks = computed(() => {
   const tasks = taskStore.tasks;
   const currentFilterValue = currentFilter.value;
@@ -113,9 +115,15 @@ onMounted(async () => {
         :subTitle="emptyStateSubHeading"
       />
     </section>
-    <div v-else>
-      <skeleton-loader :height=300 :width=490 />
-    </div>
+
+    <skeleton-loader
+      v-else
+      v-for="n in loaderCount"
+      class="skeleton-loader"
+      :key="n"
+      :height="40"
+      :width="490"
+    />
   </div>
 </template>
 

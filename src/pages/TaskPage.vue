@@ -17,6 +17,8 @@ const notificationStore = useNotificationStore();
 
 const searchQuery = ref("");
 
+const loaderCount = 15;
+
 const filteredTasks = computed(() => {
   if (searchQuery.value !== "") {
     const trimmedQuery = searchQuery.value.toLowerCase().trim();
@@ -82,9 +84,15 @@ onMounted(async () => {
       :sub-title="emptyStateSubHeading"
     />
   </div>
-  <div v-else>
-    <skeleton-loader :height=570 :width=450 />
-  </div>
+
+  <skeleton-loader
+    v-else
+    v-for="n in loaderCount"
+    class="skeleton-loader"
+    :key="n"
+    :height="570"
+    :width="450"
+  />
 </template>
 
 <style scoped>
