@@ -64,7 +64,7 @@ onMounted(async () => {
     <nav class="back-button">
       <router-link to="/" class="nav-link">Back to Home</router-link>
       <div class="tool-tip">
-        <tooltip :text="'Go back to Home'" :top="35" />
+        <tooltip :text="'Go back to Home'" :top-of-box=29 :left-of-box=55 />
       </div>
     </nav>
     <header>
@@ -99,7 +99,8 @@ onMounted(async () => {
 .back-button {
   background: #317ed6;
   border-radius: 8px;
-  width: max-content;
+  width: 110px;
+  height: 30px;
   padding: 6px;
   margin-bottom: 15px;
   font-weight: 700;

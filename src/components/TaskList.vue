@@ -87,8 +87,7 @@ const handleSaveOrEdit = (task: Task) => {
             <tooltip
               :text="task.title"
               :left="100"
-              :top="12"
-              :left-of-box="-28"
+              :left-of-box="-5"
             />
           </div>
         </div>
@@ -154,7 +153,8 @@ p {
 
 .task-title-component:hover .tool-tip {
   visibility: visible;
-  top: -4px;
+  top: -7px;
+  left: 82px;
 }
 
 .task-title input {

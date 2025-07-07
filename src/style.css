@@ -39,4 +39,5 @@ button {
   width: fit-content;
   font-size: 15px;
   font-weight: 500;
+  position: absolute;
 }

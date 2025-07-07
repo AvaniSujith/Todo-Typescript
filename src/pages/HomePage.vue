@@ -91,7 +91,6 @@ onMounted(async () => {
       </div>
       <div class="input-container">
         <input-bar v-model="searchQuery" placeholder="Search..." />
-
         <drop-down @change="handleFilter" />
         <add-task />
       </div>

@@ -5,6 +5,8 @@ interface Props {
   left?: number;
   top?: number;
   bottom?: number;
+  topOfBox?: number;
+  bottomOfBox?: number;
   rightOfBox?: number;
   leftOfBox?: number;
 }
@@ -14,6 +16,8 @@ const props = withDefaults(defineProps<Props>(), {
   left: 0,
   top: 0,
   bottom: 0,
+  topOfBox: 0,
+  bottomOfBox: 0,
   rightOfBox: 0,
   leftOfBox: 0,
 });
@@ -36,6 +40,8 @@ const props = withDefaults(defineProps<Props>(), {
       <div
         class="box"
         :style="{
+          top: props.topOfBox + 'px',
+          bottom: props.bottomOfBox + 'px',
           left: props.leftOfBox + 'px',
           right: props.rightOfBox + 'px',
         }"
@@ -65,9 +71,9 @@ const props = withDefaults(defineProps<Props>(), {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
-  z-index: 10000;
+  /* z-index: 10000; */
 }
 
 .box {
