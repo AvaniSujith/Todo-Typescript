@@ -82,7 +82,7 @@ onMounted(async () => {
       :sub-title="emptyStateSubHeading"
     />
   </div>
-  <div v-else class="loader-container">
+  <div v-else>
     <skeleton-loader :height=570 :width=450 />
   </div>
 </template>
