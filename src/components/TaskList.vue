@@ -62,7 +62,7 @@ const showModal = (taskId: string) => {
   taskDeletId.value = taskId;
 };
 
-const handleClick = () => {
+const handleReject = () => {
   isVisible.value = false;
   taskDeletId.value = "";
 };
@@ -83,7 +83,7 @@ const handleSaveOrEdit = (task: Task) => {
 
 <template>
   <div>
-    <ul class="tasks">
+    <ul v-if="!isVisible" class="tasks">
       <li v-for="task in tasks" class="task-item" :key="task.id">
         <input
           type="checkbox"
@@ -126,11 +126,11 @@ const handleSaveOrEdit = (task: Task) => {
       </li>
     </ul>
     <modal
-      :class="isVisible ? 'show' : 'dont-show'"
+      v-else
       title="Delete Task"
       content="Are you sure to delete the task ?"
-      @confirm="handleClick"
-      @reject="handleDelete(taskDeletId)"
+      @confirm="handleDelete(taskDeletId)"
+      @reject="handleReject"
     />
   </div>
 </template>
@@ -209,13 +209,5 @@ button:disabled {
 
 .edit-button {
   background-color: bisque;
-}
-
-.dont-show {
-  display: none;
-}
-
-.show {
-  display: flex;
 }
 </style>
