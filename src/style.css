@@ -35,7 +35,7 @@ button {
 }
 
 .tool-tip {
-  visibility: hidden;
+  display: none;
   width: fit-content;
   font-size: 15px;
   font-weight: 500;

@@ -90,7 +90,7 @@ button:disabled {
 }
 
 .add-btn-container:hover .tool-tip {
-  visibility: visible;
+  display: flex;
   width: 100%;
   top: -44px;
 }

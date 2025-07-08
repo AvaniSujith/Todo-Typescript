@@ -146,16 +146,19 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 2;
 }
 
-.task-title-component {
+/* .task-title-component {
   position: relative;
-}
+} */
 
 .task-title-component:hover .tool-tip {
-  visibility: visible;
-  top: -7px;
+  display: flex;
+  top: 4px;
   left: 82px;
+  z-index: 99999;
 }
 
 .task-title input {

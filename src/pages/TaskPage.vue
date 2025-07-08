@@ -64,7 +64,7 @@ onMounted(async () => {
     <nav class="back-button">
       <router-link to="/" class="nav-link">Back to Home</router-link>
       <div class="tool-tip">
-        <tooltip :text="'Go back to Home'" :top-of-box=29 :left-of-box=55 />
+        <tooltip :text="'Go back to Home'" :top-of-box="29" :left-of-box="55" />
       </div>
     </nav>
     <header>
@@ -80,11 +80,12 @@ onMounted(async () => {
           Total Tasks : <span>{{ taskStore.tasks.length }}</span>
         </p>
       </div>
-      <div class="scroll-container">
-        <div class="task-container">
-          <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
-        </div>
-      </div>
+
+      <task-list
+        class="task-container"
+        :tasks="filteredTasks"
+        @delete-task="handleDelete"
+      />
     </section>
     <empty-state
       v-else
@@ -96,6 +97,13 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.page-container {
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
 .back-button {
   background: #317ed6;
   border-radius: 8px;
@@ -108,12 +116,13 @@ onMounted(async () => {
 }
 
 .back-button:hover .tool-tip {
-  visibility: visible;
+  display: flex;
   top: -44px;
 }
 
 span {
   font-weight: 600;
+  font-size: 20px;
 }
 
 h2 {
@@ -126,28 +135,19 @@ h2 {
 }
 
 .task-container {
-  max-height: 436px;
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  padding: 10px 2px 0px 5px;
-  position: relative;
-}
-
-.scroll-container {
-  padding-bottom: 20px;
   height: 402px;
   width: 100%;
-  position: relative;
-}
-
-.page-container {
-  width: 100%;
+  overflow-y: scroll;
+  /* overflow-x: visible; */
+  white-space: nowrap;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  padding: 10px 2px 0px 5px;
+  position: absolute;
+  z-index: 9999;
 }
 
 .task-count {
-  margin-top: 20px;
+  margin: 20px 0 15px 0;
 }
 </style>

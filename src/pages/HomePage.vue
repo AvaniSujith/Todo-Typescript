@@ -181,7 +181,7 @@ h2 {
 
 .view-all:hover .tool-tip {
   width: 100%;
-  visibility: visible;
+  display: flex;
   top: -44px;
   left: 120px;
 }

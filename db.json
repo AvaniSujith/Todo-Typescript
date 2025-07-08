@@ -11,11 +11,6 @@
       "completed": false
     },
     {
-      "id": "b7b7",
-      "title": "task2",
-      "completed": true
-    },
-    {
       "id": "dd87",
       "title": "kjsdfhsdfhiudshfkjdshfjhdsjhggihfgjdfgkjshkjshdfjhskfh",
       "completed": true
@@ -26,26 +21,6 @@
       "completed": true
     },
     {
-      "id": "5965",
-      "title": "roeuteoiy",
-      "completed": true
-    },
-    {
-      "id": "7836",
-      "title": "n,mnl",
-      "completed": true
-    },
-    {
-      "id": "096c",
-      "title": "waet",
-      "completed": false
-    },
-    {
-      "id": "0dbc",
-      "title": "jfkghksdjgf",
-      "completed": false
-    },
-    {
       "id": "dc89",
       "title": "sdjkfghskjdfg",
       "completed": false
@@ -53,7 +28,7 @@
     {
       "id": "64b4",
       "title": "hsldfhgjlsdfgs",
-      "completed": false
+      "completed": true
     },
     {
       "id": "6f37",
@@ -61,14 +36,9 @@
       "completed": false
     },
     {
-      "id": "cc30",
-      "title": "skdfjghksjdgf",
-      "completed": false
-    },
-    {
       "id": "6c86",
       "title": "sjkdfghskdfg",
-      "completed": false
+      "completed": true
     },
     {
       "id": "3209",

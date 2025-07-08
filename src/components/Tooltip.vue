@@ -24,16 +24,16 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="tool-tip-content">
-    <div
-      class="tooltip-container"
-      :style="{
-        top: props.top + 'px',
-        bottom: props.bottom + 'px',
-        right: props.right + 'px',
-        left: props.left + 'px',
-      }"
-    >
+  <div
+    class="tool-tip-content"
+    :style="{
+      top: props.top + 'px',
+      bottom: props.bottom + 'px',
+      right: props.right + 'px',
+      left: props.left + 'px',
+    }"
+  >
+    <div class="tooltip-container">
       <p class="tooltip">
         {{ text }}
       </p>
@@ -53,7 +53,6 @@ const props = withDefaults(defineProps<Props>(), {
 <style scoped>
 .tool-tip-content {
   width: fit-content;
-  position: relative;
 }
 
 .tooltip {
@@ -71,9 +70,8 @@ const props = withDefaults(defineProps<Props>(), {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* position: absolute; */
-  width: 100%;
-  /* z-index: 10000; */
+  position: relative;
+  width: fit-content;
 }
 
 .box {
