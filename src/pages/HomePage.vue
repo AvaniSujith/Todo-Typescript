@@ -108,7 +108,7 @@ onMounted(async () => {
               >
             </button>
             <div class="tool-tip">
-              <tooltip :text="'Click to reach full task page'" :left-of-box=178 :top-of-box=15 />
+              <tooltip :text="'Click to reach full task page'" :left-of-box=108 :top-of-box=30 />
             </div>
           </div>
         </div>
@@ -182,8 +182,8 @@ h2 {
 .view-all:hover .tool-tip {
   width: 100%;
   visibility: visible;
-  top: -5px;
-  left: 30px;
+  top: -44px;
+  left: 120px;
 }
 
 .container,
