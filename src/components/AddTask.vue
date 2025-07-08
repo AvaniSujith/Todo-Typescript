@@ -51,9 +51,10 @@ const handleAddTask = () => {
       </button>
       <div class="tool-tip">
         <tooltip
+          v-if="isAddButtonDisabled"
           :text="'Add a task title to add Task'"
-          :left-of-box=30
-          :top-of-box=30
+          :left-of-box="30"
+          :top-of-box="30"
         />
       </div>
     </div>
