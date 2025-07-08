@@ -16,8 +16,7 @@ const notificationStore = useNotificationStore();
 const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
-const isVisible = ref<Boolean>(false);
-const taskDeletId = ref<string>("");
+const deleteTaskId = ref<string>("");
 
 defineProps<{
   tasks: Task[];
@@ -58,13 +57,11 @@ const isSaveButtonDisabled = (task: Task) => {
 };
 
 const showModal = (taskId: string) => {
-  isVisible.value = true;
-  taskDeletId.value = taskId;
+  deleteTaskId.value = taskId;
 };
 
 const handleReject = () => {
-  isVisible.value = false;
-  taskDeletId.value = "";
+  deleteTaskId.value = "";
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -126,10 +123,10 @@ const handleSaveOrEdit = (task: Task) => {
       </li>
     </ul>
     <modal
-      v-if="isVisible"
+      v-if="deleteTaskId"
       title="Delete Task"
       content="Are you sure to delete the task ?"
-      @confirm="handleDelete(taskDeletId)"
+      @confirm="handleDelete(deleteTaskId)"
       @reject="handleReject"
     />
   </div>
