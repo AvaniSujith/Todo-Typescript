@@ -130,8 +130,8 @@ h2 {
   height: 100%;
   width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: none;
-  scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
   position: relative;
 }

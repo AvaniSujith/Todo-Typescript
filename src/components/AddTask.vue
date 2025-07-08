@@ -52,7 +52,8 @@ const handleAddTask = () => {
       <div class="tool-tip">
         <tooltip
           :text="'Add a task title to add Task'"
-          :right=60
+          :left-of-box=30
+          :top-of-box=30
         />
       </div>
     </div>
@@ -90,6 +91,6 @@ button:disabled {
 .add-btn-container:hover .tool-tip {
   visibility: visible;
   width: 100%;
-  top: 40px;
+  top: -44px;
 }
 </style>
