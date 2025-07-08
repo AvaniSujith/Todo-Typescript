@@ -80,7 +80,6 @@ onMounted(async () => {
           Total Tasks : <span>{{ taskStore.tasks.length }}</span>
         </p>
       </div>
-
       <task-list
         class="task-container"
         :tasks="filteredTasks"
@@ -99,9 +98,9 @@ onMounted(async () => {
 <style scoped>
 .page-container {
   width: 100%;
-  overflow: visible;
+  /* overflow: visible;
   position: relative;
-  z-index: 1;
+  z-index: 1; */
 }
 
 .back-button {
@@ -138,13 +137,12 @@ h2 {
   height: 402px;
   width: 100%;
   overflow-y: scroll;
-  /* overflow-x: visible; */
-  white-space: nowrap;
+  overflow-x: visible;
   scrollbar-width: none;
   scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
-  position: absolute;
-  z-index: 9999;
+  position: relative;
+  z-index: 1000;
 }
 
 .task-count {

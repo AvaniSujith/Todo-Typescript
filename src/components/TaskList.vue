@@ -156,6 +156,7 @@ p {
 
 .task-title-component:hover .tool-tip {
   display: flex;
+  position: absolute;
   top: 4px;
   left: 82px;
   z-index: 99999;
