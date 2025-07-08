@@ -92,7 +92,11 @@ onMounted(async () => {
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
-        <input-bar v-model="searchQuery" placeholder="Search..." />
+        <input-bar
+          v-model="searchQuery"
+          placeholder="Search..."
+          :disabled="taskStore.isLoading"
+        />
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
