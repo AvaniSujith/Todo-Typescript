@@ -83,7 +83,7 @@ const handleSaveOrEdit = (task: Task) => {
 
 <template>
   <div>
-    <ul v-if="!isVisible" class="tasks">
+    <ul class="tasks">
       <li v-for="task in tasks" class="task-item" :key="task.id">
         <input
           type="checkbox"
@@ -126,7 +126,7 @@ const handleSaveOrEdit = (task: Task) => {
       </li>
     </ul>
     <modal
-      v-else
+      v-if="isVisible"
       title="Delete Task"
       content="Are you sure to delete the task ?"
       @confirm="handleDelete(taskDeletId)"
