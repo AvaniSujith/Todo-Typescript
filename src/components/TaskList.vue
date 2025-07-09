@@ -16,6 +16,9 @@ const notificationStore = useNotificationStore();
 const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
+const hoveredTaskId = ref<number | null>(null);
+const tooltipPosition = ref({ top: 0, left: 0 });
+const tooltipText = ref("");
 
 defineProps<{
   tasks: Task[];
@@ -67,11 +70,33 @@ const handleSaveOrEdit = (task: Task) => {
     editingTaskTitle.value = "";
   }
 };
+
+const showTooltip = (event: MouseEvent, task: Task) => {
+  const target = event.target as HTMLElement;
+  const rect = target.getBoundingClientRect();
+  tooltipPosition.value = {
+    top: rect.top - 40,
+    left: rect.left + rect.width / 2,
+  };
+  tooltipText.value = task.title;
+  hoveredTaskId.value = task.id;
+};
+
+const hideTooltip = () => {
+  hoveredTaskId.value = null;
+};
 </script>
 
 <template>
-  <ul class="tasks">
-    <li v-for="task in tasks" class="task-item" :key="task.id">
+  <div class="task-list-container">
+    <ul class="tasks">
+      <li
+        v-for="task in tasks"
+        class="task-item"
+        :key="task.id"
+        @mouseenter="showTooltip($event, task)"
+        @mouseleave="hideTooltip"
+      >
       <input
         type="checkbox"
         :checked="task.completed"
@@ -83,14 +108,6 @@ const handleSaveOrEdit = (task: Task) => {
           <p :class="task.completed ? 'completed' : 'not-completed'">
             {{ task.title }}
           </p>
-          <div class="tool-tip">
-            <tooltip
-              :text="task.title"
-              :left=100
-              :top-of-box=12
-              :left-of-box=-5
-            />
-          </div>
         </div>
         <input-bar
           v-else
@@ -117,9 +134,19 @@ const handleSaveOrEdit = (task: Task) => {
         </button>
         <notification />
       </div>
-    </li>
-  </ul>
-</template>
+      </li>
+    </ul>
+    <tooltip
+      v-if="hoveredTaskId !== null"
+      :text="tooltipText"
+      :left="tooltipPosition.left"
+      :top="tooltipPosition.top"
+      :top-of-box="12"
+      :left-of-box="-5"
+      :use-popper="true"
+    />
+  </div>
+</template> 
 
 <style scoped>
 p {
@@ -146,20 +173,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-/* .task-title-component {
-  position: relative;
-} */
-
-.task-title-component:hover .tool-tip {
-  display: flex;
-  position: absolute;
-  top: 4px;
-  left: 82px;
-  z-index: 99999;
 }
 
 .task-title input {
