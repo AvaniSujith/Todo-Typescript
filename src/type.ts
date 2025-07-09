@@ -1,10 +1,10 @@
 export interface Task {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
 }
 export interface UpdateTask {
-  id: number;
+  id: string;
   title?: string;
   completed?: boolean;
 }
