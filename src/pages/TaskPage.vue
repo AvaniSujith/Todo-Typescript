@@ -49,11 +49,9 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
-const handleDelete = async (id: number) => {
-  if (confirm("Are you sure to delete this task?")) {
-    await taskStore.deleteTask(id);
-    notificationStore.addToast("Task deleted successfully", "delete");
-  }
+const handleDelete = async (id: string) => {
+  await taskStore.deleteTask(id);
+  notificationStore.addToast("Task deleted successfully", "delete");
 };
 
 onMounted(async () => {
@@ -75,7 +73,7 @@ onMounted(async () => {
     </header>
     <section v-if="filteredTasks.length" class="task-list-container">
       <div class="task-container">
-        <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
+        <task-list :tasks="filteredTasks" @delete="handleDelete" />
       </div>
     </section>
     <empty-state
@@ -96,6 +94,14 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+h2 {
+  font-size: 32px;
+}
+
+.page-container {
+  width: 100%;
+}
+
 .back-button {
   background: #eee;
   border-radius: 8px;
@@ -103,10 +109,6 @@ onMounted(async () => {
   padding: 6px;
   margin-bottom: 15px;
   font-weight: 700;
-}
-
-h2 {
-  font-size: 32px;
 }
 
 .page-title {
@@ -121,9 +123,5 @@ h2 {
   overflow-y: auto;
   scroll-behavior: smooth;
   padding: 10px 2px 0 5px;
-}
-
-.page-container {
-  width: 100%;
 }
 </style>
