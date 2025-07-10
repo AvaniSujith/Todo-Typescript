@@ -80,10 +80,7 @@ onMounted(async () => {
         </p>
       </div>
       <div class="task-container">
-        <task-list
-          :tasks="filteredTasks"
-          @delete-task="handleDelete"
-        />
+        <task-list :tasks="filteredTasks" @delete-task="handleDelete" />
       </div>
     </section>
     <empty-state
@@ -106,9 +103,6 @@ onMounted(async () => {
 <style scoped>
 .page-container {
   width: 100%;
-  /* overflow: visible;
-  position: relative;
-  z-index: 1; */
 }
 
 h2 {
@@ -130,6 +124,11 @@ h2 {
   position: relative;
 }
 
+.back-button:hover {
+  transform: scale(0.9);
+  box-shadow: 2px 2px 5px #eee;
+}
+
 .back-button:hover .tool-tip {
   display: flex;
   top: -44px;
@@ -149,12 +148,9 @@ span {
   height: 402px;
   width: 100%;
   overflow-y: scroll;
-  overflow-x: visible !important;
   scrollbar-width: none;
   scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
-  position: relative;
-  z-index: 1;
 }
 
 .task-count {
