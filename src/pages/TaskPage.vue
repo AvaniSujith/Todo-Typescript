@@ -10,11 +10,14 @@ import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
 const searchQuery = ref("");
+
+const loaderCount = 15;
 
 const filteredTasks = computed(() => {
   if (searchQuery.value !== "") {
@@ -79,7 +82,15 @@ onMounted(async () => {
       :sub-title="emptyStateSubHeading"
     />
   </div>
-  <div v-else>Loading data..</div>
+
+  <skeleton-loader
+    v-else
+    v-for="n in loaderCount"
+    class="skeleton-loader"
+    :key="n"
+    :height="570"
+    :width="450"
+  />
 </template>
 
 <style scoped>

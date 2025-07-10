@@ -29,7 +29,11 @@ button {
   width: 100%;
 }
 
-.nav-link{
+.nav-link {
   text-decoration: none;
   color: #000;
+}
+
+.skeleton-loader {
+  margin-bottom: 10px;
 }

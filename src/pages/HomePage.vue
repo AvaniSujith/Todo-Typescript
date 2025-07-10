@@ -11,12 +11,15 @@ import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
 const searchQuery = ref<string>("");
 const currentFilter = ref<string>("all");
+
+const loaderCount = 5;
 
 const filteredTasks = computed(() => {
   const tasks = taskStore.tasks;
@@ -87,7 +90,11 @@ onMounted(async () => {
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
-        <input-bar v-model="searchQuery" placeholder="Search..." />
+        <input-bar
+          v-model="searchQuery"
+          placeholder="Search..."
+          :disabled="taskStore.isLoading"
+        />
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
@@ -110,7 +117,15 @@ onMounted(async () => {
         :subTitle="emptyStateSubHeader"
       />
     </section>
-    <div v-else>Loading data...</div>
+
+    <skeleton-loader
+      v-else
+      v-for="n in loaderCount"
+      class="skeleton-loader"
+      :key="n"
+      :height="40"
+      :width="490"
+    />
   </div>
 </template>
 
@@ -148,7 +163,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0 16px 0;
+  margin-bottom: 16px;
   font-size: 18px;
 }
 
