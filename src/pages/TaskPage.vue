@@ -11,11 +11,14 @@ import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Notification from "../components/Notification.vue";
 import Tooltip from "../components/Tooltip.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
 const searchQuery = ref("");
+
+const loaderCount = 15;
 
 const filteredTasks = computed(() => {
   if (searchQuery.value !== "") {
@@ -47,11 +50,9 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
-const handleDelete = async (id: number) => {
-  if (confirm("Are you sure to delete this task?")) {
-    await taskStore.deleteTask(id);
-    notificationStore.addToast("Task deleted successfully", "delete");
-  }
+const handleDelete = async (id: string) => {
+  await taskStore.deleteTask(id);
+  notificationStore.addToast("Task deleted successfully", "delete");
 };
 
 onMounted(async () => {
@@ -80,6 +81,9 @@ onMounted(async () => {
           Total Tasks : <span>{{ taskStore.tasks.length }}</span>
         </p>
       </div>
+      <div class="task-container">
+        <task-list :tasks="filteredTasks" @delete="handleDelete" />
+      </div>
       <task-list
         class="task-container"
         :tasks="filteredTasks"
@@ -92,7 +96,15 @@ onMounted(async () => {
       :sub-title="emptyStateSubHeading"
     />
   </div>
-  <div v-else>Loading data..</div>
+
+  <skeleton-loader
+    v-else
+    v-for="n in loaderCount"
+    class="skeleton-loader"
+    :key="n"
+    :height="570"
+    :width="450"
+  />
 </template>
 
 <style scoped>
@@ -101,6 +113,14 @@ onMounted(async () => {
   /* overflow: visible;
   position: relative;
   z-index: 1; */
+}
+
+h2 {
+  font-size: 32px;
+}
+
+.page-container {
+  width: 100%;
 }
 
 .back-button {
@@ -122,10 +142,6 @@ onMounted(async () => {
 span {
   font-weight: 600;
   font-size: 20px;
-}
-
-h2 {
-  font-size: 32px;
 }
 
 .page-title {

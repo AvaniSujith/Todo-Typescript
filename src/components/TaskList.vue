@@ -7,29 +7,31 @@ import { useNotificationStore } from "../store/Notification";
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
 import Tooltip from "./Tooltip.vue";
+import Modal from "./Modal.vue";
 
 import type { Task } from "../type";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
-const editingTaskId = ref<number | null>(null);
+const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
+const deleteTaskId = ref<string>("");
 
 defineProps<{
   tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-  (e: "deleteTask", id: number): void;
+  (e: "delete", id: string): void;
 }>();
 
-const handleDelete = (id: number) => {
-  emit("deleteTask", id);
+const handleDelete = (id: string) => {
+  emit("delete", id);
 };
 
-const isEditing = (id: number) => editingTaskId.value === id;
+const isEditing = (id: string) => editingTaskId.value === id;
 
 const isEmptyTitle = computed(() => {
   return !editingTaskTitle.value.trim().length;
@@ -47,12 +49,20 @@ const updateTaskComplete = (task: Task) => {
   notificationStore.addToast("Task state updated successfully", "update");
 };
 
-const buttonContent = (id: number) => {
+const buttonContent = (id: string) => {
   return isEditing(id) ? "save" : "edit";
 };
 
 const isSaveButtonDisabled = (task: Task) => {
   return isEmptyTitle.value && isEditing(task.id);
+};
+
+const showModal = (taskId: string) => {
+  deleteTaskId.value = taskId;
+};
+
+const handleReject = () => {
+  deleteTaskId.value = "";
 };
 
 const handleSaveOrEdit = (task: Task) => {
@@ -63,7 +73,7 @@ const handleSaveOrEdit = (task: Task) => {
     task.title = editingTaskTitle.value;
     taskStore.updateTask(task);
     notificationStore.addToast("Task saved successfully", "update");
-    editingTaskId.value = null;
+    editingTaskId.value = "";
     editingTaskTitle.value = "";
   }
 };
@@ -79,7 +89,7 @@ const handleSaveOrEdit = (task: Task) => {
         @change="updateTaskComplete(task)"
       />
       <div class="task-title">
-        <div v-if="!isEditing(task.id)" class="task-title-component">
+         <div v-if="!isEditing(task.id)" class="task-title-component">
           <p :class="task.completed ? 'completed' : 'not-completed'">
             {{ task.title }}
           </p>
@@ -102,16 +112,16 @@ const handleSaveOrEdit = (task: Task) => {
       </div>
       <div class="task-buttons">
         <button
-          class="edit-btn"
+          class="edit-button"
           :disabled="isSaveButtonDisabled(task)"
           @click="handleSaveOrEdit(task)"
         >
           {{ buttonContent(task.id) }}
         </button>
         <button
-          class="delete-btn"
+          class="delete-button"
           :disabled="isEditing(task.id)"
-          @click="handleDelete(task.id)"
+          @click="showModal(task.id)"
         >
           Delete
         </button>
@@ -119,6 +129,13 @@ const handleSaveOrEdit = (task: Task) => {
       </div>
     </li>
   </ul>
+  <modal
+    v-if="deleteTaskId"
+    title="Delete Task"
+    content="Are you sure to delete the task ?"
+    @confirm="handleDelete(deleteTaskId)"
+    @reject="handleReject"
+  />
 </template>
 
 <style scoped>
@@ -195,19 +212,19 @@ button:disabled {
   display: flex;
 }
 
-.delete-btn,
-.edit-btn {
+.delete-button,
+.edit-button {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
 }
 
-.delete-btn {
+.delete-button {
   background-color: red;
   color: white;
 }
 
-.edit-btn {
+.edit-button {
   background-color: bisque;
 }
 </style>

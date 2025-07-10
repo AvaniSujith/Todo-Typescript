@@ -12,12 +12,15 @@ import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Tooltip from "../components/Tooltip.vue";
+import SkeletonLoader from "../components/SkeletonLoader.vue";
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
 
 const searchQuery = ref<string>("");
 const currentFilter = ref<string>("all");
+
+const loaderCount = 5;
 
 const filteredTasks = computed(() => {
   const tasks = taskStore.tasks;
@@ -46,7 +49,7 @@ const recentTasks = computed(() => {
   return [...filteredTasks.value].reverse().slice(0, 5);
 });
 
-const emptyStateHeading = computed(() => {
+const emptyStateHeader = computed(() => {
   if (!taskStore.tasks.length) {
     return "No Tasks";
   }
@@ -56,7 +59,7 @@ const emptyStateHeading = computed(() => {
   return "";
 });
 
-const emptyStateSubHeading = computed(() => {
+const emptyStateSubHeader = computed(() => {
   if (!taskStore.tasks.length) {
     return "Add a new task to begin";
   }
@@ -66,11 +69,9 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
-const handleDeleteTask = async (id: number) => {
-  if (confirm("Are you sure to delete this task?")) {
+const handleDeleteTask = async (id: string) => {
     await taskStore.deleteTask(id);
     notificationStore.addToast("Task deleted successfully", "delete");
-  }
 };
 
 const handleFilter = async (filter: string) => {
@@ -85,12 +86,16 @@ onMounted(async () => {
 <template>
   <div class="page-container">
     <header>
-      <div class="heading">
+      <div class="header-content">
         <img src="/notepad.png" alt="notepad" />
         <h2>ToDo List</h2>
       </div>
       <div class="input-container">
-        <input-bar v-model="searchQuery" placeholder="Search..." />
+        <input-bar
+          v-model="searchQuery"
+          placeholder="Search..."
+          :disabled="taskStore.isLoading"
+        />
         <drop-down @change="handleFilter" />
         <add-task />
       </div>
@@ -112,20 +117,32 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
+        <task-list :tasks="recentTasks" @delete="handleDeleteTask" />
       </div>
       <empty-state
         v-else
-        :title="emptyStateHeading"
-        :subTitle="emptyStateSubHeading"
+        :title="emptyStateHeader"
+        :subTitle="emptyStateSubHeader"
       />
     </section>
-    <div v-else>Loading data...</div>
+
+    <skeleton-loader
+      v-else
+      v-for="n in loaderCount"
+      class="skeleton-loader"
+      :key="n"
+      :height="40"
+      :width="490"
+    />
   </div>
 </template>
 
 <style scoped>
-.heading {
+header{
+  margin-bottom: 22px;
+}
+
+.header-content {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -171,7 +188,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0 16px 0;
+  margin-bottom: 16px;
   font-size: 18px;
 }
 

@@ -42,3 +42,7 @@ button {
   position: absolute;
   z-index: 99999;
 }
+
+.skeleton-loader {
+  margin-bottom: 10px;
+}
