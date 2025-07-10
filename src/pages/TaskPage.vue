@@ -9,7 +9,6 @@ import { useNotificationStore } from "../store/Notification";
 import TaskList from "../components/TaskList.vue";
 import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
-import Notification from "../components/Notification.vue";
 import Tooltip from "../components/Tooltip.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
 
@@ -73,7 +72,6 @@ onMounted(async () => {
         <h2>All Tasks</h2>
       </div>
       <input-bar v-model="searchQuery" placeholder="Search..." />
-      <notification />
     </header>
     <section v-if="filteredTasks.length" class="task-list-container">
       <div class="task-count">
@@ -124,7 +122,7 @@ h2 {
 .back-button {
   background: #317ed6;
   border-radius: 8px;
-  width: 110px;
+  width: 113px;
   height: 30px;
   padding: 6px;
   margin-bottom: 15px;
@@ -151,12 +149,12 @@ span {
   height: 402px;
   width: 100%;
   overflow-y: scroll;
-  overflow-x: visible;
+  overflow-x: visible !important;
   scrollbar-width: none;
   scroll-behavior: smooth;
   padding: 10px 2px 0px 5px;
   position: relative;
-  z-index: 1000;
+  z-index: 1;
 }
 
 .task-count {

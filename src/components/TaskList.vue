@@ -50,7 +50,7 @@ const updateTaskComplete = (task: Task) => {
 };
 
 const buttonContent = (id: string) => {
-  return isEditing(id) ? "save" : "edit";
+  return isEditing(id) ? "Save" : "Edit";
 };
 
 const isSaveButtonDisabled = (task: Task) => {
@@ -154,7 +154,7 @@ p {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 2px;
+  margin-top: 9px;
   font-size: 23px;
 }
 
@@ -166,10 +166,6 @@ p {
   position: relative;
   z-index: 2;
 }
-
-/* .task-title-component {
-  position: relative;
-} */
 
 .task-title-component:hover .tool-tip {
   display: flex;
@@ -196,6 +192,11 @@ p {
 
 .completed {
   text-decoration: line-through;
+  font-weight: 300;
+}
+
+.not-completed{
+  font-weight: 400;
 }
 
 .input-bar {
@@ -217,6 +218,8 @@ button:disabled {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .delete-button {
