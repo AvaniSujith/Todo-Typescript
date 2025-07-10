@@ -18,6 +18,8 @@ const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
 const deleteTaskId = ref<string>("");
+const tooltipPosition = ref({ top: 0, left: 0 });
+const tooltipText = ref<string>("");
 
 defineProps<{
   tasks: Task[];
@@ -77,58 +79,91 @@ const handleSaveOrEdit = (task: Task) => {
     editingTaskTitle.value = "";
   }
 };
+
+const handleMouseOver = (task: Task) => {
+  const TaskTitle = document.getElementById(`task-${task.id}`);
+  if (TaskTitle && TaskTitle.scrollWidth > TaskTitle.clientWidth) {
+    const rect = TaskTitle.getBoundingClientRect();
+    tooltipPosition.value = {
+      top: rect.top + 30,
+      left: rect.left + rect.width / 2,
+    };
+    tooltipText.value = task.title;
+  } else {
+    tooltipText.value = "";
+  }
+};
+
+const hideTooltip = () => {
+  tooltipText.value = "";
+};
 </script>
 
 <template>
-  <ul class="tasks">
-    <li v-for="task in tasks" class="task-item" :key="task.id">
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        :disabled="isEditing(task.id)"
-        @change="updateTaskComplete(task)"
-      />
-      <div class="task-title">
-         <div v-if="!isEditing(task.id)" class="task-title-component">
-          <p :class="task.completed ? 'completed' : 'not-completed'">
-            {{ task.title }}
-          </p>
-          <div class="tool-tip">
-            <tooltip
-              :text="task.title"
-              :left=100
-              :top-of-box=12
-              :left-of-box=-5
-            />
-          </div>
-        </div>
-        <input-bar
-          v-else
-          v-model="editingTaskTitle"
-          class="input-bar"
-          type="text"
-          @keyup.enter="handleSaveOrEdit(task)"
-        />
-      </div>
-      <div class="task-buttons">
-        <button
-          class="edit-button"
-          :disabled="isSaveButtonDisabled(task)"
-          @click="handleSaveOrEdit(task)"
-        >
-          {{ buttonContent(task.id) }}
-        </button>
-        <button
-          class="delete-button"
+  <div class="task-list-container">
+    <ul class="tasks">
+      <li
+        v-for="task in tasks"
+        class="task-item"
+        :key="task.id"
+        @mouseenter="handleMouseOver(task)"
+        @mouseleave="hideTooltip"
+      >
+        <input
+          type="checkbox"
+          :checked="task.completed"
           :disabled="isEditing(task.id)"
-          @click="showModal(task.id)"
-        >
-          Delete
-        </button>
-        <notification />
-      </div>
-    </li>
-  </ul>
+          @change="updateTaskComplete(task)"
+        />
+        <div class="task-title">
+          <div v-if="!isEditing(task.id)" class="task-title-component">
+            <p
+              :id="`task-${task.id}`"
+              :class="task.completed ? 'completed' : 'not-completed'"
+              :style="{
+                cursor: tooltipText === task.title ? 'pointer' : 'default',
+              }"
+            >
+              {{ task.title }}
+            </p>
+          </div>
+          <input-bar
+            v-else
+            v-model="editingTaskTitle"
+            class="input-bar"
+            type="text"
+            @keyup.enter="handleSaveOrEdit(task)"
+          />
+        </div>
+        <div class="task-buttons">
+          <button
+            class="edit-button"
+            :disabled="isSaveButtonDisabled(task)"
+            @click="handleSaveOrEdit(task)"
+          >
+            {{ buttonContent(task.id) }}
+          </button>
+          <button
+            class="delete-button"
+            :disabled="isEditing(task.id)"
+            @click="handleDelete(task.id)"
+          >
+            Delete
+          </button>
+          <notification />
+        </div>
+      </li>
+    </ul>
+    <tooltip
+      v-if="tooltipText"
+      :text="tooltipText"
+      :left="tooltipPosition.left"
+      :top="tooltipPosition.top"
+      :top-of-box="-5"
+      :left-of-box="50"
+      :use-tooltip="true"
+    />
+  </div>
   <modal
     v-if="deleteTaskId"
     title="Delete Task"
@@ -163,16 +198,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-.task-title-component:hover .tool-tip {
-  display: flex;
-  position: absolute;
-  top: 4px;
-  left: 82px;
-  z-index: 99999;
 }
 
 .task-title input {
@@ -182,7 +207,6 @@ p {
 
 .task-title p {
   height: 100%;
-  cursor: pointer;
   padding: 0 20px 0 20px;
   width: 300px;
   overflow: hidden;

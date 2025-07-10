@@ -9,6 +9,7 @@ interface Props {
   bottomOfBox?: number;
   rightOfBox?: number;
   leftOfBox?: number;
+  useTooltip?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <div
     class="tool-tip-content"
+    :class="{ tooltipPop: useTooltip }"
     :style="{
       top: props.top + 'px',
       bottom: props.bottom + 'px',
@@ -53,6 +55,13 @@ const props = withDefaults(defineProps<Props>(), {
 <style scoped>
 .tool-tip-content {
   width: fit-content;
+}
+
+.tooltipPop {
+  position: fixed;
+  z-index: 99999;
+  transform: translateX(-20%);
+  pointer-events: none;
 }
 
 .tooltip {
