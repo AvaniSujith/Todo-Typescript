@@ -117,7 +117,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <task-list :tasks="recentTasks" @delete="handleDeleteTask" />
+        <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
       </div>
       <empty-state
         v-else
