@@ -16,9 +16,8 @@ const notificationStore = useNotificationStore();
 const editingTaskId = ref<number | null>(null);
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
-const hoveredTaskId = ref<number | null>(null);
 const tooltipPosition = ref({ top: 0, left: 0 });
-const tooltipText = ref("");
+const tooltipText = ref<string>("");
 
 defineProps<{
   tasks: Task[];
@@ -71,19 +70,22 @@ const handleSaveOrEdit = (task: Task) => {
   }
 };
 
-const showTooltip = (event: MouseEvent, task: Task) => {
-  const target = event.target as HTMLElement;
-  const rect = target.getBoundingClientRect();
-  tooltipPosition.value = {
-    top: rect.top - 40,
-    left: rect.left + rect.width / 2,
-  };
-  tooltipText.value = task.title;
-  hoveredTaskId.value = task.id;
+const handleMouseOver = (task: Task) => {
+  const TaskTitle = document.getElementById(`task-${task.id}`);
+  if (TaskTitle && TaskTitle.scrollWidth > TaskTitle.clientWidth) {
+    const rect = TaskTitle.getBoundingClientRect();
+    tooltipPosition.value = {
+      top: rect.top + 30,
+      left: rect.left + rect.width / 2,
+    };
+    tooltipText.value = task.title;
+  } else {
+    tooltipText.value = "";
+  }
 };
 
 const hideTooltip = () => {
-  hoveredTaskId.value = null;
+  tooltipText.value = "";
 };
 </script>
 
@@ -94,59 +96,63 @@ const hideTooltip = () => {
         v-for="task in tasks"
         class="task-item"
         :key="task.id"
-        @mouseenter="showTooltip($event, task)"
+        @mouseenter="handleMouseOver(task)"
         @mouseleave="hideTooltip"
       >
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        :disabled="isEditing(task.id)"
-        @change="updateTaskComplete(task)"
-      />
-      <div class="task-title">
-        <div v-if="!isEditing(task.id)" class="task-title-component">
-          <p :class="task.completed ? 'completed' : 'not-completed'">
-            {{ task.title }}
-          </p>
-        </div>
-        <input-bar
-          v-else
-          v-model="editingTaskTitle"
-          class="input-bar"
-          type="text"
-          @keyup.enter="handleSaveOrEdit(task)"
-        />
-      </div>
-      <div class="task-buttons">
-        <button
-          class="edit-btn"
-          :disabled="isSaveButtonDisabled(task)"
-          @click="handleSaveOrEdit(task)"
-        >
-          {{ buttonContent(task.id) }}
-        </button>
-        <button
-          class="delete-btn"
+        <input
+          type="checkbox"
+          :checked="task.completed"
           :disabled="isEditing(task.id)"
-          @click="handleDelete(task.id)"
-        >
-          Delete
-        </button>
-        <notification />
-      </div>
+          @change="updateTaskComplete(task)"
+        />
+        <div class="task-title">
+          <div v-if="!isEditing(task.id)" class="task-title-component">
+            <p
+              :id="`task-${task.id}`"
+              :class="task.completed ? 'completed' : 'not-completed'"
+              :style="{ cursor: tooltipText === task.title? 'pointer' : 'default'}"
+            >
+              {{ task.title }}
+            </p>
+          </div>
+          <input-bar
+            v-else
+            v-model="editingTaskTitle"
+            class="input-bar"
+            type="text"
+            @keyup.enter="handleSaveOrEdit(task)"
+          />
+        </div>
+        <div class="task-buttons">
+          <button
+            class="edit-btn"
+            :disabled="isSaveButtonDisabled(task)"
+            @click="handleSaveOrEdit(task)"
+          >
+            {{ buttonContent(task.id) }}
+          </button>
+          <button
+            class="delete-btn"
+            :disabled="isEditing(task.id)"
+            @click="handleDelete(task.id)"
+          >
+            Delete
+          </button>
+          <notification />
+        </div>
       </li>
     </ul>
     <tooltip
-      v-if="hoveredTaskId !== null"
+      v-if="tooltipText"
       :text="tooltipText"
       :left="tooltipPosition.left"
       :top="tooltipPosition.top"
-      :top-of-box="12"
-      :left-of-box="-5"
-      :use-popper="true"
+      :top-of-box="-5"
+      :left-of-box="50"
+      :use-tooltip="true"
     />
   </div>
-</template> 
+</template>
 
 <style scoped>
 p {
@@ -182,7 +188,6 @@ p {
 
 .task-title p {
   height: 100%;
-  cursor: pointer;
   padding: 0 20px 0 20px;
   width: 300px;
   overflow: hidden;

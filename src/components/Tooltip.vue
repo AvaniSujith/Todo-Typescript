@@ -9,7 +9,7 @@ interface Props {
   bottomOfBox?: number;
   rightOfBox?: number;
   leftOfBox?: number;
-  usePopper?: boolean;
+  useTooltip?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <div
     class="tool-tip-content"
-    :class="{ popper: usePopper }"
+    :class="{ tooltipPop: useTooltip }"
     :style="{
       top: props.top + 'px',
       bottom: props.bottom + 'px',
@@ -57,10 +57,10 @@ const props = withDefaults(defineProps<Props>(), {
   width: fit-content;
 }
 
-.popper {
+.tooltipPop {
   position: fixed;
   z-index: 99999;
-  transform: translateX(-50%);
+  transform: translateX(-20%);
   pointer-events: none;
 }
 
