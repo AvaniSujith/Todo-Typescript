@@ -21,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   bottomOfBox: 0,
   rightOfBox: 0,
   leftOfBox: 0,
+  useTooltip: false,
 });
 </script>
 

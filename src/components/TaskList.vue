@@ -26,11 +26,11 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "delete", id: string): void;
+  (e: "delete-task", id: string): void;
 }>();
 
 const handleDelete = (id: string) => {
-  emit("delete", id);
+  emit("delete-task", id);
 };
 
 const isEditing = (id: string) => editingTaskId.value === id;
@@ -146,7 +146,7 @@ const hideTooltip = () => {
           <button
             class="delete-button"
             :disabled="isEditing(task.id)"
-            @click="handleDelete(task.id)"
+            @click="showModal(task.id)"
           >
             Delete
           </button>
@@ -219,7 +219,7 @@ p {
   font-weight: 300;
 }
 
-.not-completed{
+.not-completed {
   font-weight: 400;
 }
 
