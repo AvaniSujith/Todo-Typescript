@@ -82,13 +82,11 @@ onMounted(async () => {
         </p>
       </div>
       <div class="task-container">
-        <task-list :tasks="filteredTasks" @delete="handleDelete" />
+        <task-list
+          :tasks="filteredTasks"
+          @delete-task="handleDelete"
+        />
       </div>
-      <task-list
-        class="task-container"
-        :tasks="filteredTasks"
-        @delete-task="handleDelete"
-      />
     </section>
     <empty-state
       v-else
