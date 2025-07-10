@@ -63,6 +63,10 @@ const showModal = (taskId: string) => {
   deleteTaskId.value = taskId;
 };
 
+const hideTooltip = () => {
+  tooltipText.value = "";
+};
+
 const handleReject = () => {
   deleteTaskId.value = "";
 };
@@ -92,10 +96,6 @@ const handleMouseOver = (task: Task) => {
   } else {
     tooltipText.value = "";
   }
-};
-
-const hideTooltip = () => {
-  tooltipText.value = "";
 };
 </script>
 

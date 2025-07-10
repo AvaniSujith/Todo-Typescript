@@ -35,6 +35,15 @@ button {
   font-weight: 600;
 }
 
+button:active {
+  transform: scale(1.1);
+}
+
+button:hover {
+  transform: scale(0.9);
+  box-shadow: 2px 2px 5px #eee;
+}
+
 #app {
   display: flex;
   align-items: center;
