@@ -130,6 +130,10 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+header{
+  margin-bottom: 22px;
+}
+
 .header-content {
   display: flex;
   align-items: center;
