@@ -43,7 +43,6 @@ const handleAddTask = () => {
 
     <div class="add-btn-container">
       <button
-        class="add-task-btn"
         :disabled="isAddButtonDisabled"
         @click="handleAddTask"
       >
@@ -75,7 +74,7 @@ button:disabled {
   color: #000;
 }
 
-.add-button {
+button {
   background-color: #317ed6;
   padding: 8px;
   font-size: 18px;
@@ -83,6 +82,7 @@ button:disabled {
   border-radius: 6px;
   color: #fff;
   width: 80px;
+  height: 100%;
 }
 
 .add-btn-container {
