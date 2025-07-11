@@ -16,13 +16,14 @@ const notificationStore = useNotificationStore();
 
 <style scoped>
 .toast {
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: fixed;
+  right: 665px;
+  top: 160px;
   padding: 4px;
-  width: 45%;
+  width: fit-content;
   margin: 5px 4px 0px 0px;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
   text-align: center;
   font-size: 15px;
   font-weight: 600;

@@ -6,6 +6,7 @@ import { useNotificationStore } from "../store/Notification";
 
 import InputBar from "./InputBar.vue";
 import Notification from "./Notification.vue";
+import Tooltip from "./Tooltip.vue";
 import Modal from "./Modal.vue";
 
 import type { Task } from "../type";
@@ -17,17 +18,19 @@ const editingTaskId = ref<string>("");
 const editingTaskTitle = ref<string>("");
 const editingTaskCompleted = ref(false);
 const deleteTaskId = ref<string>("");
+const tooltipPosition = ref({ top: 0, left: 0 });
+const tooltipText = ref<string>("");
 
 defineProps<{
   tasks: Task[];
 }>();
 
 const emit = defineEmits<{
-  (e: "delete", id: string): void;
+  (e: "delete-task", id: string): void;
 }>();
 
 const handleDelete = (id: string) => {
-  emit("delete", id);
+  emit("delete-task", id);
 };
 
 const isEditing = (id: string) => editingTaskId.value === id;
@@ -49,7 +52,7 @@ const updateTaskComplete = (task: Task) => {
 };
 
 const buttonContent = (id: string) => {
-  return isEditing(id) ? "save" : "edit";
+  return isEditing(id) ? "Save" : "Edit";
 };
 
 const isSaveButtonDisabled = (task: Task) => {
@@ -58,6 +61,10 @@ const isSaveButtonDisabled = (task: Task) => {
 
 const showModal = (taskId: string) => {
   deleteTaskId.value = taskId;
+};
+
+const hideTooltip = () => {
+  tooltipText.value = "";
 };
 
 const handleReject = () => {
@@ -76,12 +83,32 @@ const handleSaveOrEdit = (task: Task) => {
     editingTaskTitle.value = "";
   }
 };
+
+const handleMouseOver = (task: Task) => {
+  const TaskTitle = document.getElementById(`task-${task.id}`);
+  if (TaskTitle && TaskTitle.scrollWidth > TaskTitle.clientWidth) {
+    const rect = TaskTitle.getBoundingClientRect();
+    tooltipPosition.value = {
+      top: rect.top + 30,
+      left: rect.left + rect.width / 2,
+    };
+    tooltipText.value = task.title;
+  } else {
+    tooltipText.value = "";
+  }
+};
 </script>
 
 <template>
-  <div>
+  <div class="task-list-container">
     <ul class="tasks">
-      <li v-for="task in tasks" class="task-item" :key="task.id">
+      <li
+        v-for="task in tasks"
+        class="task-item"
+        :key="task.id"
+        @mouseenter="handleMouseOver(task)"
+        @mouseleave="hideTooltip"
+      >
         <input
           type="checkbox"
           :checked="task.completed"
@@ -89,12 +116,17 @@ const handleSaveOrEdit = (task: Task) => {
           @change="updateTaskComplete(task)"
         />
         <div class="task-title">
-          <p
-            v-if="!isEditing(task.id)"
-            :class="task.completed ? 'completed' : 'not-completed'"
-          >
-            {{ task.title }}
-          </p>
+          <div v-if="!isEditing(task.id)" class="task-title-component">
+            <p
+              :id="`task-${task.id}`"
+              :class="task.completed ? 'completed' : 'not-completed'"
+              :style="{
+                cursor: tooltipText === task.title ? 'pointer' : 'default',
+              }"
+            >
+              {{ task.title }}
+            </p>
+          </div>
           <input-bar
             v-else
             v-model="editingTaskTitle"
@@ -122,14 +154,23 @@ const handleSaveOrEdit = (task: Task) => {
         </div>
       </li>
     </ul>
-    <modal
-      v-if="deleteTaskId"
-      title="Delete Task"
-      content="Are you sure to delete the task ?"
-      @confirm="handleDelete(deleteTaskId)"
-      @reject="handleReject"
+    <tooltip
+      v-if="tooltipText"
+      :text="tooltipText"
+      :left="tooltipPosition.left"
+      :top="tooltipPosition.top"
+      :top-of-box="-5"
+      :left-of-box="50"
+      :use-tooltip="true"
     />
   </div>
+  <modal
+    v-if="deleteTaskId"
+    title="Delete Task"
+    content="Are you sure to delete the task ?"
+    @confirm="handleDelete(deleteTaskId)"
+    @reject="handleReject"
+  />
 </template>
 
 <style scoped>
@@ -148,7 +189,7 @@ p {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 2px;
+  margin-top: 9px;
   font-size: 23px;
 }
 
@@ -166,8 +207,7 @@ p {
 
 .task-title p {
   height: 100%;
-  cursor: pointer;
-  padding: 10px 20px 0 20px;
+  padding: 0 20px 0 20px;
   width: 300px;
   overflow: hidden;
   white-space: nowrap;
@@ -176,6 +216,11 @@ p {
 
 .completed {
   text-decoration: line-through;
+  font-weight: 300;
+}
+
+.not-completed {
+  font-weight: 400;
 }
 
 .input-bar {
@@ -197,6 +242,8 @@ button:disabled {
   padding: 5px 0;
   width: 60px;
   margin: 2px;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .delete-button {

@@ -97,6 +97,7 @@ button {
 
 .confirm-button {
   background-color: #c5172e;
+  color: #fff;
 }
 
 .reject-button {

@@ -10,8 +10,7 @@
   background-color: #fff;
   max-height: 650px;
   height: 100%;
-  max-width: 30%;
-  width: 100%;
+  width: 530px;
   margin: auto;
   padding: 35px;
   display: flex;

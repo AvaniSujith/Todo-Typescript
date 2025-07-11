@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 
-import { RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
@@ -11,7 +11,10 @@ import DropDown from "../components/DropDown.vue";
 import AddTask from "../components/AddTask.vue";
 import TaskList from "../components/TaskList.vue";
 import EmptyState from "../components/EmptyState.vue";
+import Tooltip from "../components/Tooltip.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
+
+const router = useRouter();
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -68,9 +71,13 @@ const emptyStateSubHeader = computed(() => {
   return "";
 });
 
+const goToTaskPage = () => {
+  router.push("/task-page");
+};
+
 const handleDeleteTask = async (id: string) => {
-    await taskStore.deleteTask(id);
-    notificationStore.addToast("Task deleted successfully", "delete");
+  await taskStore.deleteTask(id);
+  notificationStore.addToast("Task deleted successfully", "delete");
 };
 
 const handleFilter = async (filter: string) => {
@@ -106,10 +113,20 @@ onMounted(async () => {
             {{ recentTasks.length }} / {{ taskStore.tasks.length }}
           </div>
           <div class="view-all">
-            <router-link to="/task-page" class="nav-link">View All</router-link>
+            <button class="view-all-button" @click="goToTaskPage">
+              View All
+            </button>
+            <tooltip
+              class="tool-tip"
+              :text="'Click to reach full task page'"
+              :left-of-box="120"
+              :top-of-box="67"
+              :top="-78"
+              :left="120"
+            />
           </div>
         </div>
-        <task-list :tasks="recentTasks" @delete="handleDeleteTask" />
+        <task-list :tasks="recentTasks" @delete-task="handleDeleteTask" />
       </div>
       <empty-state
         v-else
@@ -130,7 +147,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-header{
+header {
   margin-bottom: 22px;
 }
 
@@ -154,13 +171,29 @@ h2 {
   padding-top: 5px;
 }
 
+.view-label {
+  width: 40%;
+  text-align: start;
+}
+
 .view-all {
-  padding: 7px 8px;
-  background-color: #eee;
+  width: 60%;
+  text-align: end;
+  position: relative;
+}
+
+.view-all-button {
   font-size: 15px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 600;
   border-radius: 4px;
+  background: #317ed6;
+  color: #fff;
+  border-radius: 8px;
+  width: max-content;
+  padding: 6px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .count-details {
@@ -169,6 +202,14 @@ h2 {
   justify-content: space-between;
   margin-bottom: 16px;
   font-size: 18px;
+}
+
+.view-all:hover .tool-tip {
+  width: 100%;
+  display: flex;
+  top: -44px;
+  left: 120px;
+  pointer-events: none;
 }
 
 .container,
