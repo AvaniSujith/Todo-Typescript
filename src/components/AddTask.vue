@@ -40,22 +40,18 @@ const handleAddTask = () => {
       placeholder="New Todo"
       @keyup.enter="handleAddTask"
     />
-
     <div class="add-btn-container">
-      <button
-        :disabled="isAddButtonDisabled"
-        @click="handleAddTask"
-      >
+      <button :disabled="isAddButtonDisabled" @click="handleAddTask">
         Add
       </button>
-      <div class="tool-tip">
-        <tooltip
-          v-if="isAddButtonDisabled"
-          :text="'Add a task title to add Task'"
-          :left-of-box="30"
-          :top-of-box="30"
-        />
-      </div>
+      <tooltip
+        v-if="isAddButtonDisabled"
+        class="tool-tip"
+        :text="'Add a task title to add Task'"
+        :top="-100"
+        :left-of-box="30"
+        :top-of-box="85"
+      />
     </div>
     <notification />
   </div>
@@ -92,6 +88,6 @@ button {
 .add-btn-container:hover .tool-tip {
   display: flex;
   width: 100%;
-  top: -44px;
+  top: 59px;
 }
 </style>

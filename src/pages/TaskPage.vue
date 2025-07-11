@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 
-import { RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { useTaskStore } from "../store/Task";
 import { useNotificationStore } from "../store/Notification";
@@ -11,6 +11,8 @@ import InputBar from "../components/InputBar.vue";
 import EmptyState from "../components/EmptyState.vue";
 import Tooltip from "../components/Tooltip.vue";
 import SkeletonLoader from "../components/SkeletonLoader.vue";
+
+const router = useRouter();
 
 const taskStore = useTaskStore();
 const notificationStore = useNotificationStore();
@@ -49,6 +51,10 @@ const emptyStateSubHeading = computed(() => {
   return "";
 });
 
+const goToHome = () => {
+  router.push("/");
+};
+
 const handleDelete = async (id: string) => {
   await taskStore.deleteTask(id);
   notificationStore.addToast("Task deleted successfully", "delete");
@@ -61,12 +67,17 @@ onMounted(async () => {
 
 <template>
   <div v-if="!taskStore.isLoading" class="page-container">
-    <nav class="back-button">
-      <router-link to="/" class="nav-link">Back to Home</router-link>
-      <div class="tool-tip">
-        <tooltip :text="'Go back to Home'" :top-of-box="29" :left-of-box="55" />
-      </div>
-    </nav>
+    <div class="nav-button">
+      <button class="back-button" @click="goToHome">Back to Home</button>
+      <tooltip
+        class="tool-tip"
+        :text="'Go back to Home'"
+        :top="-93"
+        :left="20"
+        :top-of-box="82"
+        :left-of-box="50"
+      />
+    </div>
     <header>
       <div class="page-title">
         <h2>All Tasks</h2>
@@ -109,19 +120,20 @@ h2 {
   font-size: 32px;
 }
 
-.page-container {
-  width: 100%;
+.nav-button{
+  position: relative;
 }
 
 .back-button {
   background: #317ed6;
   border-radius: 8px;
-  width: 113px;
+  width: max-content;
   height: 30px;
   padding: 6px;
   margin-bottom: 15px;
   font-weight: 700;
-  position: relative;
+  color: #fff;
+  cursor: pointer;
 }
 
 .back-button:hover {
@@ -129,9 +141,11 @@ h2 {
   box-shadow: 2px 2px 5px #eee;
 }
 
-.back-button:hover .tool-tip {
+.nav-button:hover .tool-tip {
   display: flex;
+  width: 100%;
   top: -44px;
+  pointer-events: none;
 }
 
 span {

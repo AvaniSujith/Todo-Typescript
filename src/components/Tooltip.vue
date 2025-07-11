@@ -61,7 +61,6 @@ const props = withDefaults(defineProps<Props>(), {
 .tooltipPop {
   position: fixed;
   z-index: 99999;
-  transform: translateX(-20%);
   pointer-events: none;
 }
 
