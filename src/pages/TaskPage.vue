@@ -131,6 +131,7 @@ h2 {
   height: 30px;
   padding: 6px;
   margin-bottom: 15px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   cursor: pointer;
